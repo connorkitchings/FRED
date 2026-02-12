@@ -18,9 +18,9 @@
 
 ## Current Status
 
-**Phase:** 5 - Expansion Kickoff
-**Progress:** ▶ Tier 2 kickoff bundle validated (incremental + backfill) with DQ checks integrated
-**Next Milestone:** Tier 2 quality tuning and expanded indicator rollout
+**Phase:** 5 - Expansion & Hardening
+**Progress:** ▶ Tier 2 expansion batch 1 added (12 total series) + DQ thresholds tuned
+**Next Milestone:** Operational views and scheduling
 
 ---
 
@@ -67,7 +67,7 @@
 | Schema creation script | ✅ Done | Connor | `src/fred_macro/setup.py` | CREATE TABLE scripts |
 | Series catalog config | ✅ Done | Connor | `config/series_catalog.yaml` | Tier 1 indicators |
 | Logging configuration | ✅ Done | Connor | `src/fred_macro/logging_config.py` | Structured logging |
-| Unit tests: Database | ☐ Not Started | Connor | `tests/test_db.py` | Connection and schema tests |
+| Unit tests: Database | ✅ Done | Connor | `tests/test_db.py` | Connection and schema tests |
 
 **Success Criteria**:
 - [x] Dependencies installed via `uv sync`
@@ -96,7 +96,7 @@
 | Ingestion logging | ✅ Done | Connor | `src/fred_macro/ingest.py` | Record run details |
 | Error handling | ✅ Done | Connor | All modules | Retry logic, graceful failures |
 | CLI interface | ✅ Done | Connor | `src/fred_macro/cli.py` | Command-line interface |
-| Unit tests: FRED client | ☐ Not Started | Connor | `tests/test_fred_client.py` | Mock API responses |
+| Unit tests: FRED client | ✅ Done | Connor | `tests/test_fred_client.py` | Mock API responses |
 | Unit tests: Ingestion | ☐ Not Started | Connor | `tests/test_ingest.py` | Mock dependencies |
 
 **Success Criteria**:
@@ -173,8 +173,8 @@
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| Define Tier 2 catalog | ✅ Done | Connor | Updated `config/series_catalog.yaml` | Kickoff bundle of first 5 Tier 2 indicators added |
-| Test Tier 2 ingestion | ✅ Done | Connor | Validation scripts | Incremental + full backfill validation completed for all 9 configured series |
+| Define Tier 2 catalog | ✅ Done | Connor | Updated `config/series_catalog.yaml` | 12 total series configured |
+| Test Tier 2 ingestion | ✅ Done | Connor | Validation scripts | Incremental + full backfill validation completed for all configured series |
 | Documentation update | ✅ Done | Connor | Update data dictionary | Kickoff bundle documented |
 
 ### Data Quality
@@ -182,7 +182,7 @@
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
 | Missing value checks | ▶ In Progress | Connor | `src/fred_macro/validation.py` | Critical on missing backfill data for required series |
-| Anomaly detection | ▶ In Progress | Connor | `src/fred_macro/validation.py` | Basic rapid-change warnings implemented |
+| Anomaly detection | ✅ Done | Connor | `src/fred_macro/validation.py` | Tuned to 100% threshold with min-value gate |
 | Freshness monitoring | ▶ In Progress | Connor | `src/fred_macro/validation.py` | Frequency-aware stale data warnings implemented |
 | Operational DQ reporting | ✅ Done | Connor | `dq_report` table + `dq-report` CLI | Structured findings persisted for each ingestion run |
 

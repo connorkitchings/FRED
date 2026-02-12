@@ -77,3 +77,59 @@ series:
     seasonal_adjustment: "Seasonally Adjusted"
     tier: 2
     description: "Industrial production measures real output of manufacturing, mining, and utilities."
+
+  - series_id: "DGS10"
+    title: "Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity"
+    units: "Percent"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "The 10-year Treasury yield is a key benchmark for interest rates and economic sentiment."
+
+  - series_id: "T10Y2Y"
+    title: "10-Year Treasury Constant Maturity Minus 2-Year Treasury Constant Maturity"
+    units: "Percent"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "The 10-2 spread is a widely watched yield curve indicator; inversion often precedes recessions."
+
+  - series_id: "M2SL"
+    title: "M2 Money Stock"
+    units: "Billions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "M2 is a measure of the money supply that includes cash, checking deposits, and easily convertible near-money."
+
+  - series_id: "PCEPI"
+    title: "Personal Consumption Expenditures: Chain-type Price Index"
+    units: "Index 2017=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The PCE price index is the Federal Reserve's preferred measure of inflation."
+
+  - series_id: "PAYEMS"
+    title: "All Employees, Total Nonfarm"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Nonfarm payrolls are a primary measure of U.S. employment and economic health."
+
+  - series_id: "CIVPART"
+    title: "Civilian Labor Force Participation Rate"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The labor force participation rate measures the active portion of an economy's labor force."
+
+  - series_id: "VIXCLS"
+    title: "CBOE Volatility Index: VIX"
+    units: "Index"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "The VIX measures market expectations of near-term volatility conveyed by S&P 500 stock index option prices."

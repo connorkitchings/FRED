@@ -236,8 +236,12 @@ def _check_recent_anomalies(expected_series_ids: List[str]) -> List[ValidationFi
         if latest_value is None or previous_value in (None, 0):
             continue
 
+        # Skip check for small-base numbers to avoid noise (e.g. 0.1 -> 0.2 is 100% but small impact)
+        if abs(previous_value) < 0.1:
+            continue
+
         pct_change = abs((latest_value - previous_value) / abs(previous_value)) * 100.0
-        if pct_change > 50.0:
+        if pct_change > 100.0:
             findings.append(
                 ValidationFinding(
                     severity="warning",

@@ -51,7 +51,7 @@ select = ["E", "F", "I", "N", "W"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = [
-    "--cov=vibe_coding",
+    "--cov=src.fred_macro",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",
     "--cov-fail-under=55",
@@ -59,7 +59,7 @@ addopts = [
 ]
 
 [tool.coverage.run]
-source = ["src/vibe_coding"]
+source = ["src/fred_macro"]
 branch = true
 omit = [
     "*/tests/*",

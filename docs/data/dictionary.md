@@ -281,6 +281,13 @@ Indicators are organized into thematic categories for easier navigation and unde
 | CSUSHPISA | Housing | National home price trend and housing valuation signal |
 | RSXFS | Consumption & Retail | High-frequency read on household demand |
 | INDPRO | Manufacturing | Broad real-activity signal across production sectors |
+| DGS10 | Financial Markets | Key benchmark for interest rates and economic sentiment |
+| T10Y2Y | Financial Markets | Yield curve indicator; inversion often precedes recessions |
+| M2SL | Money & Credit | Measure of money supply and liquidity |
+| PCEPI | Prices & Inflation | Fed's preferred inflation measure |
+| PAYEMS | Labor Market | Primary measure of employment health |
+| CIVPART | Labor Market | Labor force participation measure |
+| VIXCLS | Financial Markets | Market volatility and sentiment index |
 
 ### Labor Market (Extended)
 

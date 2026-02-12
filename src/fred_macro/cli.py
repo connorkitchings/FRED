@@ -39,6 +39,8 @@ def ingest(
         raise typer.Exit(code=1)
 
 
+import yaml
+
 @app.command()
 def verify():
     """
@@ -55,6 +57,12 @@ def verify():
 
         client = FredClient()  # This will fail if no API Key
         typer.echo(f"FRED API Key found: {client.api_key[:4]}...")
+
+        # Verify Catalog
+        with open("config/series_catalog.yaml", "r") as f:
+            catalog = yaml.safe_load(f)
+            series_count = len(catalog.get("series", []))
+            typer.echo(f"Catalog loaded: {series_count} series configured.")
 
     except Exception as e:
         typer.echo(f"Verification failed: {e}")
