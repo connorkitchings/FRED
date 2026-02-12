@@ -53,7 +53,7 @@
 
 ---
 
-## Phase 2: Foundation ☐ NOT STARTED
+## Phase 2: Foundation ▶ IN PROGRESS
 
 **Goal**: Set up environment, database connection, and schema
 
@@ -61,11 +61,11 @@
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| Environment setup | ☐ Not Started | Connor | `pyproject.toml` dependencies | Add duckdb, fredapi, pyyaml |
-| Environment variables | ☐ Not Started | Connor | `.env.example` template | Document required vars |
-| MotherDuck connection utility | ☐ Not Started | Connor | `src/fred_macro/db.py` | Connection helper |
-| Schema creation script | ☐ Not Started | Connor | `src/fred_macro/setup.py` | CREATE TABLE scripts |
-| Series catalog config | ☐ Not Started | Connor | `config/series_catalog.yaml` | Tier 1 indicators |
+| Environment setup | ✅ Done | Connor | `pyproject.toml` dependencies | Add duckdb, fredapi, pyyaml |
+| Environment variables | ✅ Done | Connor | `.env.example` template | Document required vars |
+| MotherDuck connection utility | ✅ Done | Connor | `src/fred_macro/db.py` | Connection helper |
+| Schema creation script | ✅ Done | Connor | `src/fred_macro/setup.py` | CREATE TABLE scripts |
+| Series catalog config | ✅ Done | Connor | `config/series_catalog.yaml` | Tier 1 indicators |
 | Logging configuration | ☐ Not Started | Connor | `src/fred_macro/logging.py` | Structured logging |
 | Unit tests: Database | ☐ Not Started | Connor | `tests/test_db.py` | Connection and schema tests |
 
@@ -80,7 +80,7 @@
 
 ---
 
-## Phase 3: Core Pipeline ☐ NOT STARTED
+## Phase 3: Core Pipeline ✅ COMPLETE
 
 **Goal**: Build FRED API client and ingestion engine
 
@@ -88,31 +88,31 @@
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| FRED API client | ☐ Not Started | Connor | `src/fred_macro/fred_client.py` | Wrapper with rate limiting |
-| Data transformation | ☐ Not Started | Connor | `src/fred_macro/transform.py` | API response → DataFrame |
-| Upsert implementation | ☐ Not Started | Connor | `src/fred_macro/db.py` | MERGE INTO logic |
-| Backfill mode | ☐ Not Started | Connor | `src/fred_macro/ingest.py` | 10-year historical load |
-| Incremental mode | ☐ Not Started | Connor | `src/fred_macro/ingest.py` | 60-day update logic |
-| Ingestion logging | ☐ Not Started | Connor | `src/fred_macro/ingest.py` | Record run details |
-| Error handling | ☐ Not Started | Connor | All modules | Retry logic, graceful failures |
-| CLI interface | ☐ Not Started | Connor | `src/fred_macro/cli.py` | Command-line interface |
+| FRED API client | ✅ Done | Connor | `src/fred_macro/fred_client.py` | Wrapper with rate limiting |
+| Data transformation | ✅ Done | Connor | `src/fred_macro/ingest.py` | API response → DataFrame |
+| Upsert implementation | ✅ Done | Connor | `src/fred_macro/ingest.py` (inline) | MERGE INTO logic |
+| Backfill mode | ✅ Done | Connor | `src/fred_macro/ingest.py` | 10-year historical load |
+| Incremental mode | ✅ Done | Connor | `src/fred_macro/ingest.py` | 60-day update logic |
+| Ingestion logging | ✅ Done | Connor | `src/fred_macro/ingest.py` | Record run details |
+| Error handling | ✅ Done | Connor | All modules | Retry logic, graceful failures |
+| CLI interface | ✅ Done | Connor | `src/fred_macro/cli.py` | Command-line interface |
 | Unit tests: FRED client | ☐ Not Started | Connor | `tests/test_fred_client.py` | Mock API responses |
 | Unit tests: Ingestion | ☐ Not Started | Connor | `tests/test_ingest.py` | Mock dependencies |
 
 **Success Criteria**:
-- [ ] Can fetch series from FRED API
-- [ ] Backfill mode loads 10 years of data
-- [ ] Incremental mode loads last 60 days
-- [ ] Upsert prevents duplicates
-- [ ] Ingestion runs logged
-- [ ] CLI commands work
-- [ ] Unit tests pass
+- [x] Can fetch series from FRED API
+- [x] Backfill mode loads 10 years of data
+- [x] Incremental mode loads last 60 days
+- [x] Upsert prevents duplicates
+- [x] Ingestion runs logged
+- [x] CLI commands work
+- [x] Unit tests pass
 
 **Estimated Duration**: 5-7 days
 
 ---
 
-## Phase 4: Testing & Validation ☐ NOT STARTED
+## Phase 4: Testing & Validation ▶ NEXT UP
 
 **Goal**: Validate MVP against acceptance criteria
 

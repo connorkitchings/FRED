@@ -1,0 +1,37 @@
+# Series Catalog Configuration
+# Defines the indicators to be ingested and their metadata
+
+series:
+  # --- Tier 1: The Big Four (MVP Scope) ---
+
+  - series_id: "FEDFUNDS"
+    title: "Federal Funds Effective Rate"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 1
+    description: "The federal funds rate is the interest rate at which depository institutions trade federal funds (balances held at Federal Reserve Banks) with each other overnight."
+
+  - series_id: "UNRATE"
+    title: "Unemployment Rate"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 1
+    description: "The unemployment rate represents the number of unemployed as a percentage of the labor force."
+
+  - series_id: "CPIAUCSL"
+    title: "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 1
+    description: "The Consumer Price Index (CPI) is a measure of the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services."
+
+  - series_id: "GDPC1"
+    title: "Real Gross Domestic Product"
+    units: "Billions of Chained 2017 Dollars"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted Annual Rate"
+    tier: 1
+    description: "Real gross domestic product is the inflation-adjusted value of the goods and services produced by labor and property located in the United States."
