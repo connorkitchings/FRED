@@ -424,8 +424,6 @@
 - Core pipeline (client, ingest, CLI, logging)
 - MVP validation (acceptance tests + performance checks)
 
-### In Progress ▶
-
 **Phase 5: Expansion kickoff**
 - Tier 2 kickoff bundle selected and added to catalog
 - Tier 2 kickoff docs added to data dictionary
@@ -433,12 +431,12 @@
 - Backfill validation complete for all configured kickoff series
 - Data-quality checks integrated into ingestion run lifecycle
 - Per-run DQ report persistence and CLI inspection command implemented
+- Add explicit DQ reporting views/queries for operations
 
-### Next Up 📋
+### In Progress ▶
 
 **Phase 5 kickoff**
 - Tune DQ thresholds and severity policy by series/frequency
-- Add explicit DQ reporting views/queries for operations
 - Plan next Tier 2 expansion batch and scheduling prototype
 
 ### Backlog 📦

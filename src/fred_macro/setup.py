@@ -124,6 +124,43 @@ def create_schema():
             ORDER BY il.run_timestamp DESC, dr.finding_timestamp DESC;
         """)
 
+        # 6. dq_report_summary_by_run view
+        logger.info("Creating view: dq_report_summary_by_run")
+        conn.execute("""
+            CREATE OR REPLACE VIEW dq_report_summary_by_run AS
+            SELECT
+                il.run_id,
+                il.run_timestamp,
+                il.mode,
+                il.status,
+                COUNT(dr.report_id) AS total_findings,
+                SUM(CASE WHEN dr.severity = 'critical' THEN 1 ELSE 0 END) AS critical_count,
+                SUM(CASE WHEN dr.severity = 'warning' THEN 1 ELSE 0 END) AS warning_count,
+                SUM(CASE WHEN dr.severity = 'info' THEN 1 ELSE 0 END) AS info_count
+            FROM ingestion_log il
+            LEFT JOIN dq_report dr ON il.run_id = dr.run_id
+            GROUP BY il.run_id, il.run_timestamp, il.mode, il.status
+            ORDER BY il.run_timestamp DESC;
+        """)
+
+        # 7. dq_report_trend_by_series view
+        logger.info("Creating view: dq_report_trend_by_series")
+        conn.execute("""
+            CREATE OR REPLACE VIEW dq_report_trend_by_series AS
+            SELECT
+                dr.series_id,
+                dr.code,
+                dr.severity,
+                COUNT(*) AS occurrence_count,
+                MAX(dr.finding_timestamp) AS last_seen,
+                MIN(dr.finding_timestamp) AS first_seen
+            FROM dq_report dr
+            WHERE dr.finding_timestamp >= CURRENT_DATE - INTERVAL '30 days'
+              AND dr.series_id IS NOT NULL
+            GROUP BY dr.series_id, dr.code, dr.severity
+            ORDER BY occurrence_count DESC;
+        """)
+
         logger.info("Schema creation complete.")
 
     except Exception as e:

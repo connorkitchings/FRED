@@ -1,70 +1,122 @@
-# Runbook
+# Operational Runbook
 
-This runbook documents how to operate and troubleshoot the **Vibe Coding Data Science Template** in its default state. When the template becomes a named project, extend each section with environment-specific details per the [Template Kickoff Guide](./template_starting_guide.md).
+This runbook documents how to operate, monitor, and troubleshoot the **FRED Macro Dashboard**.
 
 ## Table of Contents
 
-- [Monitoring](#monitoring)
-- [Common Issues & Troubleshooting](#common-issues--troubleshooting)
-- [Deployment & Rollback](#deployment--rollback)
+- [Monitoring Data Ingestion](#monitoring-data-ingestion)
+  - [Check Ingestion Status](#check-ingestion-status)
+  - [Operational Data Quality (DQ) Reporting](#operational-data-quality-dq-reporting)
+- [Troubleshooting](#troubleshooting)
+  - [Common Errors](#common-errors)
+  - [Database Issues](#database-issues)
+- [Maintenance](#maintenance)
+  - [Adding New Indicators](#adding-new-indicators)
+  - [Updating DQ Rules](#updating-dq-rules)
 - [Contact & Escalation](#contact--escalation)
 
-## Monitoring
+---
 
-- **CI Pipeline:** GitHub Actions workflow `.github/workflows/ci.yml` runs linting, security scans, and tests on every push/PR. Treat red builds as the primary health signal while the template is being tailored.
-- **Prefect Flows (local):** When running `prefect server start`, use Prefect Orion UI (default `http://127.0.0.1:4200`) to inspect flow runs from `src/vibe_coding/flows/`.
-- **Structured Logs:** Application scripts use `vibe_coding.utils.logging` which logs to stdout with timestamps and module names. Redirect output to files during longer runs for later analysis.
+## Monitoring Data Ingestion
 
-## Common Issues & Troubleshooting
+### Check Ingestion Status
 
-### Issue: `uv sync` fails or dependencies missing
+The primary way to verify ingestion health is via the `ingestion_log` table.
 
-**Symptoms:**
-- `uv sync` exits with resolution errors or missing interpreter messages.
+**Query: Latest 10 Runs**
+```sql
+SELECT run_id, run_timestamp, mode, status, duration_seconds, error_message
+FROM ingestion_log
+ORDER BY run_timestamp DESC
+LIMIT 10;
+```
 
-**Troubleshooting Steps:**
-1. Verify Python 3.10+ is installed: `python3 --version`.
-2. Clear the `.venv` (if created) and rerun `uv sync`.
-3. On macOS/Linux, ensure `uv` binary is on the PATH (`which uv`).
+**Status Codes**:
+- `success`: All series processed successfully.
+- `partial`: Some series succeeded, others failed (or DQ persistence failed).
+- `failed`: The entire run crashed (e.g., connection lost).
 
-**Resolution:**
-Re-run `uv sync` after environment correction. Consult `pyproject.toml` to confirm dependency pins remain intact.
+### Operational Data Quality (DQ) Reporting
 
-### Issue: Prefect example flow fails to start
+We use a "Run & Report" model. Every ingestion run generates a structured report in the `dq_report` table.
 
-**Symptoms:**
-- CLI prints connection errors (e.g., `Failed to connect to Orion API`).
+#### 1. CLI Inspection (Quick Triage)
 
-**Troubleshooting Steps:**
-1. Ensure `prefect server start` is running in a separate terminal.
-2. Export `PREFECT_API_URL=http://127.0.0.1:4200/api`.
-3. Rerun `python src/vibe_coding/flows/example_flow.py`.
+Use the CLI to inspect findings for the latest run:
 
-**Resolution:**
-Restart the Prefect server and flow once configuration variables are set. Document any persistent errors in `docs/knowledge_base.md`.
+```bash
+# Show findings for the latest run (default)
+uv run python -m src.fred_macro.cli dq-report
 
-### Issue: CI pipeline red due to lint/test failure
+# Filter by severity
+uv run python -m src.fred_macro.cli dq-report --severity critical
+uv run python -m src.fred_macro.cli dq-report --severity warning
 
-**Symptoms:**
-- GitHub Actions job fails on `ruff` or `pytest`.
+# Inspect a specific run
+uv run python -m src.fred_macro.cli dq-report --run-id <UUID>
+```
 
-**Troubleshooting Steps:**
-1. Reproduce locally with `uv run ruff format . && uv run ruff check .` and `uv run pytest -vv`.
-2. Apply fixes or update tests to meet expectations.
-3. Push changes; confirm pipeline passes.
+#### 2. SQL Views (Trend Analysis)
 
-**Resolution:**
-Keep local checks green before pushing to avoid repeated CI failures.
+Three views are available for operational dashboards or ad-hoc analysis:
 
-## Deployment & Rollback
+**`dq_report_summary_by_run`**
+*High-level health check.*
+- **Use for**: Checking if critical errors are spiking over time.
+- **Columns**: `run_id`, `critical_count`, `warning_count`, `info_count`.
 
-The template does not ship production deployments. When converting to a real project:
+**`dq_report_trend_by_series`**
+*Problem child identification.*
+- **Use for**: Finding series that consistently fail checks (e.g., `stale_series_data`).
+- **Scope**: Last 30 days.
+- **Columns**: `series_id`, `code`, `occurrence_count`, `last_seen`.
 
-- Document deployment targets (staging/prod) and release commands here.
-- Record rollback steps (e.g., revert tags, redeploy previous container).
-- Link to automation scripts or external runbooks once created.
+**`dq_report_latest_runs`**
+*Detailed join.*
+- **Use for**: Deep diving into specific errors alongside run context.
+
+---
+
+## Troubleshooting
+
+### Common Errors
+
+| Error Code | Symptom | Severity | Resolution |
+|------------|---------|----------|------------|
+| `missing_series_data` | "No rows fetched during backfill" | **Critical** | Check if series ID is valid on FRED website. Check API key permissions. |
+| `stale_series_data` | "Latest observation is X days old" | Warning | Check FRED release schedule. If series is discontinued, deprecate in catalog. |
+| `rapid_change_detected` | "Large latest-period change detected" | Warning | Verify value on FRED. If real, it's a valid signal. If artifact, tune threshold in `validation.py`. |
+| `duplicate_observations` | "Found duplicate observations" | **Critical** | Upsert logic failure. Check composite primary key and `ingest.py` logic. |
+
+### Database Issues
+
+**Connection Failed**:
+- Check `MOTHERDUCK_TOKEN` environment variable.
+- Verify internet connectivity.
+- Fallback: Unset token to use local `fred.db` (dev only).
+
+**Foreign Key Violations**:
+- Symptom: "Violates foreign key constraint... series_id X does not exist"
+- Cause: `config/series_catalog.yaml` has a new series that hasn't been seeded to the DB.
+- Fix: Run `uv run python -m src.fred_macro.seed_catalog`.
+
+---
+
+## Maintenance
+
+### Adding New Indicators
+1. Edit `config/series_catalog.yaml`.
+2. Run `uv run python -m src.fred_macro.seed_catalog` to update the DB.
+3. Run `uv run python -m src.fred_macro.cli ingest --mode backfill` (upsert is safe).
+
+### Updating DQ Rules
+- Edit `src/fred_macro/validation.py`.
+- Thresholds are defined in `_check_freshness` (days) and `_check_recent_anomalies` (percent).
+
+---
 
 ## Contact & Escalation
 
-- **Primary Maintainer:** Connor Kitchings (`connorkitchings` on GitHub).
-- **Escalation Path:** If adoption teams encounter issues beyond the template scope, open an issue in the repository and notify the DevEx Guild for triage.
+- **Owner**: Connor Kitchings
+- **Repository**: [FRED-Macro-Dashboard](https://github.com/connorkitchings/FRED)
+- **Escalation**: Create a GitHub Issue for persistent failures.
