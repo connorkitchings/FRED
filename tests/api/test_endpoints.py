@@ -2,6 +2,9 @@
 Test cases for the API endpoints.
 """
 
+import pytest
+
+pytest.importorskip("fastapi")
 from fastapi.testclient import TestClient
 
 from vibe_coding.api.main import app

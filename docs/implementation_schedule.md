@@ -18,9 +18,9 @@
 
 ## Current Status
 
-**Phase:** 4 - Testing & Validation
-**Progress:** ✅ MVP Complete
-**Next Milestone:** Post-MVP Expansion (Tier 2, Automation)
+**Phase:** 5 - Expansion Kickoff
+**Progress:** ▶ Tier 2 kickoff bundle validated (incremental + backfill) with DQ checks integrated
+**Next Milestone:** Tier 2 quality tuning and expanded indicator rollout
 
 ---
 
@@ -70,11 +70,11 @@
 | Unit tests: Database | ☐ Not Started | Connor | `tests/test_db.py` | Connection and schema tests |
 
 **Success Criteria**:
-- [ ] Dependencies installed via `uv sync`
-- [ ] Can connect to MotherDuck from Python
-- [ ] Schema creates successfully
-- [ ] Tier 1 indicators in catalog config
-- [ ] Tests pass
+- [x] Dependencies installed via `uv sync`
+- [x] Can connect to MotherDuck from Python
+- [x] Schema creates successfully
+- [x] Tier 1 indicators in catalog config
+- [x] Tests pass
 
 **Estimated Duration**: 2-3 days
 
@@ -142,7 +142,28 @@
 
 ---
 
-## Phase 5: Expansion (Post-MVP) ☐ NOT STARTED
+## Phase 4.5: Post-MVP Stabilization ✅ COMPLETE
+
+**Goal**: Reconcile repository state before Tier 2 expansion.
+
+**Timeline**: Week of 2026-02-12
+
+| Task | Status | Owner | Deliverable | Notes |
+|------|--------|-------|-------------|-------|
+| Status/documentation reconciliation | ✅ Done | Connor | Updated `README.md` and `.agent/CONTEXT.md` | Remove pre-MVP drift |
+| Dependency/test alignment | ✅ Done | Connor | Passing test suite in project venv | Keep baseline green |
+| Dual-stack transition note | ✅ Done | Connor | `docs/architecture/dual_stack_transition.md` | Temporary coexistence plan |
+| Backlog prep for Phase 5 kickoff | ✅ Done | Connor | Updated schedule + next tasks | Ready for first Tier 2 work item |
+
+**Success Criteria**:
+- [x] Docs and context reflect MVP-complete status
+- [x] `uv run --python .venv/bin/python python -m pytest` passes in current environment
+- [x] Legacy/template deprecation path documented
+- [x] Tier 2 kickoff task selected
+
+---
+
+## Phase 5: Expansion (Post-MVP) ▶ IN PROGRESS
 
 **Goal**: Extend beyond Big Four indicators
 
@@ -152,17 +173,18 @@
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| Define Tier 2 catalog | ☐ Not Started | Connor | Updated `config/series_catalog.yaml` | 20-30 series |
-| Test Tier 2 ingestion | ☐ Not Started | Connor | Validation scripts | Verify data quality |
-| Documentation update | ☐ Not Started | Connor | Update data dictionary | Full Tier 2 details |
+| Define Tier 2 catalog | ✅ Done | Connor | Updated `config/series_catalog.yaml` | Kickoff bundle of first 5 Tier 2 indicators added |
+| Test Tier 2 ingestion | ✅ Done | Connor | Validation scripts | Incremental + full backfill validation completed for all 9 configured series |
+| Documentation update | ✅ Done | Connor | Update data dictionary | Kickoff bundle documented |
 
 ### Data Quality
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| Missing value checks | ☐ Not Started | Connor | `src/fred_macro/validation.py` | Alert on missing data |
-| Anomaly detection | ☐ Not Started | Connor | `src/fred_macro/validation.py` | Flag outliers |
-| Freshness monitoring | ☐ Not Started | Connor | Dashboard or logs | Alert if data stale |
+| Missing value checks | ▶ In Progress | Connor | `src/fred_macro/validation.py` | Critical on missing backfill data for required series |
+| Anomaly detection | ▶ In Progress | Connor | `src/fred_macro/validation.py` | Basic rapid-change warnings implemented |
+| Freshness monitoring | ▶ In Progress | Connor | `src/fred_macro/validation.py` | Frequency-aware stale data warnings implemented |
+| Operational DQ reporting | ✅ Done | Connor | `dq_report` table + `dq-report` CLI | Structured findings persisted for each ingestion run |
 
 ### Query Views
 
@@ -179,7 +201,14 @@
 | Scheduling setup | ☐ Not Started | Connor | Cron or Prefect | Daily incremental runs |
 | Error notifications | ☐ Not Started | Connor | Email or Slack alerts | Notify on failures |
 
-**Success Criteria**: TBD after MVP completion
+### Transition Backlog (Pre-Expansion)
+
+| Task | Status | Owner | Deliverable | Notes |
+|------|--------|-------|-------------|-------|
+| Deprecate/retire template modules (`src/vibe_coding`) | ☐ Not Started | Connor | Transition plan + execution PR | Execute after stabilization criteria pass |
+| Tier 2 expansion kickoff (first 5 indicators) | ✅ Done | Connor | Prioritized Tier 2 starter list | HOUST, PERMIT, CSUSHPISA, RSXFS, INDPRO |
+
+**Success Criteria**: Kickoff bundle defined, documented, ingestion-validated, and DQ gate integrated
 
 **Estimated Duration**: Ongoing (weeks to months)
 
@@ -286,32 +315,32 @@
 
 **Goals**:
 - ✅ Complete all documentation
-- [ ] Start environment setup
-- [ ] Create database connection utility
+- ✅ Start environment setup
+- ✅ Create database connection utility
 
-**Expected Progress**: Phase 1 complete, Phase 2 started
+**Expected Progress**: Phase 1 complete, Phase 2 complete
 
 ---
 
 ### Week 2: Core Pipeline Development
 
 **Goals**:
-- [ ] Complete foundation setup
-- [ ] Build FRED API client
-- [ ] Implement ingestion engine
-- [ ] Create CLI interface
+- ✅ Complete foundation setup
+- ✅ Build FRED API client
+- ✅ Implement ingestion engine
+- ✅ Create CLI interface
 
-**Expected Progress**: Phase 2 complete, Phase 3 majority complete
+**Expected Progress**: Phase 3 complete
 
 ---
 
 ### Week 3: Testing & MVP Sign-Off
 
 **Goals**:
-- [ ] Run all acceptance tests
-- [ ] Validate data quality
-- [ ] Performance benchmarking
-- [ ] Documentation accuracy check
+- ✅ Run all acceptance tests
+- ✅ Validate data quality
+- ✅ Performance benchmarking
+- ✅ Documentation accuracy check
 
 **Expected Progress**: Phase 3 and 4 complete, MVP achieved
 
@@ -326,6 +355,18 @@
 - [ ] Set up automation
 
 **Expected Progress**: Post-MVP enhancements
+
+---
+
+### Current Week: Stabilization Baseline
+
+**Goals**:
+- [ ] Eliminate status drift across docs and context
+- [x] Ensure test/dependency baseline is green
+- [x] Finalize transition path for legacy template modules
+- [x] Pick first Tier 2 expansion slice
+
+**Expected Progress**: Phase 4.5 complete, Phase 5 ready to begin
 
 ---
 
@@ -358,7 +399,12 @@
 | Date | Change | Reason | Impact |
 |------|--------|--------|--------|
 | 2026-02-12 | Initial schedule created | Project kickoff | Baseline plan established |
-| 2026-02-12 | Phase 1 (Documentation) completed | All docs written | Ready for implementation |
+| 2026-02-12 | MVP completed (Phases 1-4) | Pipeline + validation shipped | Entered post-MVP planning |
+| 2026-02-12 | Added Phase 4.5 stabilization track | Align docs/tests before expansion | Reduced state drift risk |
+| 2026-02-12 | Tier 2 kickoff bundle selected | Start Phase 5 with constrained scope | First 5 Tier 2 indicators added to catalog |
+| 2026-02-12 | Tier 2 kickoff ingestion validation run | Confirm catalog + FK + ingestion compatibility | Seed flow fixed; incremental run succeeded |
+| 2026-02-12 | Tier 2 backfill + DQ gate completed | Validate scale and quality controls | 9-series backfill successful, DQ fail-on-critical integrated |
+| 2026-02-12 | Operational DQ report added | Improve run-level observability | Findings now persisted per run and accessible by CLI |
 
 ---
 
@@ -366,7 +412,7 @@
 
 ### Done ✅
 
-**Phase 1: Documentation**
+**Phase 1-4**
 - Project charter
 - MVP definition
 - Technical requirements
@@ -374,39 +420,35 @@
 - FRED API docs
 - System overview
 - 3 ADRs
-- README
-- Implementation schedule
-- .agent/CONTEXT.md
+- Foundation setup (DB, schema, catalog)
+- Core pipeline (client, ingest, CLI, logging)
+- MVP validation (acceptance tests + performance checks)
 
 ### In Progress ▶
 
-(None currently)
+**Phase 5: Expansion kickoff**
+- Tier 2 kickoff bundle selected and added to catalog
+- Tier 2 kickoff docs added to data dictionary
+- Catalog validation test coverage added
+- Backfill validation complete for all configured kickoff series
+- Data-quality checks integrated into ingestion run lifecycle
+- Per-run DQ report persistence and CLI inspection command implemented
 
 ### Next Up 📋
 
-**Phase 2: Foundation**
-- Environment setup
-- Database connection
-- Schema creation
-- Series catalog config
+**Phase 5 kickoff**
+- Tune DQ thresholds and severity policy by series/frequency
+- Add explicit DQ reporting views/queries for operations
+- Plan next Tier 2 expansion batch and scheduling prototype
 
 ### Backlog 📦
-
-**Phase 3: Core Pipeline**
-- FRED API client
-- Ingestion engine
-- Backfill/incremental modes
-
-**Phase 4: Testing**
-- Integration tests
-- Data validation
-- Performance benchmarks
 
 **Phase 5: Expansion**
 - Tier 2 indicators
 - Data quality checks
 - Query views
 - Automation
+- Template module deprecation/retirement
 
 ---
 
@@ -435,5 +477,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-12
-**Next Review**: After Phase 2 completion
-**Status**: Phase 1 complete, ready to start Phase 2
+**Next Review**: After DQ threshold tuning and next Tier 2 batch selection
+**Status**: MVP complete; Phase 5 quality hardening in progress

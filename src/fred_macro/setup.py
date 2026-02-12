@@ -72,6 +72,58 @@ def create_schema():
             "ingestion_log(run_timestamp);"
         )
 
+        # 4. dq_report
+        logger.info("Creating table: dq_report")
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS dq_report (
+                report_id VARCHAR NOT NULL PRIMARY KEY,
+                run_id VARCHAR NOT NULL,
+                finding_timestamp TIMESTAMP NOT NULL,
+                severity VARCHAR NOT NULL,
+                code VARCHAR NOT NULL,
+                series_id VARCHAR,
+                message TEXT NOT NULL,
+                metadata JSON,
+                FOREIGN KEY (run_id) REFERENCES ingestion_log(run_id)
+            );
+        """)
+
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_dq_report_run_id ON dq_report(run_id);"
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_dq_report_severity ON dq_report(severity);"
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_dq_report_time ON "
+            "dq_report(finding_timestamp);"
+        )
+
+        # 5. dq_report_latest_runs view
+        logger.info("Creating view: dq_report_latest_runs")
+        conn.execute("""
+            CREATE OR REPLACE VIEW dq_report_latest_runs AS
+            SELECT
+                il.run_id,
+                il.run_timestamp,
+                il.mode,
+                il.status AS run_status,
+                il.total_rows_fetched,
+                il.total_rows_inserted,
+                il.duration_seconds,
+                dr.report_id,
+                dr.finding_timestamp,
+                dr.severity,
+                dr.code,
+                dr.series_id,
+                dr.message,
+                dr.metadata
+            FROM ingestion_log il
+            LEFT JOIN dq_report dr
+                ON il.run_id = dr.run_id
+            ORDER BY il.run_timestamp DESC, dr.finding_timestamp DESC;
+        """)
+
         logger.info("Schema creation complete.")
 
     except Exception as e:

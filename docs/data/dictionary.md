@@ -10,6 +10,7 @@
   - [series_catalog](#series_catalog)
   - [observations](#observations)
   - [ingestion_log](#ingestion_log)
+  - [dq_report](#dq_report)
 - [Indicator Categories](#indicator-categories)
 - [Tier 1 Indicators (Core)](#tier-1-indicators-core)
 - [Tier 2 Indicators (Extended)](#tier-2-indicators-extended)
@@ -127,6 +128,46 @@ INSERT INTO ingestion_log VALUES (
 
 ---
 
+### dq_report
+
+**Purpose**: Structured data-quality findings emitted per ingestion run.
+
+| Column | Type | Nullable | Description |
+|--------|------|----------|-------------|
+| `report_id` | VARCHAR | NOT NULL | Unique finding identifier (UUID). Primary key. |
+| `run_id` | VARCHAR | NOT NULL | Foreign key to `ingestion_log.run_id`. |
+| `finding_timestamp` | TIMESTAMP | NOT NULL | When finding was recorded. |
+| `severity` | VARCHAR | NOT NULL | `info`, `warning`, or `critical`. |
+| `code` | VARCHAR | NOT NULL | Stable finding code (for filtering/alerts). |
+| `series_id` | VARCHAR | NULL | Related series when finding is series-specific. |
+| `message` | TEXT | NOT NULL | Human-readable diagnostic text. |
+| `metadata` | JSON | NULL | Structured context (thresholds, ages, percent changes, etc.). |
+
+**Indexes**:
+- Primary key on `report_id`
+- Index on `run_id` for run-level lookups
+- Index on `severity` for operational filtering
+- Index on `finding_timestamp` for trend analysis
+
+**Operational View**:
+- `dq_report_latest_runs`: Joins `ingestion_log` and `dq_report` for quick per-run reporting queries.
+
+**Example Row**:
+```sql
+INSERT INTO dq_report VALUES (
+    'f1b2c3d4-0000-1111-2222-abcdefabcdef',
+    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    '2026-02-12 14:23:05',
+    'warning',
+    'stale_series_data',
+    'GDPC1',
+    'Latest observation is 215 days old (threshold 200).',
+    '{"age_days": 215, "threshold_days": 200, "frequency": "Quarterly"}'
+);
+```
+
+---
+
 ## Indicator Categories
 
 Indicators are organized into thematic categories for easier navigation and understanding.
@@ -229,7 +270,17 @@ Indicators are organized into thematic categories for easier navigation and unde
 
 **Purpose**: Additional indicators for broader economic coverage (Post-MVP).
 
-**Status**: Placeholder — To be populated when Tier 2 implementation begins.
+**Status**: Kickoff started on 2026-02-12 with an initial 5-series bundle in `config/series_catalog.yaml`.
+
+### Kickoff Bundle (In Catalog Now)
+
+| Series ID | Category | Why it was selected first |
+|-----------|----------|---------------------------|
+| HOUST | Housing | Leading signal of construction demand and macro cycle turning points |
+| PERMIT | Housing | Forward-looking complement to starts (pipeline visibility) |
+| CSUSHPISA | Housing | National home price trend and housing valuation signal |
+| RSXFS | Consumption & Retail | High-frequency read on household demand |
+| INDPRO | Manufacturing | Broad real-activity signal across production sectors |
 
 ### Labor Market (Extended)
 

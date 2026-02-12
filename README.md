@@ -2,8 +2,8 @@
 
 > **Personal macroeconomic data infrastructure for tracking key indicators from the Federal Reserve Economic Data (FRED) API.**
 
-**Version**: 0.1.0 (pre-MVP)
-**Status**: 🟡 Phase 1 - Documentation
+**Version**: 0.1.0 (MVP complete)
+**Status**: 🟢 Post-MVP Stabilization
 **Stack**: Python 3.10+ · DuckDB/MotherDuck · FRED API · UV
 
 ---
@@ -66,11 +66,20 @@ export FRED_API_KEY="your_api_key_here"
 # Initialize database schema
 uv run python -m src.fred_macro.setup
 
-# Backfill 10 years of data
-uv run python -m src.fred_macro.ingest --backfill
+# Seed catalog metadata
+uv run python -m src.fred_macro.seed_catalog
 
-# Query data
-uv run python -m src.fred_macro.query --series UNRATE --last 12
+# Verify API and database connectivity
+uv run python -m src.fred_macro.cli verify
+
+# Backfill 10 years of data
+uv run python -m src.fred_macro.cli ingest --mode backfill
+
+# Incremental refresh (last 60 days)
+uv run python -m src.fred_macro.cli ingest --mode incremental
+
+# Show operational DQ report for the latest run
+uv run python -m src.fred_macro.cli dq-report
 ```
 
 ---
@@ -123,19 +132,24 @@ Specialized indicators (40+ series) — sector-specific analysis
 
 ## Project Status
 
-**Current Phase**: Documentation and Planning
-**Next Milestone**: MVP — Big Four indicators ingestion
+**Current Phase**: Post-MVP Stabilization (as of February 12, 2026)
+**Next Milestone**: Phase 5 Expansion (Tier 2 indicators and automation)
 
 ### What's Working
-- ✅ Project structure and documentation
-- ✅ Indicator architecture defined (3 tiers)
-- ✅ Data model designed
+- ✅ Big Four ingestion pipeline implemented and validated
+- ✅ Backfill, incremental, and upsert revision flows running
+- ✅ Schema, catalog, and ingestion logging in place
+- ✅ MVP acceptance scenarios completed on 2026-02-12
+- ✅ Tier 2 kickoff bundle (5 indicators) added to catalog
+- ✅ Tier 2 kickoff incremental ingestion validated (with expected sparse data in 60-day window)
+- ✅ Full 9-series backfill validation complete (Tier 1 + Tier 2 kickoff bundle)
+- ✅ Data-quality checks integrated into ingestion (fail on critical, warn on freshness/anomalies)
+- ✅ Structured per-run DQ reports persisted for operations
 
 ### What's Next
-- [ ] Database connection and schema setup
-- [ ] FRED API client implementation
-- [ ] Backfill/incremental ingestion logic
-- [ ] MVP validation with Big Four indicators
+- [ ] Tune data-quality thresholds and severity rules for Tier 2 frequencies
+- [ ] Add richer DQ reporting views and runbook queries for operations
+- [ ] Expand Tier 2 from kickoff bundle toward full 20-30 indicator target
 
 📅 **Full roadmap**: [`docs/implementation_schedule.md`](docs/implementation_schedule.md)
 
@@ -153,6 +167,7 @@ Specialized indicators (40+ series) — sector-specific analysis
 - [FRED API Documentation](docs/data/sources/fred_api.md) — Data source guide
 - [System Overview](docs/architecture/system_overview.md) — Architecture diagram
 - [Architecture Decisions](docs/architecture/adr/) — ADRs for key choices
+- [Dual-Stack Transition Note](docs/architecture/dual_stack_transition.md) — Temporary coexistence plan for legacy template modules
 
 ### Development
 - [Implementation Schedule](docs/implementation_schedule.md) — Task tracking
@@ -193,7 +208,7 @@ git checkout -b feat/your-feature
 uv run ruff format . && uv run ruff check .
 
 # Run tests
-uv run pytest
+uv run --python .venv/bin/python python -m pytest
 
 # Health check before commits
 # Follow: .agent/workflows/health-check.md
@@ -228,5 +243,5 @@ MIT License — See [LICENSE](LICENSE) for details.
 
 **Built with**: Vibe Coding methodology
 **Last Updated**: 2026-02-12
-**Project Status**: Pre-MVP Documentation Phase
+**Project Status**: MVP complete, expansion planning underway
 This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.

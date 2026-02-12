@@ -8,24 +8,29 @@
 
 **FRED-Macro-Dashboard**: Personal macroeconomic data infrastructure
 **Stack**: Python 3.10+ · DuckDB/MotherDuck · FRED API · UV
-**Status**: 🟡 Phase 1 - Documentation Complete
+**Status**: 🟢 MVP Complete (Post-MVP Stabilization)
 
 ### Current State
 
-- **Version**: 0.1.0 (pre-MVP)
-- **Current Focus**: Documentation complete, ready to start implementation
-- **Next Milestone**: Phase 2 - Foundation (database connection, schema setup)
-- **Previous**: Project initiated from Vibe-Coding template, comprehensive planning completed
+- **Version**: 0.1.0 (MVP complete)
+- **Current Focus**: Phase 5 quality hardening (Tier 2 validation + DQ integration)
+- **Next Milestone**: DQ threshold tuning and next Tier 2 expansion batch
+- **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
 
-- **2026-02-12**: Completed comprehensive documentation phase
-  - Created project charter (PRD-style scope and vision)
-  - Defined MVP with clear acceptance criteria
-  - Documented technical requirements and data dictionary
-  - Cataloged Tier 1 indicators (Big Four)
-  - Created architecture documentation with 3 ADRs
-  - Updated README with project overview
+- **2026-02-12**: Core pipeline implemented and MVP validation completed
+  - Built `fred_client.py`, `ingest.py`, `setup.py`, `seed_catalog.py`, and CLI entrypoints
+  - Completed acceptance scenarios for backfill, idempotency, incremental updates, and revisions
+  - Added structured logging and updated implementation schedule to MVP complete
+  - Identified post-MVP cleanup: align docs/tests/config with current shipped state
+- **2026-02-12**: Tier 2 kickoff started
+  - Added initial 5-series Tier 2 bundle to `config/series_catalog.yaml`
+  - Added series catalog validation tests for tier presence and config integrity
+  - Documented dual-stack transition and Tier 2 kickoff references
+  - Validated incremental ingestion run with FK-safe catalog seeding
+  - Validated full 9-series backfill and integrated DQ checks into ingestion
+  - Added operational DQ reporting (`dq_report` table + `dq-report` CLI command)
 
 ### Architecture
 
@@ -51,7 +56,7 @@ FRED API → Python Ingestion Engine → MotherDuck (Cloud DuckDB)
 ## ⚠️ Critical Rules
 
 1. **NEVER work on `main`**. Check branch: `git branch`. Create feature branch immediately if on main.
-2. **MVP Scope Discipline**. Stick to Tier 1 (Big Four) indicators until MVP complete. Resist scope creep.
+2. **Scope Discipline**. Keep Tier 1 as the baseline and stabilize quality before Tier 2 expansion.
 3. **Documentation-Driven**. All documentation exists — read before implementing.
 4. **Learning Project**. Document insights about DuckDB, ETL patterns, and API integration.
 5. **No secrets in code**. Use environment variables (MOTHERDUCK_TOKEN, FRED_API_KEY).
@@ -76,11 +81,12 @@ uv sync
 
 # Development loop
 uv run ruff format . && uv run ruff check .
-uv run pytest
+uv run --python .venv/bin/python python -m pytest
 
-# Run ingestion (once implemented)
-uv run python -m src.fred_macro.ingest --mode backfill
-uv run python -m src.fred_macro.ingest --mode incremental
+# Verify and run ingestion
+uv run python -m src.fred_macro.cli verify
+uv run python -m src.fred_macro.cli ingest --mode backfill
+uv run python -m src.fred_macro.cli ingest --mode incremental
 ```
 
 ---
@@ -124,6 +130,7 @@ uv run python -m src.fred_macro.ingest --mode incremental
 | Why MotherDuck | `docs/architecture/adr/adr-0002-motherduck.md` |
 | Why upsert | `docs/architecture/adr/adr-0003-upsert-strategy.md` |
 | Why 3 tiers | `docs/architecture/adr/adr-0004-indicator-tiers.md` |
+| Dual-stack transition | `docs/architecture/dual_stack_transition.md` |
 
 ### Development
 | Need | File |
@@ -165,16 +172,15 @@ uv run python -m src.fred_macro.ingest --mode incremental
 
 ---
 
-## Current Phase: Foundation (Phase 2)
+## Current Phase: Post-MVP Stabilization (Phase 5 Prep)
 
-**Status**: ☐ Not Started
+**Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Environment setup (dependencies in `pyproject.toml`)
-2. MotherDuck connection utility (`src/fred_macro/db.py`)
-3. Schema creation script (`src/fred_macro/setup.py`)
-4. Series catalog configuration (`config/series_catalog.yaml`)
-5. Unit tests for database connection
+1. Tune DQ thresholds/severity rules from observed backfill outcomes
+2. Expand operational reporting views/runbooks for DQ findings and ingestion health
+3. Keep full test suite green while `fred_macro` and template modules coexist
+4. Expand Tier 2 beyond kickoff bundle toward target coverage
 
 **See**: `docs/implementation_schedule.md` for complete task list
 
@@ -277,7 +283,7 @@ This project is also a learning exercise. Document insights about:
 
 ---
 
-## Common Queries (Once Implemented)
+## Common Queries
 
 ### Check ingestion status
 ```sql

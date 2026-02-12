@@ -10,6 +10,12 @@ import yaml
 from src.fred_macro.db import get_connection
 from src.fred_macro.fred_client import FredClient
 from src.fred_macro.logging_config import get_logger, setup_logging
+from src.fred_macro.validation import (
+    ValidationFinding,
+    count_findings_by_severity,
+    run_data_quality_checks,
+    summarize_findings,
+)
 
 logger = get_logger(__name__)
 
@@ -133,6 +139,78 @@ class IngestionEngine:
         finally:
             conn.close()
 
+    def _log_dq_findings(
+        self,
+        run_id: str,
+        findings: List[ValidationFinding],
+    ) -> bool:
+        """Persist structured data-quality findings for a run."""
+        if not findings:
+            return True
+
+        conn = get_connection()
+        try:
+            query = """
+            INSERT INTO dq_report (
+                report_id, run_id, finding_timestamp, severity, code,
+                series_id, message, metadata
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """
+            for finding in findings:
+                conn.execute(
+                    query,
+                    (
+                        str(uuid.uuid4()),
+                        run_id,
+                        datetime.now(),
+                        finding.severity,
+                        finding.code,
+                        finding.series_id,
+                        finding.message,
+                        (
+                            json.dumps(finding.metadata)
+                            if finding.metadata is not None
+                            else None
+                        ),
+                    ),
+                )
+            return True
+        except Exception as e:
+            logger.error("Failed to persist DQ findings for run %s: %s", run_id, e)
+            return False
+        finally:
+            conn.close()
+
+    def _update_logged_run_status(
+        self,
+        run_id: str,
+        status: str,
+        error_message: str | None,
+    ) -> bool:
+        """Patch ingestion_log row after write, if needed."""
+        conn = get_connection()
+        try:
+            conn.execute(
+                """
+                UPDATE ingestion_log
+                SET status = ?, error_message = ?
+                WHERE run_id = ?
+                """,
+                (status, error_message, run_id),
+            )
+            return True
+        except Exception as e:
+            logger.error("Failed to update run status for %s: %s", run_id, e)
+            return False
+        finally:
+            conn.close()
+
+    @staticmethod
+    def _append_error(existing: str | None, message: str) -> str:
+        if existing:
+            return f"{existing}; {message}"
+        return message
+
     def run(self, mode: str = "incremental"):
         """
         Execute the ingestion pipeline.
@@ -150,17 +228,25 @@ class IngestionEngine:
         total_processed = 0
         status = "success"
         error_msg = None
+        run_series_stats: Dict[str, Dict[str, int]] = {}
+        dq_findings: List[ValidationFinding] = []
 
         start_date = self._determine_start_date(mode)
 
         try:
             for item in series_list:
                 series_id = item["series_id"]
+                run_series_stats[series_id] = {
+                    "rows_fetched": 0,
+                    "rows_processed": 0,
+                }
                 try:
                     df = self.client.get_series_data(series_id, start_date=start_date)
+                    run_series_stats[series_id]["rows_fetched"] = len(df)
 
                     if not df.empty:
                         count = self._upsert_data(df)
+                        run_series_stats[series_id]["rows_processed"] = count
                         total_fetched += len(df)
                         total_processed += count
                         logger.info(f"Processed {series_id}: {len(df)} rows")
@@ -173,6 +259,38 @@ class IngestionEngine:
                     logger.error(f"Failed to process {series_id}: {e}")
                     status = "partial"  # Continue processing others
                     error_msg = str(e)  # Store last error
+
+            dq_findings = run_data_quality_checks(
+                mode=mode,
+                configured_series=series_list,
+                run_series_stats=run_series_stats,
+            )
+            dq_counts = count_findings_by_severity(dq_findings)
+
+            logger.info(
+                "Data-quality summary: critical=%s warning=%s info=%s",
+                dq_counts["critical"],
+                dq_counts["warning"],
+                dq_counts["info"],
+            )
+
+            if dq_counts["warning"] > 0:
+                logger.warning(
+                    "Data-quality warnings: %s",
+                    summarize_findings(
+                        [f for f in dq_findings if f.severity == "warning"],
+                    ),
+                )
+
+            if dq_counts["critical"] > 0:
+                critical_summary = summarize_findings(
+                    [f for f in dq_findings if f.severity == "critical"],
+                )
+                status = "failed"
+                error_msg = self._append_error(
+                    error_msg,
+                    f"dq_critical={critical_summary}",
+                )
 
         except Exception as e:
             logger.critical(f"Critical failure in ingestion run: {e}")
@@ -195,6 +313,18 @@ class IngestionEngine:
                 f"Ingestion run complete. Status: {status}. "
                 f"Series: {len(series_ingested)}"
             )
+            dq_logged = self._log_dq_findings(run_id, dq_findings)
+            if not dq_logged:
+                patched_status = "failed" if status == "failed" else "partial"
+                patched_error = self._append_error(
+                    error_msg,
+                    "dq_report_logging_failed",
+                )
+                self._update_logged_run_status(
+                    run_id=run_id,
+                    status=patched_status,
+                    error_message=patched_error,
+                )
 
 
 if __name__ == "__main__":
