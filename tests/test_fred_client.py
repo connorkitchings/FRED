@@ -1,7 +1,8 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
+
 import pandas as pd
-from urllib.error import HTTPError
+
 from src.fred_macro.fred_client import FredClient
 
 
@@ -27,7 +28,7 @@ class TestFredClient(unittest.TestCase):
         mock_series = pd.Series(
             data=[100.0, 101.0],
             index=pd.to_datetime(["2023-01-01", "2023-02-01"]),
-            name="GDP"
+            name="GDP",
         )
         mock_fred_instance = mock_fred.return_value
         mock_fred_instance.get_series.return_value = mock_series
@@ -42,7 +43,9 @@ class TestFredClient(unittest.TestCase):
 
         # Verify DataFrame structure
         self.assertIsInstance(df, pd.DataFrame)
-        self.assertListEqual(list(df.columns), ["observation_date", "value", "series_id"])
+        self.assertListEqual(
+            list(df.columns), ["observation_date", "value", "series_id"]
+        )
         self.assertEqual(df.iloc[0]["series_id"], "GDP")
         self.assertEqual(df.iloc[0]["value"], 100.0)
 
@@ -52,7 +55,7 @@ class TestFredClient(unittest.TestCase):
         """Test that rate limiting triggers sleep."""
         client = FredClient(api_key="test_key")
         client._last_request_time = 1000.0
-        
+
         with patch("src.fred_macro.fred_client.time.time", return_value=1000.5):
             client._enforce_rate_limit()
             mock_sleep.assert_called()  # Should sleep because only 0.5s passed

@@ -134,9 +134,12 @@ def create_schema():
                 il.mode,
                 il.status,
                 COUNT(dr.report_id) AS total_findings,
-                SUM(CASE WHEN dr.severity = 'critical' THEN 1 ELSE 0 END) AS critical_count,
-                SUM(CASE WHEN dr.severity = 'warning' THEN 1 ELSE 0 END) AS warning_count,
-                SUM(CASE WHEN dr.severity = 'info' THEN 1 ELSE 0 END) AS info_count
+                SUM(CASE WHEN dr.severity = 'critical' THEN 1 ELSE 0 END)
+                    AS critical_count,
+                SUM(CASE WHEN dr.severity = 'warning' THEN 1 ELSE 0 END)
+                    AS warning_count,
+                SUM(CASE WHEN dr.severity = 'info' THEN 1 ELSE 0 END)
+                    AS info_count
             FROM ingestion_log il
             LEFT JOIN dq_report dr ON il.run_id = dr.run_id
             GROUP BY il.run_id, il.run_timestamp, il.mode, il.status

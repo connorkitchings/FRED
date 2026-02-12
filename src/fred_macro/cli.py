@@ -2,6 +2,7 @@ import json
 from typing import Optional
 
 import typer
+import yaml
 
 from src.fred_macro.db import get_connection
 from src.fred_macro.ingest import IngestionEngine
@@ -38,8 +39,6 @@ def ingest(
         typer.echo(f"Ingestion failed: {e}")
         raise typer.Exit(code=1)
 
-
-import yaml
 
 @app.command()
 def verify():

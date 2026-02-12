@@ -1,7 +1,8 @@
 import os
 import unittest
-from unittest.mock import patch, MagicMock
-from src.fred_macro.db import get_connection, execute_query
+from unittest.mock import MagicMock, patch
+
+from src.fred_macro.db import execute_query, get_connection
 
 
 class TestDB(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestDB(unittest.TestCase):
         mock_conn.execute.return_value.fetchall.return_value = [("result",)]
 
         result = execute_query("SELECT 1")
-        
+
         mock_get_conn.assert_called_once()
         mock_conn.execute.assert_called_with("SELECT 1")
         self.assertEqual(result, [("result",)])
@@ -40,7 +41,7 @@ class TestDB(unittest.TestCase):
         """Test execute_query with parameters."""
         mock_conn = MagicMock()
         mock_get_conn.return_value = mock_conn
-        
+
         execute_query("SELECT ?", ("param",))
-        
+
         mock_conn.execute.assert_called_with("SELECT ?", ("param",))
