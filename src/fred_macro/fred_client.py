@@ -1,4 +1,3 @@
-import logging
 import os
 import time
 from typing import Optional
@@ -13,7 +12,9 @@ from tenacity import (
     wait_exponential,
 )
 
-logger = logging.getLogger(__name__)
+from src.fred_macro.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class FredClient:
@@ -73,14 +74,14 @@ class FredClient:
             # Convert to DataFrame
             df = series_data.to_frame(name="value")
             df.index.name = "observation_date"
-            df.reset_index(inplace=True)
+            df = df.reset_index()
 
             # Add series_id column for database schema alignment
             df = df.assign(series_id=series_id)
 
-            # Ensure proper types
-            df["observation_date"] = pd.to_datetime(df["observation_date"])
-            df["value"] = pd.to_numeric(df["value"], errors="coerce")
+            # Ensure proper types (use .loc to avoid SettingWithCopyWarning)
+            df.loc[:, "observation_date"] = pd.to_datetime(df["observation_date"])
+            df.loc[:, "value"] = pd.to_numeric(df["value"], errors="coerce")
 
             return df
 

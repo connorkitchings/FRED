@@ -1,8 +1,7 @@
-import logging
-
 from src.fred_macro.db import get_connection
+from src.fred_macro.logging_config import get_logger, setup_logging
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def create_schema():
@@ -83,5 +82,5 @@ def create_schema():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    setup_logging()
     create_schema()

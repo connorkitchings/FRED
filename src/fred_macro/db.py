@@ -1,19 +1,16 @@
-import logging
 import os
 from typing import Optional
 
 import duckdb
 from dotenv import load_dotenv
 
-# Configure logging
-logging.basicConfig(
-    level=getattr(logging, os.getenv("LOG_LEVEL", "INFO")),
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger(__name__)
+from src.fred_macro.logging_config import get_logger
 
 # Load environment variables
 load_dotenv()
+
+# Get logger for this module
+logger = get_logger(__name__)
 
 
 def get_connection(db_path: str = "md:") -> duckdb.DuckDBPyConnection:

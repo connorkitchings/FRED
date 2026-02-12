@@ -1,16 +1,11 @@
-import logging
-import sys
-
 import typer
 
 from src.fred_macro.ingest import IngestionEngine
+from src.fred_macro.logging_config import get_logger, setup_logging
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout)],
-)
+# Initialize logging
+setup_logging()
+logger = get_logger(__name__)
 
 app = typer.Typer(help="FRED Macro Dashboard CLI")
 

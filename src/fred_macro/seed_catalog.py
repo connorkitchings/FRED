@@ -1,10 +1,9 @@
-import logging
-
 import yaml
 
 from src.fred_macro.db import get_connection
+from src.fred_macro.logging_config import get_logger, setup_logging
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def seed_catalog(config_path: str = "config/series_catalog.yaml"):
@@ -39,7 +38,8 @@ def seed_catalog(config_path: str = "config/series_catalog.yaml"):
             """
 
             # Load config
-            # yaml has: series_id, title, units, frequency, seasonal_adjustment, tier, description
+            # yaml has: series_id, title, units, frequency,
+            #           seasonal_adjustment, tier, description
 
             # Let's inspect the yaml structure I created earlier.
             # Step 50:
@@ -73,5 +73,5 @@ def seed_catalog(config_path: str = "config/series_catalog.yaml"):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    setup_logging()
     seed_catalog()

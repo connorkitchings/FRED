@@ -1,5 +1,4 @@
 import json
-import logging
 import time
 import uuid
 from datetime import datetime, timedelta
@@ -10,8 +9,9 @@ import yaml
 
 from src.fred_macro.db import get_connection
 from src.fred_macro.fred_client import FredClient
+from src.fred_macro.logging_config import get_logger, setup_logging
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class IngestionEngine:
@@ -68,7 +68,8 @@ class IngestionEngine:
                            load_timestamp = CURRENT_TIMESTAMP
             WHEN NOT MATCHED THEN
                 INSERT (series_id, observation_date, value, load_timestamp)
-                VALUES (source.series_id, source.observation_date, source.value, CURRENT_TIMESTAMP);
+                VALUES (source.series_id, source.observation_date, source.value,
+                        CURRENT_TIMESTAMP);
             """
 
             # Execute merge
@@ -200,6 +201,6 @@ if __name__ == "__main__":
     import sys
 
     mode = sys.argv[1] if len(sys.argv) > 1 else "incremental"
-    logging.basicConfig(level=logging.INFO)
+    setup_logging()
     engine = IngestionEngine()
     engine.run(mode=mode)
