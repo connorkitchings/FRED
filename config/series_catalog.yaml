@@ -35,3 +35,45 @@ series:
     seasonal_adjustment: "Seasonally Adjusted Annual Rate"
     tier: 1
     description: "Real gross domestic product is the inflation-adjusted value of the goods and services produced by labor and property located in the United States."
+
+  # --- Tier 2: Kickoff Bundle (Post-MVP Expansion) ---
+
+  - series_id: "HOUST"
+    title: "Housing Starts: Total: New Privately Owned Housing Units Started"
+    units: "Thousands of Units"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted Annual Rate"
+    tier: 2
+    description: "Housing starts are a leading indicator for residential construction activity and broader economic momentum."
+
+  - series_id: "PERMIT"
+    title: "New Private Housing Units Authorized by Building Permits"
+    units: "Thousands of Units"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted Annual Rate"
+    tier: 2
+    description: "Building permits are a forward-looking signal of housing supply and construction pipeline strength."
+
+  - series_id: "CSUSHPISA"
+    title: "S&P CoreLogic Case-Shiller U.S. National Home Price Index"
+    units: "Index Jan 2000=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Case-Shiller tracks national home prices and complements housing starts and permits for housing cycle analysis."
+
+  - series_id: "RSXFS"
+    title: "Advance Retail Sales: Retail Trade and Food Services"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Retail sales provide a high-frequency read on consumer demand and spending behavior."
+
+  - series_id: "INDPRO"
+    title: "Industrial Production: Total Index"
+    units: "Index 2017=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Industrial production measures real output of manufacturing, mining, and utilities."

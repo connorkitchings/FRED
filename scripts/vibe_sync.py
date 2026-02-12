@@ -8,10 +8,14 @@ import re
 import subprocess
 from pathlib import Path
 
-import pyperclip
 import typer
 from rich.console import Console
 from rich.panel import Panel
+
+try:
+    import pyperclip
+except ImportError:  # pragma: no cover - optional dependency
+    pyperclip = None
 
 app = typer.Typer(help="Vibe-Coding Session Manager")
 console = Console()
@@ -156,6 +160,8 @@ SNAPSHOT: {snapshot.splitlines()[0] if snapshot else "N/A"}
         return directive.strip()
 
     def copy_to_clipboard(self, text: str):
+        if pyperclip is None:
+            return False
         try:
             pyperclip.copy(text)
             return True

@@ -67,4 +67,5 @@ def get_logger(name: str) -> logging.Logger:
 
 # For backward compatibility with existing code
 # TODO: Migrate to setup_logging() and get_logger() in future updates
-logger = get_logger("vibe_coding")
+logger = get_logger("Vibe Coding Data Science Template")
+logger.setLevel(logging.INFO)

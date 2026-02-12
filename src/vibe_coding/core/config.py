@@ -2,16 +2,17 @@
 Configuration for the project.
 """
 
-from pydantic_settings import BaseSettings
+import os
+from dataclasses import dataclass
 
 
-class Settings(BaseSettings):
+@dataclass
+class Settings:
     """
-    Project settings.
+    Project settings loaded from environment with local defaults.
     """
 
-    # Example setting
-    PROJECT_NAME: str = "Vibe Coding Data Science Template"
+    PROJECT_NAME: str = os.getenv("PROJECT_NAME", "Vibe Coding Data Science Template")
 
 
 settings = Settings()
