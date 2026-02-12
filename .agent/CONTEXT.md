@@ -1,4 +1,4 @@
-# Vibe Coding Template — AI Agent Context Brief
+# FRED-Macro-Dashboard — AI Agent Context Brief
 
 > **Entry point for all AI sessions.** Read this first, then load relevant skills.
 
@@ -6,47 +6,62 @@
 
 ## Project Snapshot
 
-**Vibe Coding Template**: Multi-tool AI-assisted development template
-**Stack**: Python 3.10+ · UV · Ruff · Pytest · MkDocs
-**Status**: 🟢 Template Ready (2026-02-11)
+**FRED-Macro-Dashboard**: Personal macroeconomic data infrastructure
+**Stack**: Python 3.10+ · DuckDB/MotherDuck · FRED API · UV
+**Status**: 🟡 Phase 1 - Documentation Complete
 
 ### Current State
 
-<!-- ⚠️ TEMPLATE NOTE: Update this section with your project status -->
-
-- **Version**: 2.0 (Multi-Tool)
-- **Current Focus**: Template ready for new projects
-- **Next Milestone**: Adapt for specific project use
-- **Previous**: MADE system removed, lean multi-tool template created
+- **Version**: 0.1.0 (pre-MVP)
+- **Current Focus**: Documentation complete, ready to start implementation
+- **Next Milestone**: Phase 2 - Foundation (database connection, schema setup)
+- **Previous**: Project initiated from Vibe-Coding template, comprehensive planning completed
 
 ## Recent Activity
-- Implemented comprehensive template improvements (Feb 2026).
-- Completed all 15 improvement opportunities across 6 phases.
-- Added GitHub Actions CI workflows, validation scripts, and enhanced documentation.
+
+- **2026-02-12**: Completed comprehensive documentation phase
+  - Created project charter (PRD-style scope and vision)
+  - Defined MVP with clear acceptance criteria
+  - Documented technical requirements and data dictionary
+  - Cataloged Tier 1 indicators (Big Four)
+  - Created architecture documentation with 3 ADRs
+  - Updated README with project overview
 
 ### Architecture
 
-<!-- ⚠️ TEMPLATE NOTE: Update with your project architecture -->
+**System Overview**:
+```
+FRED API → Python Ingestion Engine → MotherDuck (Cloud DuckDB)
+```
 
-**Template provides:**
-- Multi-tool AI guidance (Claude Code, Gemini CLI, Codex CLI, Antigravity)
-- Session management workflows
-- Quality gates and guardrails
-- Development standards
-- Testing framework
-- Documentation structure
+**Key Components**:
+- **Data Source**: FRED API (Federal Reserve Economic Data)
+- **Ingestion**: Python-based ETL with backfill and incremental modes
+- **Storage**: MotherDuck cloud database (free tier)
+- **Data Model**: 3 tables (series_catalog, observations, ingestion_log)
+- **Organization**: 3-tier indicator system (Core, Extended, Deep Dive)
+
+**Architectural Decisions**:
+- [ADR-0002](../docs/architecture/adr/adr-0002-motherduck.md): Use MotherDuck for cloud accessibility
+- [ADR-0003](../docs/architecture/adr/adr-0003-upsert-strategy.md): Use MERGE INTO for data revisions
+- [ADR-0004](../docs/architecture/adr/adr-0004-indicator-tiers.md): Three-tier indicator organization
 
 ---
 
 ## ⚠️ Critical Rules
 
 1. **NEVER work on `main`**. Check branch: `git branch`. Create feature branch immediately if on main.
-2. **Session logging required**. Every session creates a log in `session_logs/`.
-3. **Health checks before commits**. Run: `.agent/workflows/health-check.md`
-4. **No secrets in code**. Use environment variables and config files.
-5. **Tests required**. Every feature needs tests. Every bug needs regression test.
+2. **MVP Scope Discipline**. Stick to Tier 1 (Big Four) indicators until MVP complete. Resist scope creep.
+3. **Documentation-Driven**. All documentation exists — read before implementing.
+4. **Learning Project**. Document insights about DuckDB, ETL patterns, and API integration.
+5. **No secrets in code**. Use environment variables (MOTHERDUCK_TOKEN, FRED_API_KEY).
 
-<!-- ⚠️ TEMPLATE NOTE: Add project-specific critical rules here -->
+### Project-Specific Rules
+
+- **Read ADRs before architectural decisions**. Key decisions already made and documented.
+- **Consult MVP definition for acceptance criteria**. Clear test cases defined.
+- **Use series catalog config for all indicators**. No hardcoded series IDs.
+- **Test upsert logic thoroughly**. Data revisions are critical (see ADR-0003).
 
 ---
 
@@ -63,12 +78,9 @@ uv sync
 uv run ruff format . && uv run ruff check .
 uv run pytest
 
-# Health check (before commits)
-# Follow steps in .agent/workflows/health-check.md
-
-# Session Management
-uv run scripts/vibe_sync.py start
-uv run scripts/vibe_sync.py end
+# Run ingestion (once implemented)
+uv run python -m src.fred_macro.ingest --mode backfill
+uv run python -m src.fred_macro.ingest --mode incremental
 ```
 
 ---
@@ -77,55 +89,304 @@ uv run scripts/vibe_sync.py end
 
 ### Starting a Session
 → **Read**: `.agent/CONTEXT.md` (this file)
+→ **Check**: `docs/implementation_schedule.md` for current priorities
 → **Then**: Load skill `.agent/skills/start-session/SKILL.md`
-→ **Produces**: Planning output only (no code until user approves)
 
 ### During Development
 → **Skills**: `.agent/skills/CATALOG.md` for repeatable patterns
 → **Status**: Check `docs/implementation_schedule.md`
+→ **Reference**: Architecture and ADRs in `docs/architecture/`
 
 ### Closing a Session
 → **Load skill**: `.agent/skills/end-session/SKILL.md`
-→ **Required**: Create session log, health check, commit checklist
+→ **Required**: Update implementation schedule with progress
 → **Handoff**: Document context for next session
 
 ---
 
 ## Key Files (When You Need Them)
 
+### Project Definition
 | Need | File |
 |------|------|
-| Agent guidance | `.agent/AGENTS.md` |
-| Project overview | `README.md` |
-| Full project map | `.codex/MAP.md` |
-| Quick commands | `.codex/QUICKSTART.md` |
+| Vision and scope | `docs/project_charter.md` |
+| MVP success criteria | `docs/mvp_definition.md` |
+| Technical specs | `docs/technical_requirements.md` |
 | Current priorities | `docs/implementation_schedule.md` |
+
+### Data & Architecture
+| Need | File |
+|------|------|
+| Database schema | `docs/data/dictionary.md` |
+| Indicator catalog | `docs/data/dictionary.md` (Tier 1 defined) |
+| FRED API guide | `docs/data/sources/fred_api.md` |
+| System architecture | `docs/architecture/system_overview.md` |
+| Why MotherDuck | `docs/architecture/adr/adr-0002-motherduck.md` |
+| Why upsert | `docs/architecture/adr/adr-0003-upsert-strategy.md` |
+| Why 3 tiers | `docs/architecture/adr/adr-0004-indicator-tiers.md` |
+
+### Development
+| Need | File |
+|------|------|
 | Development standards | `docs/development_standards.md` |
-| Architecture decisions | `docs/architecture/adr/` |
-| Session logs | `session_logs/` (read last 3-5) |
+| Testing guide | `docs/template_testing_guide.md` |
+| Session logs | `session_logs/` (create for each session) |
+
+### Quick Reference
+| Need | File |
+|------|------|
+| Project overview | `README.md` |
+| Essential commands | `.codex/QUICKSTART.md` |
+| Project map | `.codex/MAP.md` |
+
+---
+
+## MVP Scope (Phase 3 Goal)
+
+### The "Big Four" Indicators (Tier 1)
+
+1. **FEDFUNDS** — Federal Funds Rate (monetary policy)
+2. **UNRATE** — Unemployment Rate (labor market)
+3. **CPIAUCSL** — Consumer Price Index (inflation)
+4. **GDPC1** — Real GDP (economic output)
+
+### Success Criteria
+
+- ✅ Backfill 10 years of historical data
+- ✅ Incremental updates (last 60 days)
+- ✅ Upsert logic prevents duplicates
+- ✅ Handle data revisions automatically
+- ✅ Log all ingestion runs
+- ✅ Zero duplicates in database
+- ✅ Backfill completes in < 2 minutes
+- ✅ Incremental completes in < 30 seconds
+
+**See**: `docs/mvp_definition.md` for full acceptance tests
+
+---
+
+## Current Phase: Foundation (Phase 2)
+
+**Status**: ☐ Not Started
+
+**Next Tasks**:
+1. Environment setup (dependencies in `pyproject.toml`)
+2. MotherDuck connection utility (`src/fred_macro/db.py`)
+3. Schema creation script (`src/fred_macro/setup.py`)
+4. Series catalog configuration (`config/series_catalog.yaml`)
+5. Unit tests for database connection
+
+**See**: `docs/implementation_schedule.md` for complete task list
+
+---
+
+## Technology Stack
+
+| Category | Technology | Purpose |
+|----------|------------|---------|
+| Language | Python 3.10+ | Primary programming language |
+| Database | DuckDB/MotherDuck | Cloud analytics database |
+| Data Source | FRED API | Federal Reserve Economic Data |
+| API Client | fredapi | Python wrapper for FRED |
+| Config | PyYAML | Series catalog parsing |
+| Package Mgmt | uv | Fast Python package manager |
+| Testing | pytest | Unit and integration tests |
+| Linting | Ruff | Code quality |
 
 ---
 
 ## Directory Structure
 
 ```
-Vibe-Coding/
-├── .agent/              # Skills, workflows, agent guidance
+FRED/
+├── .agent/              # AI agent guidance
 │   ├── CONTEXT.md       # This file
-│   ├── skills/          # Task contracts (start/end session)
-│   └── workflows/       # Health checks, automation
-├── .codex/              # Quick reference (cached context)
-│   ├── MAP.md           # Project tree
-│   ├── QUICKSTART.md    # Essential commands
-│   └── README.md        # Purpose explanation
-├── src/                 # Source code
-├── tests/               # Test suite
+│   └── skills/          # Reusable workflows
 ├── docs/                # Documentation
-├── scripts/             # Utility scripts
+│   ├── project_charter.md
+│   ├── mvp_definition.md
+│   ├── technical_requirements.md
+│   ├── implementation_schedule.md
+│   ├── data/
+│   │   ├── dictionary.md
+│   │   └── sources/
+│   │       └── fred_api.md
+│   └── architecture/
+│       ├── system_overview.md
+│       └── adr/
+│           ├── adr-0002-motherduck.md
+│           ├── adr-0003-upsert-strategy.md
+│           └── adr-0004-indicator-tiers.md
+├── src/                 # Source code (to be implemented)
+│   └── fred_macro/
+│       ├── db.py        # Database utilities
+│       ├── fred_client.py  # FRED API client
+│       ├── ingest.py    # Ingestion engine
+│       └── setup.py     # Schema creation
+├── config/              # Configuration files
+│   └── series_catalog.yaml  # Indicator catalog
+├── tests/               # Test suite
 ├── session_logs/        # Session history
-└── config/              # Configuration files
+├── README.md            # Project overview
+├── pyproject.toml       # Dependencies
+└── .env.example         # Environment template
 ```
 
 ---
 
-**Next**: Load skill for your current task from `.agent/skills/CATALOG.md`
+## Environment Variables Required
+
+```bash
+# Required for operation
+MOTHERDUCK_TOKEN="your_motherduck_token_here"
+FRED_API_KEY="your_fred_api_key_here"
+
+# Optional
+LOG_LEVEL="INFO"  # DEBUG, INFO, WARNING, ERROR
+```
+
+**Setup**: Copy `.env.example` to `.env` and fill in values
+
+---
+
+## Learning Objectives
+
+This project is also a learning exercise. Document insights about:
+
+1. **DuckDB/MotherDuck**
+   - Cloud analytics database patterns
+   - SQL MERGE INTO for upsert
+   - Columnar storage benefits
+
+2. **ETL Patterns**
+   - Backfill vs. incremental modes
+   - Handling data revisions
+   - Idempotent operations
+
+3. **API Integration**
+   - Rate limiting strategies
+   - Error handling and retries
+   - Exponential backoff
+
+4. **Data Modeling**
+   - Time series schema design
+   - Composite primary keys
+   - Audit logging patterns
+
+**Track**: Add insights to `docs/knowledge_base.md` as you learn
+
+---
+
+## Common Queries (Once Implemented)
+
+### Check ingestion status
+```sql
+SELECT * FROM ingestion_log
+ORDER BY run_timestamp DESC
+LIMIT 10;
+```
+
+### Latest values for Tier 1 indicators
+```sql
+SELECT s.series_id, s.title, o.observation_date, o.value, s.units
+FROM observations o
+JOIN series_catalog s ON o.series_id = s.series_id
+WHERE s.tier = 1
+  AND o.observation_date = (
+    SELECT MAX(observation_date)
+    FROM observations o2
+    WHERE o2.series_id = o.series_id
+  );
+```
+
+### Check for duplicates (should be zero)
+```sql
+SELECT series_id, observation_date, COUNT(*) as duplicate_count
+FROM observations
+GROUP BY series_id, observation_date
+HAVING COUNT(*) > 1;
+```
+
+---
+
+## Risks & Mitigations
+
+| Risk | Mitigation |
+|------|------------|
+| FRED API rate limits | Throttle to 1 req/sec, exponential backoff on 429 |
+| MotherDuck free tier limits | Monitor usage, optimize schema if needed |
+| Scope creep (adding Tier 2 early) | Strict MVP adherence, defer Tier 2 until M3 complete |
+| Data revisions complexity | Extensive testing of upsert logic, reference ADR-0003 |
+| Time constraints | Focus on MVP only, accept post-MVP delays |
+
+---
+
+## Communication Style
+
+When working with AI assistants:
+
+- **Be specific about MVP scope**: "Tier 1 only" means Big Four indicators
+- **Reference ADRs**: "See ADR-0002 for why MotherDuck"
+- **Cite acceptance tests**: "Test 2 from mvp_definition.md"
+- **Learning context**: "This is also a learning project — explain DuckDB patterns"
+
+---
+
+## Development Workflow
+
+```bash
+# 1. Check branch and create feature branch if needed
+git branch
+git checkout -b feat/database-connection
+
+# 2. Make changes
+
+# 3. Format and lint
+uv run ruff format . && uv run ruff check .
+
+# 4. Run tests
+uv run pytest
+
+# 5. Commit with conventional format
+git commit -m "feat: add MotherDuck connection utility"
+
+# 6. Update implementation schedule
+# Mark tasks as complete in docs/implementation_schedule.md
+
+# 7. Create session log
+# Document what was done in session_logs/YYYY-MM-DD/NN.md
+```
+
+---
+
+## What's Out of Scope
+
+Explicitly **NOT** part of this project:
+
+- ❌ Real-time streaming data
+- ❌ Web dashboard / UI (post-MVP consideration)
+- ❌ Multi-user access
+- ❌ Historical vintages tracking
+- ❌ Forecasting or predictive models
+- ❌ Data export features (use SQL queries)
+- ❌ Integration with trading systems
+
+---
+
+## References
+
+### Internal Documentation
+- [Project Charter](../docs/project_charter.md) — Vision and scope
+- [MVP Definition](../docs/mvp_definition.md) — Success criteria
+- [Technical Requirements](../docs/technical_requirements.md) — System specs
+- [Implementation Schedule](../docs/implementation_schedule.md) — Task tracking
+
+### External Resources
+- [FRED Website](https://fred.stlouisfed.org)
+- [FRED API Docs](https://fred.stlouisfed.org/docs/api/fred/)
+- [MotherDuck Docs](https://motherduck.com/docs/)
+- [DuckDB Docs](https://duckdb.org/docs/)
+
+---
+
+**Next**: Check `docs/implementation_schedule.md` for current priorities, then load appropriate skill from `.agent/skills/CATALOG.md`

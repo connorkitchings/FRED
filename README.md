@@ -1,309 +1,231 @@
-# Vibe Coding Template
+# FRED-Macro-Dashboard
 
-> **A lean, practical template for AI-assisted development supporting multiple AI coding tools.**
+> **Personal macroeconomic data infrastructure for tracking key indicators from the Federal Reserve Economic Data (FRED) API.**
 
-**Version 2.0** — Multi-Tool Template (Claude Code, Gemini CLI, Codex CLI, Antigravity)
-
----
-
-## 🎯 What This Template Provides
-
-This is a **Vibe Coding template** designed for "medium sophistication" AI-assisted development. It provides:
-
-- ✅ **Multi-tool AI guidance** — Works with Claude Code, Gemini CLI, Codex CLI, and Antigravity
-- ✅ **Session management** — Structured workflows for starting, working, and closing sessions
-- ✅ **Quality gates** — Pre-commit checks, linting, testing, and health checks
-- ✅ **Development standards** — Coding guidelines, checklists, and best practices
-- ✅ **Documentation structure** — MkDocs-ready documentation with templates
-- ✅ **Working defaults** — Everything works out of the box
-
-**Philosophy**: Practical patterns proven in real-world projects (cfb_model, PanicStats, JamBandNerd).
+**Version**: 0.1.0 (pre-MVP)
+**Status**: 🟡 Phase 1 - Documentation
+**Stack**: Python 3.10+ · DuckDB/MotherDuck · FRED API · UV
 
 ---
 
-## 🚀 Getting Started
+## What This Is
+
+A personal data pipeline that fetches macroeconomic indicators from the FRED API and stores them in MotherDuck (cloud DuckDB) for analysis and tracking. This is both a practical tool for monitoring economic data and a learning project for exploring cloud data infrastructure patterns.
+
+The "Big Four" core indicators:
+- **FEDFUNDS** — Federal Funds Effective Rate
+- **UNRATE** — Unemployment Rate
+- **CPIAUCSL** — Consumer Price Index (All Urban Consumers)
+- **GDPC1** — Real GDP
+
+---
+
+## Why Build This?
+
+**The Problem:**
+- Economic data is scattered across sources
+- Manual downloads are tedious and error-prone
+- Historical context requires tracking over years
+- Data gets revised frequently (especially GDP)
+
+**Learning Objectives:**
+- Master DuckDB and MotherDuck for cloud data storage
+- Build production-grade ETL patterns (backfill, incremental, upsert)
+- Practice API integration with rate limiting
+- Design extensible config-driven data pipelines
+
+---
+
+## Quick Start
 
 ### Prerequisites
 
 - **Python 3.10+** ([Download](https://www.python.org/downloads/))
-- **uv** ([Install](https://github.com/astral-sh/uv))
-- **Git** for version control
+- **uv** package manager ([Install](https://github.com/astral-sh/uv))
+- **MotherDuck account** (free tier) — [Sign up](https://motherduck.com/)
+- **FRED API key** (free) — [Get key](https://fred.stlouisfed.org/docs/api/api_key.html)
 
-### Quick Start
-
-1. **Use this template:**
-   ```bash
-   # Clone or use as GitHub template
-   git clone https://github.com/your-username/Vibe-Coding.git
-   cd Vibe-Coding
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   uv sync
-   ```
-
-3. **Read the agent guidance:**
-   ```bash
-   # Start here for AI-assisted development
-   cat AGENTS.md
-
-   # Or for your specific tool:
-   cat CLAUDE.md    # Claude Code
-   cat GEMINI.md    # Gemini CLI
-   ```
-
-4. **Start a session:**
-   - Check branch: `git branch` (never work on `main`)
-   - Create feature branch: `git checkout -b feat/your-feature`
-   - Read: `.agent/CONTEXT.md`
-   - Follow: `.agent/skills/start-session/SKILL.md`
-
-### For AI Coding Tools
-
-**All tools read the same files:**
-- `AGENTS.md` — Multi-tool AI guidance (start here)
-- `.agent/CONTEXT.md` — Current project state
-- `.agent/skills/` — Task workflows (start-session, end-session)
-- `.codex/QUICKSTART.md` — Essential commands
-
-**Tool-specific entry points:**
-- **Claude Code**: Reads `CLAUDE.md` → redirects to `AGENTS.md`
-- **Gemini CLI**: Reads `GEMINI.md` → redirects to `AGENTS.md`
-- **Codex/Antigravity**: Reads `AGENTS.md` directly
-
----
-
-## 📂 Project Structure
-
-```
-Vibe-Coding/
-├── AGENTS.md                   # Multi-tool AI guidance (READ FIRST)
-├── CLAUDE.md                   # Redirect for Claude Code
-├── GEMINI.md                   # Redirect for Gemini CLI
-├── README.md                   # This file
-│
-├── .agent/                     # Active session management
-│   ├── CONTEXT.md              # Entry point (project snapshot)
-│   ├── skills/                 # Reusable task workflows
-│   │   ├── CATALOG.md          # Skills index
-│   │   ├── start-session/      # Session initialization
-│   │   └── end-session/        # Session closing
-│   └── workflows/              # Automation scripts
-│       └── health-check.md     # Pre-commit validation
-│
-├── .codex/                     # Read-only context cache
-│   ├── README.md               # Purpose explanation
-│   ├── MAP.md                  # Project tree
-│   └── QUICKSTART.md           # Essential commands
-│
-├── src/                        # Source code
-│   └── vibe_coding/
-│       └── utils/
-│
-├── tests/                      # Test suite
-│   ├── api/
-│   ├── core/
-│   ├── data/
-│   └── models/
-│
-├── docs/                       # Documentation (MkDocs)
-│   ├── index.md
-│   ├── project_charter.md
-│   ├── implementation_schedule.md
-│   ├── development_standards.md
-│   ├── checklists.md
-│   └── architecture/
-│
-├── session_logs/               # Session history
-│   ├── README.md
-│   ├── TEMPLATE.md
-│   └── YYYY-MM-DD/
-│
-├── scripts/                    # Utility scripts
-├── config/                     # Configuration files
-├── pyproject.toml              # Dependencies and tooling
-└── mkdocs.yml                  # Documentation config
-```
-
----
-
-## 🔧 Essential Commands
-
-### Development Loop
+### Installation
 
 ```bash
+# Clone repository
+git clone https://github.com/connorkitchings/FRED.git
+cd FRED
+
+# Install dependencies
+uv sync
+
+# Set environment variables
+export MOTHERDUCK_TOKEN="your_token_here"
+export FRED_API_KEY="your_api_key_here"
+```
+
+### First Run
+
+```bash
+# Initialize database schema
+uv run python -m src.fred_macro.setup
+
+# Backfill 10 years of data
+uv run python -m src.fred_macro.ingest --backfill
+
+# Query data
+uv run python -m src.fred_macro.query --series UNRATE --last 12
+```
+
+---
+
+## Architecture Overview
+
+```mermaid
+graph LR
+    A[FRED API] -->|HTTP Requests| B[Ingestion Engine]
+    B -->|Upsert| C[MotherDuck<br/>fred_macro DB]
+    C -->|SQL| D[Query/Analysis]
+    B -->|Logs| E[Ingestion Log]
+```
+
+**Key Components:**
+1. **FRED API Client** — Fetches time series data with rate limiting
+2. **Ingestion Engine** — Handles backfill and incremental modes
+3. **MotherDuck Storage** — Cloud DuckDB database with upsert logic
+4. **Series Catalog** — YAML config defining indicators to track
+
+📖 **Full architecture details**: [`docs/architecture/system_overview.md`](docs/architecture/system_overview.md)
+
+---
+
+## Key Indicators
+
+### Tier 1: Core Indicators (MVP)
+The "Big Four" — essential macro tracking:
+
+| Series ID | Indicator | Frequency | Category |
+|-----------|-----------|-----------|----------|
+| FEDFUNDS | Federal Funds Rate | Monthly | Financial Markets |
+| UNRATE | Unemployment Rate | Monthly | Labor Market |
+| CPIAUCSL | Consumer Price Index | Monthly | Prices/Inflation |
+| GDPC1 | Real GDP | Quarterly | Output/Income |
+
+### Tier 2: Extended Indicators (Post-MVP)
+Additional tracking (20-30 series):
+- Housing: Building Permits, Housing Starts, Case-Shiller Index
+- Consumption: Retail Sales, Personal Spending
+- Manufacturing: Industrial Production, Capacity Utilization
+- Trade: Trade Balance, Exports, Imports
+
+### Tier 3: Deep Dive (Future)
+Specialized indicators (40+ series) — sector-specific analysis
+
+📊 **Full indicator catalog**: [`docs/data/dictionary.md`](docs/data/dictionary.md)
+
+---
+
+## Project Status
+
+**Current Phase**: Documentation and Planning
+**Next Milestone**: MVP — Big Four indicators ingestion
+
+### What's Working
+- ✅ Project structure and documentation
+- ✅ Indicator architecture defined (3 tiers)
+- ✅ Data model designed
+
+### What's Next
+- [ ] Database connection and schema setup
+- [ ] FRED API client implementation
+- [ ] Backfill/incremental ingestion logic
+- [ ] MVP validation with Big Four indicators
+
+📅 **Full roadmap**: [`docs/implementation_schedule.md`](docs/implementation_schedule.md)
+
+---
+
+## Documentation
+
+### Getting Started
+- [Project Charter](docs/project_charter.md) — Vision, scope, users (PRD-style)
+- [MVP Definition](docs/mvp_definition.md) — Clear success criteria
+- [Technical Requirements](docs/technical_requirements.md) — System specs
+
+### Data & Architecture
+- [Data Dictionary](docs/data/dictionary.md) — Indicators and schema
+- [FRED API Documentation](docs/data/sources/fred_api.md) — Data source guide
+- [System Overview](docs/architecture/system_overview.md) — Architecture diagram
+- [Architecture Decisions](docs/architecture/adr/) — ADRs for key choices
+
+### Development
+- [Implementation Schedule](docs/implementation_schedule.md) — Task tracking
+- [Development Standards](docs/development_standards.md) — Coding guidelines
+- [Testing Guide](docs/template_testing_guide.md) — Test strategy
+
+### AI Assistance
+- `.agent/CONTEXT.md` — AI agent entry point
+- `.agent/skills/` — Reusable workflows
+- `CLAUDE.md` / `AGENTS.md` — AI coding guidance
+
+---
+
+## Technology Stack
+
+| Category | Technology | Notes |
+|----------|------------|-------|
+| Language | Python 3.10+ | Type hints, modern syntax |
+| Database | DuckDB / MotherDuck | Cloud-accessible analytics database |
+| Data Source | FRED API | Federal Reserve Economic Data |
+| API Client | fredapi | Python wrapper for FRED |
+| Config | PyYAML | Series catalog configuration |
+| Package Mgmt | uv | Fast Python package manager |
+| Testing | pytest | Unit and integration tests |
+
+---
+
+## Development Workflow
+
+```bash
+# Check branch (never work on main)
+git branch
+
+# Create feature branch
+git checkout -b feat/your-feature
+
 # Format and lint
 uv run ruff format . && uv run ruff check .
 
 # Run tests
 uv run pytest
 
-# Run tests quietly
-uv run pytest -q
-
-# Health check (before commits)
-# Follow steps in .agent/workflows/health-check.md
-```
-
-### Documentation
-
-```bash
-# Serve docs locally
-mkdocs serve  # http://127.0.0.1:8000
-
-# Build docs
-mkdocs build
-```
-
-### Git Workflow
-
-```bash
-# CRITICAL: Never work on main
-git branch
-
-# Create feature branch
-git checkout -b feat/<feature-name>
-
-# Commit with conventional format
-git commit -m "feat: add new feature"
-git commit -m "fix: resolve bug"
-git commit -m "docs: update documentation"
+# Health check before commits
+# Follow: .agent/workflows/health-check.md
 ```
 
 ---
 
-## 🤖 Multi-Tool AI Support
+## Contributing
 
-This template works with all major AI coding tools:
+This is primarily a personal project, but contributions are welcome! Please:
 
-### Claude Code (claude.ai/code)
-- Entry: `CLAUDE.md` → `AGENTS.md`
-- Skills: `.agent/skills/`
-- Context: `.agent/CONTEXT.md`
-
-### Gemini CLI
-- Entry: `GEMINI.md` → `AGENTS.md`
-- Quick ref: `.codex/QUICKSTART.md`
-
-### Codex CLI / Antigravity (VS Code fork)
-- Entry: `AGENTS.md`
-- Map: `.codex/MAP.md`
-
-**All tools share:**
-- Same session logging format
-- Same quality gates
-- Same essential commands
-- Same guardrails
+1. Read the development standards: [`docs/development_standards.md`](docs/development_standards.md)
+2. Create a feature branch (never work on `main`)
+3. Follow the commit conventions
+4. Run health checks before opening a PR
 
 ---
 
-## 📖 Key Documentation
+## License
 
-### For Getting Started
-- `AGENTS.md` — Multi-tool AI guidance (read first)
-- `.agent/CONTEXT.md` — Current project state
-- `.codex/QUICKSTART.md` — Essential commands
-- `docs/template_starting_guide.md` — Adapt template for your project
-
-### For Development
-- `.agent/skills/CATALOG.md` — Available workflows
-- `docs/development_standards.md` — Coding standards
-- `docs/checklists.md` — Quality gates
-- `docs/implementation_schedule.md` — Current priorities
-
-### For Reference
-- `.codex/MAP.md` — Full project tree
-- `docs/architecture/` — Architecture decisions
-- `session_logs/` — Development history
-- `docs/knowledge_base.md` — Solutions and patterns
+MIT License — See [LICENSE](LICENSE) for details.
 
 ---
 
-## ✅ Quality Gates
+## Acknowledgments
 
-### Pre-Commit Checklist
-- [ ] Code formatted: `uv run ruff format .`
-- [ ] Linting passes: `uv run ruff check .`
-- [ ] Tests pass: `uv run pytest`
-- [ ] No secrets in code
-- [ ] Branch is not `main`
-
-### Pre-Merge Checklist
-- [ ] All pre-commit checks pass
-- [ ] Session log created
-- [ ] Documentation updated
-- [ ] Implementation schedule updated
-- [ ] Tests cover new code
+- **FRED API** — Federal Reserve Bank of St. Louis
+- **MotherDuck** — Cloud DuckDB infrastructure
+- **Vibe Coding Template** — Project structure and AI workflows
 
 ---
 
-## 🎓 Adapting This Template
-
-When starting a new project:
-
-1. **Read the Template Starting Guide**: `docs/template_starting_guide.md`
-2. **Update project metadata**: Edit `pyproject.toml` and `README.md`
-3. **Customize AGENTS.md**: Add project-specific critical rules
-4. **Update .agent/CONTEXT.md**: Replace template notes with your project details
-5. **Configure docs**: Update `mkdocs.yml` navigation
-6. **Create initial tasks**: Populate `docs/implementation_schedule.md`
-
-See `docs/template_starting_guide.md` for detailed instructions.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please:
-1. Create a feature branch: `git checkout -b feat/<name>`
-2. Follow development standards: See `docs/development_standards.md`
-3. Run health checks: Follow `.agent/workflows/health-check.md`
-4. Create session log: See `session_logs/TEMPLATE.md`
-5. Open pull request with clear description
-
----
-
-## 📋 Session Workflow
-
-Every development session should:
-
-**Start:**
-1. Check branch: `git branch` (create feature branch if on `main`)
-2. Read: `.agent/CONTEXT.md`
-3. Load: `.agent/skills/start-session/SKILL.md`
-4. Plan before implementing
-
-**During:**
-- Follow: `.agent/skills/CATALOG.md` for common tasks
-- Track: `docs/implementation_schedule.md` for priorities
-- Document: Decisions and issues as you go
-
-**End:**
-1. Run: `.agent/workflows/health-check.md`
-2. Create: Session log in `session_logs/YYYY-MM-DD/NN.md`
-3. Update: `docs/implementation_schedule.md` if tasks completed
-4. Load: `.agent/skills/end-session/SKILL.md`
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## 🌟 Credits
-
-Template patterns derived from successful projects:
-- **cfb_model** — Comprehensive session management and context loading
-- **PanicStats** — Skill-based workflows and entry points
-- **JamBandNerd** — Boot order, context budget, triage matrix
-
-**Vibe Coding System** — Philosophy and methodology by Connor Kitchings
-
----
-
-**Version**: 2.0 (Multi-Tool Template)
-**Last Updated**: 2026-02-11
-**Status**: Ready for use
+**Built with**: Vibe Coding methodology
+**Last Updated**: 2026-02-12
+**Project Status**: Pre-MVP Documentation Phase
