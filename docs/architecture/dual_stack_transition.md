@@ -33,6 +33,10 @@ We can retire `src/vibe_coding` only after all of the following:
 
 ## Planned Follow-up Work
 
-1. Create a dedicated deprecation issue/PR plan for `src/vibe_coding`.
-2. Add missing `fred_macro` unit tests (`fred_client`, ingestion engine, db setup flow).
-3. Move coverage targeting from legacy-first to FRED-first once parity is sufficient.
+1. [x] Create a dedicated deprecation issue/PR plan for `src/vibe_coding`.
+2. [x] Add guardrail to block `vibe_coding` imports from `src/fred_macro`.
+3. [ ] Segment legacy/template tests from active FRED tests.
+4. [ ] Remove/retarget docs and tooling that still treat `vibe_coding` as primary.
+5. [ ] Execute final retirement PR and validate full baseline.
+
+See detailed execution plan: `docs/architecture/vibe_coding_retirement_plan.md`.

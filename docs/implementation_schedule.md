@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 - Expansion & Hardening
-**Progress:** ▶ Tier 2 Batch 2 complete (29 total series), operational DQ views live, daily automation configured
-**Next Milestone:** Complete Phase 5 stabilization pass and start template module retirement
+**Progress:** ▶ Stabilization pass complete; template retirement Phase 0 (plan + guardrail) in progress
+**Next Milestone:** Execute template retirement Phase 1 (test suite segmentation)
 
 ---
 
@@ -205,7 +205,7 @@
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| Deprecate/retire template modules (`src/vibe_coding`) | ☐ Not Started | Connor | Transition plan + execution PR | Execute after stabilization criteria pass |
+| Deprecate/retire template modules (`src/vibe_coding`) | ▶ In Progress | Connor | Plan + guardrail + phased execution PRs | Plan and guardrail added; begin test segmentation |
 | Tier 2 expansion kickoff (first 5 indicators) | ✅ Done | Connor | Prioritized Tier 2 starter list | HOUST, PERMIT, CSUSHPISA, RSXFS, INDPRO |
 
 **Success Criteria**: Kickoff bundle defined, documented, ingestion-validated, and DQ gate integrated
@@ -408,6 +408,7 @@
 | 2026-02-13 | Tier 2 Batch 2 and analytical views merged | Expand macro coverage and analyst-ready outputs | Catalog expanded and YOY/Rolling views operational |
 | 2026-02-13 | Daily ingestion automation configured | Improve operational reliability | GitHub Actions schedule + runbook guidance in place |
 | 2026-02-13 | Stabilization pass applied | Remove status drift and metadata inconsistency | Catalog integrity restored and schedule/context aligned |
+| 2026-02-13 | Template retirement Phase 0 started | Prepare low-risk legacy removal path | Retirement plan published and import guardrail added |
 
 ---
 
@@ -442,6 +443,7 @@
 
 **Phase 5 stabilization and transition**
 - Retire/deprecate legacy template modules (`src/vibe_coding`)
+- Retirement plan and import guardrail completed (Phase 0)
 - Add health/reporting checks for automated daily ingestion runs
 - Select and validate Tier 2 Batch 3 candidates
 
@@ -480,5 +482,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-13
-**Next Review**: After stabilization pass verification and template retirement plan definition
-**Status**: M4 complete; Phase 5 stabilization and transition work in progress
+**Next Review**: After template retirement Phase 1 (test segmentation) is complete
+**Status**: M4 complete; Phase 5 transition execution in progress
