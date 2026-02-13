@@ -1,0 +1,40 @@
+name: Annual FRED Ingestion
+
+on:
+  schedule:
+    # Run daily at 10:00 UTC (6:00 AM ET)
+    - cron: '0 10 * * *'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true  # Enable caching for uv
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"  # Use version from .python-version if available, or fallback
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Run Ingestion (Incremental)
+        env:
+          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: uv run python -m src.fred_macro.cli ingest --mode incremental
+
+      - name: Run Data Quality Report
+        if: always()  # Run even if ingestion fails
+        env:
+          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+        # Report warnings and critical errors for the latest run
+        run: uv run python -m src.fred_macro.cli dq-report --run-id latest --severity warning

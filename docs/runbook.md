@@ -13,6 +13,9 @@ This runbook documents how to operate, monitor, and troubleshoot the **FRED Macr
 - [Maintenance](#maintenance)
   - [Adding New Indicators](#adding-new-indicators)
   - [Updating DQ Rules](#updating-dq-rules)
+- [Automation & Scheduling](#automation--scheduling)
+  - [GitHub Actions](#github-actions)
+  - [Secrets Configuration](#secrets-configuration)
 - [Contact & Escalation](#contact--escalation)
 
 ---
@@ -99,6 +102,32 @@ Three views are available for operational dashboards or ad-hoc analysis:
 - Symptom: "Violates foreign key constraint... series_id X does not exist"
 - Cause: `config/series_catalog.yaml` has a new series that hasn't been seeded to the DB.
 - Fix: Run `uv run python -m src.fred_macro.seed_catalog`.
+
+
+---
+
+## Automation & Scheduling
+
+The project is configured to run daily data ingestion via **GitHub Actions**.
+
+### GitHub Actions
+- **Workflow File**: `.github/workflows/daily_ingest.yml`
+- **Schedule**: Daily at 10:00 UTC (6:00 AM ET).
+- **Triggers**: Scheduled cron, or manual `workflow_dispatch`.
+
+### Secrets Configuration
+For the workflow to succeed, the following **Repository Secrets** must be configured in GitHub:
+
+1. Go to **Settings** > **Secrets and variables** > **Actions**.
+2. Click **New repository secret**.
+3. Add the following:
+
+| Secret Name | Value | Purpose |
+|-------------|-------|---------|
+| `MOTHERDUCK_TOKEN` | (Your Token) | Authentication for MotherDuck database |
+| `FRED_API_KEY` | (Your Key) | Authentication for Federal Reserve API |
+
+**Note**: If these secrets are missing or invalid, the `daily_ingest` job will fail.
 
 ---
 

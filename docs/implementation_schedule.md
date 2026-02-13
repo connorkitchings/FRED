@@ -203,8 +203,8 @@
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| Scheduling setup | ☐ Not Started | Connor | Cron or Prefect | Daily incremental runs |
-| Error notifications | ☐ Not Started | Connor | Email or Slack alerts | Notify on failures |
+| Scheduling setup | ✅ Done | Connor | GitHub Actions | Daily incremental runs configured via `.github/workflows/daily_ingest.yml` |
+| Error notifications | ✅ Done | Connor | GitHub Actions | Native failure notifications from Actions tab |
 
 ### Transition Backlog (Pre-Expansion)
 
