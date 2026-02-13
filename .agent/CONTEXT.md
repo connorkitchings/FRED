@@ -14,11 +14,15 @@
 
 - **Version**: 0.1.0 (MVP complete)
 - **Current Focus**: Phase 5 stabilization and transition (catalog integrity, doc alignment, automation monitoring)
-- **Next Milestone**: Template retirement Phase 2 (docs/tooling migration) and Tier 2 Batch 3 selection
+- **Next Milestone**: Automation health/reporting checks and Tier 2 Batch 3 selection
 - **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
 
+- **2026-02-13**: Template retirement Phases 2-3 completed
+  - Removed legacy `src/vibe_coding` code path and template-specific tests
+  - Finalized transition docs/schedule to mark retirement task complete
+  - Kept active `fred_macro` quality gates green after retirement changes
 - **2026-02-13**: Template retirement Phase 1 completed
   - Segmented test suite into active `fred_macro` path and legacy `vibe_coding` path
   - Added explicit `pytest` legacy opt-in (`--include-legacy-template`)
@@ -190,8 +194,8 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 **Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Execute template retirement Phase 2 by migrating docs/tooling references away from `vibe_coding` as primary package
-2. Add operational checks for scheduled ingestion outcomes and DQ trend visibility
+1. Add operational checks for scheduled ingestion outcomes and DQ trend visibility
+2. Expand operational reporting views/runbook guidance for automation monitoring
 3. Keep full test suite green while transition work lands
 4. Select and validate Tier 2 Batch 3 candidates
 

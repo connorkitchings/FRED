@@ -15,11 +15,11 @@ setup:	## Interactive project setup
 test:	## Run active fred_macro tests with coverage (default)
 	uv run --python .venv/bin/python python -m pytest
 
-test-legacy:	## Run legacy template tests (explicit opt-in, no coverage gate)
-	uv run --python .venv/bin/python python -m pytest -m legacy_template --include-legacy-template --no-cov
+test-legacy:	## Legacy template tests were retired in Phase 3
+	@echo "No legacy template tests remain (src/vibe_coding retired)."
 
 test-all:	## Run full suite (active + legacy)
-	uv run --python .venv/bin/python python -m pytest --include-legacy-template
+	uv run --python .venv/bin/python python -m pytest
 
 lint:	## Run linter
 	uv run ruff check .

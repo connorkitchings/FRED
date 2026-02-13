@@ -47,14 +47,14 @@ Define a low-risk, execution-ready path to retire legacy template modules while 
 - Added `--include-legacy-template` pytest flag with automatic per-test classification.
 - Updated `Makefile` targets:
   - `make test` -> active `fred_macro` tests
-  - `make test-legacy` -> legacy template tests (no coverage gate)
+  - `make test-legacy` -> legacy template tests (temporary, removed after Phase 3 retirement)
   - `make test-all` -> full suite
 
 **Acceptance checks**
 - Default test command passes.
-- Legacy test command is still runnable and documented.
+- Legacy test command is runnable during transition window.
 
-### Phase 2: Docs and Tooling De-primary Legacy Package
+### Phase 2: Docs and Tooling De-primary Legacy Package (✅ COMPLETED)
 
 - Update docs that currently instruct `vibe_coding` imports as primary usage.
 - Update helper commands and troubleshooting steps to default to `src.fred_macro`.
@@ -64,7 +64,12 @@ Define a low-risk, execution-ready path to retire legacy template modules while 
 - Documentation search has no `vibe_coding` references in primary setup paths.
 - Transition note and runbook remain internally consistent.
 
-### Phase 3: Code Retirement PR
+**Completed Actions**:
+- Updated `docs/troubleshooting.md` - Removed vibe_coding.config reference
+- Updated `pyproject.toml` - Removed legacy_template pytest marker
+- Updated `tests/conftest.py` - Removed legacy template test markers and imports
+
+### Phase 3: Code Retirement PR (✅ COMPLETED)
 
 - Remove or archive `src/vibe_coding` and template-only test modules.
 - Remove packaging artifacts and stale references tied to legacy template layout.
@@ -75,6 +80,14 @@ Define a low-risk, execution-ready path to retire legacy template modules while 
 - `uv run python -m src.fred_macro.cli verify` passes.
 - `uv run python -m src.fred_macro.setup` passes.
 - `rg -n "vibe_coding" src tests docs` shows only intentional archival references.
+
+**Completed Actions**:
+- Deleted `src/vibe_coding/` directory (36 files)
+- Deleted 14 legacy template test files
+- Removed empty test subdirectories
+- Updated `Makefile` legacy targets to reflect retired test path
+- Updated implementation_schedule.md - Marked task complete
+- Updated dual_stack_transition.md - Marked exit criteria complete
 
 ## Rollback Strategy
 

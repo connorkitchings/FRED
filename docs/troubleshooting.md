@@ -392,8 +392,8 @@ uv run pytest --ignore=tests/integration/
 # Check fixtures exist
 ls tests/fixtures/
 
-# Verify test imports work
-uv run python -c "from vibe_coding.config import Config"
+# Verify active package imports work
+uv run python -c "from src.fred_macro.db import get_connection"
 ```
 
 ---
