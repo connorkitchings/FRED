@@ -50,6 +50,10 @@ select = ["E", "F", "I", "N", "W"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "fred_macro: Active tests for src/fred_macro functionality.",
+    "legacy_template: Legacy tests targeting src/vibe_coding.",
+]
 addopts = [
     "--cov=src.fred_macro",
     "--cov-report=term-missing",

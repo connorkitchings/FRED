@@ -1,4 +1,4 @@
-.PHONY: help install setup test lint format format-check docs docs-serve validate clean all dev
+.PHONY: help install setup test test-legacy test-all lint format format-check docs docs-serve validate clean all dev
 
 help:	## Show this help message
 	@echo 'Usage: make [target]'
@@ -12,8 +12,14 @@ install:	## Install dependencies
 setup:	## Interactive project setup
 	uv run python scripts/setup_project.py
 
-test:	## Run tests with coverage
-	uv run pytest tests/test_config.py tests/integration/ --cov=vibe_coding --cov-report=html --cov-report=term-missing
+test:	## Run active fred_macro tests with coverage (default)
+	uv run --python .venv/bin/python python -m pytest
+
+test-legacy:	## Run legacy template tests (explicit opt-in, no coverage gate)
+	uv run --python .venv/bin/python python -m pytest -m legacy_template --include-legacy-template --no-cov
+
+test-all:	## Run full suite (active + legacy)
+	uv run --python .venv/bin/python python -m pytest --include-legacy-template
 
 lint:	## Run linter
 	uv run ruff check .

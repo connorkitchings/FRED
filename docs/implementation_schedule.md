@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 - Expansion & Hardening
-**Progress:** ▶ Stabilization pass complete; template retirement Phase 0 (plan + guardrail) in progress
-**Next Milestone:** Execute template retirement Phase 1 (test suite segmentation)
+**Progress:** ▶ Template retirement Phase 1 complete (test segmentation active); Phase 2 docs/tooling migration next
+**Next Milestone:** Execute template retirement Phase 2 (docs/tooling de-primary legacy package)
 
 ---
 
@@ -205,7 +205,7 @@
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| Deprecate/retire template modules (`src/vibe_coding`) | ▶ In Progress | Connor | Plan + guardrail + phased execution PRs | Plan and guardrail added; begin test segmentation |
+| Deprecate/retire template modules (`src/vibe_coding`) | ▶ In Progress | Connor | Plan + guardrail + phased execution PRs | Phase 0-1 complete; start docs/tooling migration |
 | Tier 2 expansion kickoff (first 5 indicators) | ✅ Done | Connor | Prioritized Tier 2 starter list | HOUST, PERMIT, CSUSHPISA, RSXFS, INDPRO |
 
 **Success Criteria**: Kickoff bundle defined, documented, ingestion-validated, and DQ gate integrated
@@ -409,6 +409,7 @@
 | 2026-02-13 | Daily ingestion automation configured | Improve operational reliability | GitHub Actions schedule + runbook guidance in place |
 | 2026-02-13 | Stabilization pass applied | Remove status drift and metadata inconsistency | Catalog integrity restored and schedule/context aligned |
 | 2026-02-13 | Template retirement Phase 0 started | Prepare low-risk legacy removal path | Retirement plan published and import guardrail added |
+| 2026-02-13 | Template retirement Phase 1 completed | Separate active vs legacy test paths | Default tests now run FRED-only; legacy suite remains opt-in |
 
 ---
 
@@ -444,6 +445,7 @@
 **Phase 5 stabilization and transition**
 - Retire/deprecate legacy template modules (`src/vibe_coding`)
 - Retirement plan and import guardrail completed (Phase 0)
+- Test suite segmentation completed with explicit legacy opt-in (Phase 1)
 - Add health/reporting checks for automated daily ingestion runs
 - Select and validate Tier 2 Batch 3 candidates
 
@@ -482,5 +484,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-13
-**Next Review**: After template retirement Phase 1 (test segmentation) is complete
+**Next Review**: After template retirement Phase 2 (docs/tooling migration) is complete
 **Status**: M4 complete; Phase 5 transition execution in progress

@@ -39,11 +39,16 @@ Define a low-risk, execution-ready path to retire legacy template modules while 
 **Acceptance checks**
 - `uv run --python .venv/bin/python python -m pytest`
 
-### Phase 1: Test Suite Segmentation
+### Phase 1: Test Suite Segmentation (Completed in this step)
 
 - Split template-legacy tests from active FRED tests using markers or folder conventions.
 - Ensure required CI/local default focuses on `fred_macro` contract tests.
 - Keep an explicit optional legacy test job while transition is active.
+- Added `--include-legacy-template` pytest flag with automatic per-test classification.
+- Updated `Makefile` targets:
+  - `make test` -> active `fred_macro` tests
+  - `make test-legacy` -> legacy template tests (no coverage gate)
+  - `make test-all` -> full suite
 
 **Acceptance checks**
 - Default test command passes.

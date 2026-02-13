@@ -35,7 +35,7 @@ We can retire `src/vibe_coding` only after all of the following:
 
 1. [x] Create a dedicated deprecation issue/PR plan for `src/vibe_coding`.
 2. [x] Add guardrail to block `vibe_coding` imports from `src/fred_macro`.
-3. [ ] Segment legacy/template tests from active FRED tests.
+3. [x] Segment legacy/template tests from active FRED tests.
 4. [ ] Remove/retarget docs and tooling that still treat `vibe_coding` as primary.
 5. [ ] Execute final retirement PR and validate full baseline.
 
