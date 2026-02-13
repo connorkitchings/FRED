@@ -164,6 +164,48 @@ def create_schema():
             ORDER BY occurrence_count DESC;
         """)
 
+        # 8. view_yoy_change
+        logger.info("Creating view: view_yoy_change")
+        conn.execute("""
+            CREATE OR REPLACE VIEW view_yoy_change AS
+            SELECT
+                t1.series_id,
+                t1.observation_date,
+                t1.value,
+                ((t1.value - t2.value) / t2.value) * 100 AS yoy_change_pct
+            FROM observations t1
+            JOIN observations t2
+                ON t1.series_id = t2.series_id
+                AND t2.observation_date = t1.observation_date - INTERVAL 1 YEAR
+            WHERE t2.value != 0;
+        """)
+
+        # 9. view_rolling_avg
+        logger.info("Creating view: view_rolling_avg")
+        conn.execute("""
+            CREATE OR REPLACE VIEW view_rolling_avg AS
+            SELECT
+                series_id,
+                observation_date,
+                value,
+                AVG(value) OVER (
+                    PARTITION BY series_id
+                    ORDER BY observation_date
+                    RANGE BETWEEN INTERVAL 3 MONTH PRECEDING AND CURRENT ROW
+                ) AS rolling_3m_avg,
+                AVG(value) OVER (
+                    PARTITION BY series_id
+                    ORDER BY observation_date
+                    RANGE BETWEEN INTERVAL 6 MONTH PRECEDING AND CURRENT ROW
+                ) AS rolling_6m_avg,
+                AVG(value) OVER (
+                    PARTITION BY series_id
+                    ORDER BY observation_date
+                    RANGE BETWEEN INTERVAL 12 MONTH PRECEDING AND CURRENT ROW
+                ) AS rolling_12m_avg
+            FROM observations;
+        """)
+
         logger.info("Schema creation complete.")
 
     except Exception as e:

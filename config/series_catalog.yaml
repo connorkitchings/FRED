@@ -131,5 +131,111 @@ series:
     units: "Index"
     frequency: "Daily"
     seasonal_adjustment: "Not Seasonally Adjusted"
-    tier: 2
     description: "The VIX measures market expectations of near-term volatility conveyed by S&P 500 stock index option prices."
+
+  # --- Tier 2: Series Batch 2 (Housing, Labor, Rates, Sentiment) ---
+
+  - series_id: "MORTGAGE30US"
+    title: "30-Year Fixed Rate Mortgage Average in the United States"
+    units: "Percent"
+    frequency: "Weekly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Average interest rate on 30-year fixed-rate mortgages, a key driver of housing affordability."
+
+  - series_id: "HSN1F"
+    title: "New One Family Houses Sold"
+    units: "Thousands of Units"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted Annual Rate"
+    tier: 2
+    description: "Sales of newly built single-family homes, a leading indicator for the housing market."
+
+
+  - series_id: "JTSJOL"
+    title: "Job Openings: Total Nonfarm"
+    units: "Thousands"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The number of job openings is a measure of labor demand and market tightness."
+
+  - series_id: "ICSA"
+    title: "Initial Claims"
+    units: "Number"
+    frequency: "Weekly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Initial jobless claims track the number of new filings for unemployment insurance benefits."
+
+  - series_id: "TCU"
+    title: "Capacity Utilization: Total Index"
+    units: "Percent of Capacity"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Capacity utilization measures how much of the nation's industrial capacity is being used."
+
+  - series_id: "PCE"
+    title: "Personal Consumption Expenditures"
+    units: "Billions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted Annual Rate"
+    tier: 2
+    description: "PCE captures the value of goods and services purchased by US residents."
+
+  - series_id: "DGS1"
+    title: "Market Yield on U.S. Treasury Securities at 1-Year Constant Maturity"
+    units: "Percent"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "The 1-year Treasury yield reflects short-term interest rate expectations."
+
+  - series_id: "DGS5"
+    title: "Market Yield on U.S. Treasury Securities at 5-Year Constant Maturity"
+    units: "Percent"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "The 5-year Treasury yield is a benchmark for medium-term borrowing costs."
+
+  - series_id: "T10Y3M"
+    title: "10-Year Treasury Constant Maturity Minus 3-Month Treasury Bill"
+    units: "Percent"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "The 10y-3m spread is a prominent recession predictor when inverted."
+
+  - series_id: "UMCSENT"
+    title: "University of Michigan: Consumer Sentiment"
+    units: "Index 1966:Q1=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "A survey-based index measuring consumer confidence in the economy."
+
+  - series_id: "TOTALSA"
+    title: "Total Vehicle Sales"
+    units: "Millions of Units"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted Annual Rate"
+    tier: 2
+    description: "Total light vehicle sales are a key indicator of consumer durable goods spending."
+
+  - series_id: "BAMLH0A0HYM2"
+    title: "ICE BofA US High Yield Index Option-Adjusted Spread"
+    units: "Percent"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "High yield spreads measure the premium investors demand for holding risky corporate debt."
+
+  - series_id: "UNEMPLOY"
+    title: "Unemployment Level"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The total number of unemployed persons, complementing the unemployment rate."
