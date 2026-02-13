@@ -1,4 +1,4 @@
-name: Annual FRED Ingestion
+name: Daily FRED Ingestion
 
 on:
   schedule:
@@ -26,6 +26,11 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras --dev
 
+      - name: Sync Series Catalog
+        env:
+          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+        run: uv run python -m src.fred_macro.seed_catalog
+
       - name: Run Ingestion (Incremental)
         env:
           MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
@@ -38,3 +43,23 @@ jobs:
           MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
         # Report warnings and critical errors for the latest run
         run: uv run python -m src.fred_macro.cli dq-report --run-id latest --severity warning
+
+      - name: Run Ingestion Health Check
+        if: always()  # Always capture run-health context
+        env:
+          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+        run: |
+          mkdir -p artifacts
+          uv run python -m src.fred_macro.cli run-health \
+            --run-id latest \
+            --fail-on-status \
+            --fail-on-critical \
+            --output-json artifacts/run-health.json
+
+      - name: Upload Ingestion Health Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ingestion-health-${{ github.run_id }}
+          path: artifacts/run-health.json
+          if-no-files-found: warn

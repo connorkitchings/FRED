@@ -1,3 +1,5 @@
+import json
+
 import duckdb
 from typer.testing import CliRunner
 
@@ -35,9 +37,11 @@ def _init_report_db(db_path):
     conn.close()
 
 
-def test_dq_report_command_for_specific_run(tmp_path, monkeypatch):
-    db_path = tmp_path / "dq_cli.duckdb"
+def test_run_health_latest_summary_and_json_output(tmp_path, monkeypatch):
+    db_path = tmp_path / "run_health.duckdb"
+    output_path = tmp_path / "artifacts" / "run-health.json"
     _init_report_db(db_path)
+
     conn = duckdb.connect(str(db_path))
     conn.execute(
         """
@@ -45,7 +49,15 @@ def test_dq_report_command_for_specific_run(tmp_path, monkeypatch):
             run_id, run_timestamp, mode, series_ingested,
             total_rows_fetched, total_rows_inserted, total_rows_updated,
             duration_seconds, status, error_message
-        ) VALUES ('run-1', NOW(), 'backfill', '[]', 100, 100, 0, 2.5, 'success', NULL)
+        ) VALUES
+        (
+            'run-old', NOW() - INTERVAL '1 day', 'incremental', '[]',
+            10, 10, 0, 2.1, 'success', NULL
+        ),
+        (
+            'run-latest', NOW(), 'incremental', '[]',
+            20, 18, 2, 3.4, 'success', NULL
+        )
         """
     )
     conn.execute(
@@ -54,9 +66,97 @@ def test_dq_report_command_for_specific_run(tmp_path, monkeypatch):
             report_id, run_id, finding_timestamp, severity,
             code, series_id, message, metadata
         ) VALUES
-        ('r1', 'run-1', NOW(), 'warning', 'stale_series_data',
-         'UNRATE', 'Series is stale.', '{"age_days": 120}'),
-        ('r2', 'run-1', NOW(), 'critical', 'duplicate_observations',
+        ('h1', 'run-latest', NOW(), 'warning', 'stale_series_data',
+         'UNRATE', 'Series is stale.', '{"age_days": 120}')
+        """
+    )
+    conn.close()
+
+    import src.fred_macro.cli as cli_module
+
+    monkeypatch.setattr(
+        cli_module,
+        "get_connection",
+        lambda: duckdb.connect(str(db_path)),
+    )
+
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["run-health", "--run-id", "latest", "--output-json", str(output_path)],
+    )
+
+    assert result.exit_code == 0
+    assert "Run Health: run_id=run-latest status=success" in result.stdout
+    assert "DQ Counts: critical=0 warning=1 info=0" in result.stdout
+    assert output_path.exists()
+
+    payload = json.loads(output_path.read_text())
+    assert payload["run_id"] == "run-latest"
+    assert payload["status"] == "success"
+    assert payload["dq_counts"]["warning"] == 1
+
+
+def test_run_health_fail_on_status(tmp_path, monkeypatch):
+    db_path = tmp_path / "run_health_fail_status.duckdb"
+    _init_report_db(db_path)
+
+    conn = duckdb.connect(str(db_path))
+    conn.execute(
+        """
+        INSERT INTO ingestion_log (
+            run_id, run_timestamp, mode, series_ingested,
+            total_rows_fetched, total_rows_inserted, total_rows_updated,
+            duration_seconds, status, error_message
+        ) VALUES
+        (
+            'run-partial', NOW(), 'incremental', '[]',
+            20, 18, 2, 3.4, 'partial', 'one series failed'
+        )
+        """
+    )
+    conn.close()
+
+    import src.fred_macro.cli as cli_module
+
+    monkeypatch.setattr(
+        cli_module,
+        "get_connection",
+        lambda: duckdb.connect(str(db_path)),
+    )
+
+    runner = CliRunner()
+    result = runner.invoke(app, ["run-health", "--fail-on-status"])
+
+    assert result.exit_code == 1
+    assert "Health check failed: status=partial" in result.stdout
+
+
+def test_run_health_fail_on_critical(tmp_path, monkeypatch):
+    db_path = tmp_path / "run_health_fail_critical.duckdb"
+    _init_report_db(db_path)
+
+    conn = duckdb.connect(str(db_path))
+    conn.execute(
+        """
+        INSERT INTO ingestion_log (
+            run_id, run_timestamp, mode, series_ingested,
+            total_rows_fetched, total_rows_inserted, total_rows_updated,
+            duration_seconds, status, error_message
+        ) VALUES
+        (
+            'run-critical', NOW(), 'backfill', '[]',
+            20, 18, 2, 3.4, 'success', NULL
+        )
+        """
+    )
+    conn.execute(
+        """
+        INSERT INTO dq_report (
+            report_id, run_id, finding_timestamp, severity,
+            code, series_id, message, metadata
+        ) VALUES
+        ('c1', 'run-critical', NOW(), 'critical', 'duplicate_observations',
          'CPIAUCSL', 'Duplicate rows detected.', '{"duplicate_count": 2}')
         """
     )
@@ -71,119 +171,7 @@ def test_dq_report_command_for_specific_run(tmp_path, monkeypatch):
     )
 
     runner = CliRunner()
-    result = runner.invoke(app, ["dq-report", "--run-id", "run-1"])
-
-    assert result.exit_code == 0
-    assert "Run Summary: run_id=run-1" in result.stdout
-    assert "DQ Counts: critical=1 warning=1 info=0" in result.stdout
-    assert "duplicate_observations" in result.stdout
-    assert "stale_series_data" in result.stdout
-
-
-def test_dq_report_command_uses_latest_run_by_default(tmp_path, monkeypatch):
-    db_path = tmp_path / "dq_cli_latest.duckdb"
-    _init_report_db(db_path)
-    conn = duckdb.connect(str(db_path))
-    conn.execute(
-        """
-        INSERT INTO ingestion_log (
-            run_id, run_timestamp, mode, series_ingested,
-            total_rows_fetched, total_rows_inserted, total_rows_updated,
-            duration_seconds, status, error_message
-        ) VALUES
-        (
-            'run-older', NOW() - INTERVAL '1 day', 'incremental', '[]',
-            1, 1, 0, 1.0, 'success', NULL
-        ),
-        ('run-latest', NOW(), 'backfill', '[]', 2, 2, 0, 2.0, 'success', NULL)
-        """
-    )
-    conn.execute(
-        """
-        INSERT INTO dq_report (
-            report_id, run_id, finding_timestamp, severity,
-            code, series_id, message, metadata
-        ) VALUES
-        ('r3', 'run-latest', NOW(), 'warning', 'series_has_no_observations',
-         'HOUST', 'No observations.', '{"frequency": "Monthly"}')
-        """
-    )
-    conn.close()
-
-    import src.fred_macro.cli as cli_module
-
-    monkeypatch.setattr(
-        cli_module,
-        "get_connection",
-        lambda: duckdb.connect(str(db_path)),
-    )
-
-    runner = CliRunner()
-    result = runner.invoke(app, ["dq-report"])
-
-    assert result.exit_code == 0
-    assert "run_id=run-latest" in result.stdout
-
-
-def test_dq_report_command_accepts_latest_alias(tmp_path, monkeypatch):
-    db_path = tmp_path / "dq_cli_latest_alias.duckdb"
-    _init_report_db(db_path)
-    conn = duckdb.connect(str(db_path))
-    conn.execute(
-        """
-        INSERT INTO ingestion_log (
-            run_id, run_timestamp, mode, series_ingested,
-            total_rows_fetched, total_rows_inserted, total_rows_updated,
-            duration_seconds, status, error_message
-        ) VALUES
-        (
-            'run-old', NOW() - INTERVAL '2 day', 'incremental', '[]',
-            1, 1, 0, 1.0, 'success', NULL
-        ),
-        ('run-new', NOW(), 'incremental', '[]', 1, 1, 0, 1.0, 'success', NULL)
-        """
-    )
-    conn.execute(
-        """
-        INSERT INTO dq_report (
-            report_id, run_id, finding_timestamp, severity,
-            code, series_id, message, metadata
-        ) VALUES
-        ('r-latest', 'run-new', NOW(), 'warning', 'stale_series_data',
-         'UNRATE', 'Series is stale.', '{"age_days": 90}')
-        """
-    )
-    conn.close()
-
-    import src.fred_macro.cli as cli_module
-
-    monkeypatch.setattr(
-        cli_module,
-        "get_connection",
-        lambda: duckdb.connect(str(db_path)),
-    )
-
-    runner = CliRunner()
-    result = runner.invoke(app, ["dq-report", "--run-id", "latest"])
-
-    assert result.exit_code == 0
-    assert "run_id=run-new" in result.stdout
-
-
-def test_dq_report_command_errors_for_missing_run(tmp_path, monkeypatch):
-    db_path = tmp_path / "dq_cli_missing.duckdb"
-    _init_report_db(db_path)
-
-    import src.fred_macro.cli as cli_module
-
-    monkeypatch.setattr(
-        cli_module,
-        "get_connection",
-        lambda: duckdb.connect(str(db_path)),
-    )
-
-    runner = CliRunner()
-    result = runner.invoke(app, ["dq-report", "--run-id", "does-not-exist"])
+    result = runner.invoke(app, ["run-health", "--fail-on-critical"])
 
     assert result.exit_code == 1
-    assert "Run not found: does-not-exist" in result.stdout
+    assert "Health check failed: critical_findings=1" in result.stdout

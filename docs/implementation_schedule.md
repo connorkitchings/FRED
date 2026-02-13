@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 - Expansion & Hardening
-**Progress:** ▶ Legacy template retirement complete (Phases 0-3); operational hardening and Tier 2 Batch 3 planning active
-**Next Milestone:** Add automation health/reporting checks and finalize Tier 2 Batch 3 candidates
+**Progress:** ▶ Automation health gate integrated (workflow + run-health artifact); Tier 2 Batch 3 planning active
+**Next Milestone:** Finalize Tier 2 Batch 3 candidates and validation scope
 
 ---
 
@@ -198,8 +198,9 @@
 
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
-| Scheduling setup | ✅ Done | Connor | GitHub Actions | Daily incremental runs configured via `.github/workflows/daily_ingest.yml` |
+| Scheduling setup | ✅ Done | Connor | GitHub Actions | Daily incremental runs + catalog sync configured via `.github/workflows/daily_ingest.yml` |
 | Error notifications | ✅ Done | Connor | GitHub Actions | Native failure notifications from Actions tab |
+| Automated health gate + artifact | ✅ Done | Connor | `run-health` CLI + workflow artifact | Fails on non-success/critical and uploads `run-health.json` |
 
 ### Transition Backlog (Pre-Expansion)
 
@@ -411,6 +412,7 @@
 | 2026-02-13 | Template retirement Phase 0 started | Prepare low-risk legacy removal path | Retirement plan published and import guardrail added |
 | 2026-02-13 | Template retirement Phase 1 completed | Separate active vs legacy test paths | Default tests now run FRED-only; legacy suite remains opt-in |
 | 2026-02-13 | Template retirement Phases 2-3 completed | De-primary legacy references and remove retired code path | `src/vibe_coding` and legacy tests removed; schedule marks retirement done |
+| 2026-02-13 | Automation health reporting added | Improve post-run observability and CI failure signal | Added `run-health` CLI command, workflow health gate, and artifact upload |
 
 ---
 
@@ -444,7 +446,6 @@
 ### In Progress ▶
 
 **Phase 5 stabilization and transition**
-- Add health/reporting checks for automated daily ingestion runs
 - Select and validate Tier 2 Batch 3 candidates
 
 ### Backlog 📦
@@ -481,5 +482,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-13
-**Next Review**: After automation health/reporting checks and Tier 2 Batch 3 scope are finalized
+**Next Review**: After Tier 2 Batch 3 shortlist and validation scope are finalized
 **Status**: M4 complete; Phase 5 transition execution in progress

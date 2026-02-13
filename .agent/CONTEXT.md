@@ -14,11 +14,15 @@
 
 - **Version**: 0.1.0 (MVP complete)
 - **Current Focus**: Phase 5 stabilization and transition (catalog integrity, doc alignment, automation monitoring)
-- **Next Milestone**: Automation health/reporting checks and Tier 2 Batch 3 selection
+- **Next Milestone**: Tier 2 Batch 3 selection and validation scope definition
 - **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
 
+- **2026-02-13**: Automation health reporting integrated
+  - Added `run-health` CLI command for run-level status + DQ summaries with automation-friendly exit codes
+  - Updated GitHub Actions workflow to run health gate checks and upload `run-health.json` artifacts
+  - Updated runbook guidance for local/CI health triage
 - **2026-02-13**: Template retirement Phases 2-3 completed
   - Removed legacy `src/vibe_coding` code path and template-specific tests
   - Finalized transition docs/schedule to mark retirement task complete
@@ -194,10 +198,10 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 **Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Add operational checks for scheduled ingestion outcomes and DQ trend visibility
-2. Expand operational reporting views/runbook guidance for automation monitoring
+1. Finalize Tier 2 Batch 3 candidate set and validation criteria
+2. Expand operational reporting views/runbook guidance for DQ trend monitoring
 3. Keep full test suite green while transition work lands
-4. Select and validate Tier 2 Batch 3 candidates
+4. Monitor daily workflow health artifacts and tune alert thresholds if needed
 
 **See**: `docs/implementation_schedule.md` for complete task list
 

@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from typing import Optional
 
 import typer
@@ -13,6 +14,53 @@ setup_logging()
 logger = get_logger(__name__)
 
 app = typer.Typer(help="FRED Macro Dashboard CLI")
+
+
+def _resolve_target_run_id(conn, requested_run_id: Optional[str]) -> str:
+    if requested_run_id is None or requested_run_id.lower() == "latest":
+        latest = conn.execute(
+            """
+            SELECT run_id
+            FROM ingestion_log
+            ORDER BY run_timestamp DESC
+            LIMIT 1
+            """
+        ).fetchone()
+        if latest is None:
+            raise ValueError("No ingestion runs found.")
+        return latest[0]
+    return requested_run_id
+
+
+def _get_run_row(conn, run_id: str):
+    return conn.execute(
+        """
+        SELECT
+            run_id, run_timestamp, mode, status,
+            total_rows_fetched, total_rows_inserted, total_rows_updated,
+            duration_seconds, error_message
+        FROM ingestion_log
+        WHERE run_id = ?
+        """,
+        (run_id,),
+    ).fetchone()
+
+
+def _get_dq_count_map(conn, run_id: str) -> dict[str, int]:
+    counts = conn.execute(
+        """
+        SELECT severity, COUNT(*) AS count
+        FROM dq_report
+        WHERE run_id = ?
+        GROUP BY severity
+        ORDER BY severity
+        """,
+        (run_id,),
+    ).fetchall()
+    count_map = {"info": 0, "warning": 0, "critical": 0}
+    for sev, count in counts:
+        count_map[sev] = count
+    return count_map
 
 
 @app.command()
@@ -95,50 +143,19 @@ def dq_report(
 
     conn = get_connection()
     try:
-        target_run_id = run_id
-        if target_run_id is None:
-            latest = conn.execute(
-                """
-                SELECT run_id
-                FROM ingestion_log
-                ORDER BY run_timestamp DESC
-                LIMIT 1
-                """
-            ).fetchone()
-            if latest is None:
-                typer.echo("No ingestion runs found.")
-                raise typer.Exit(code=1)
-            target_run_id = latest[0]
+        try:
+            target_run_id = _resolve_target_run_id(conn, run_id)
+        except ValueError as e:
+            typer.echo(str(e))
+            raise typer.Exit(code=1)
 
-        run_row = conn.execute(
-            """
-            SELECT
-                run_id, run_timestamp, mode, status,
-                total_rows_fetched, total_rows_inserted, total_rows_updated,
-                duration_seconds, error_message
-            FROM ingestion_log
-            WHERE run_id = ?
-            """,
-            (target_run_id,),
-        ).fetchone()
+        run_row = _get_run_row(conn, target_run_id)
 
         if run_row is None:
             typer.echo(f"Run not found: {target_run_id}")
             raise typer.Exit(code=1)
 
-        counts = conn.execute(
-            """
-            SELECT severity, COUNT(*) AS count
-            FROM dq_report
-            WHERE run_id = ?
-            GROUP BY severity
-            ORDER BY severity
-            """,
-            (target_run_id,),
-        ).fetchall()
-        count_map = {"info": 0, "warning": 0, "critical": 0}
-        for sev, count in counts:
-            count_map[sev] = count
+        count_map = _get_dq_count_map(conn, target_run_id)
 
         findings_query = """
             SELECT severity, code, series_id, message, metadata
@@ -183,6 +200,106 @@ def dq_report(
                 )
                 line += f" | metadata={metadata_text}"
             typer.echo(line)
+    finally:
+        conn.close()
+
+
+@app.command("run-health")
+def run_health(
+    run_id: Optional[str] = typer.Option(
+        None,
+        help="Run ID to inspect. Use 'latest' or omit for the newest run.",
+    ),
+    output_json: Optional[str] = typer.Option(
+        None,
+        help="Optional path to write a JSON health summary.",
+    ),
+    fail_on_status: bool = typer.Option(
+        False,
+        help="Exit non-zero if run status is not success.",
+    ),
+    fail_on_critical: bool = typer.Option(
+        False,
+        help="Exit non-zero if critical DQ findings exist.",
+    ),
+    fail_on_warning: bool = typer.Option(
+        False,
+        help="Exit non-zero if warning DQ findings exist.",
+    ),
+):
+    """Show ingestion run health summary (for automation and triage)."""
+    conn = get_connection()
+    try:
+        try:
+            target_run_id = _resolve_target_run_id(conn, run_id)
+        except ValueError as e:
+            typer.echo(str(e))
+            raise typer.Exit(code=1)
+
+        run_row = _get_run_row(conn, target_run_id)
+        if run_row is None:
+            typer.echo(f"Run not found: {target_run_id}")
+            raise typer.Exit(code=1)
+
+        count_map = _get_dq_count_map(conn, target_run_id)
+        run_timestamp = run_row[1]
+        run_timestamp_text = (
+            run_timestamp.isoformat()
+            if hasattr(run_timestamp, "isoformat")
+            else str(run_timestamp)
+        )
+
+        summary = {
+            "run_id": run_row[0],
+            "run_timestamp": run_timestamp_text,
+            "mode": run_row[2],
+            "status": run_row[3],
+            "rows_fetched": run_row[4],
+            "rows_inserted": run_row[5],
+            "rows_updated": run_row[6],
+            "duration_seconds": run_row[7],
+            "error_message": run_row[8],
+            "dq_counts": count_map,
+            "dq_total": (
+                count_map["critical"] + count_map["warning"] + count_map["info"]
+            ),
+        }
+
+        typer.echo(
+            "Run Health: "
+            f"run_id={summary['run_id']} "
+            f"status={summary['status']} "
+            f"mode={summary['mode']} "
+            f"rows_fetched={summary['rows_fetched']} "
+            f"duration={summary['duration_seconds']:.2f}s"
+        )
+        typer.echo(
+            "DQ Counts: "
+            f"critical={count_map['critical']} "
+            f"warning={count_map['warning']} "
+            f"info={count_map['info']}"
+        )
+
+        if summary["error_message"]:
+            typer.echo(f"Run Error: {summary['error_message']}")
+
+        if output_json:
+            output_path = Path(output_json)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_text(json.dumps(summary, indent=2))
+            typer.echo(f"Wrote health summary JSON: {output_path}")
+
+        failures = []
+        if fail_on_status and summary["status"] != "success":
+            failures.append(f"status={summary['status']}")
+        if fail_on_critical and count_map["critical"] > 0:
+            failures.append(f"critical_findings={count_map['critical']}")
+        if fail_on_warning and count_map["warning"] > 0:
+            failures.append(f"warning_findings={count_map['warning']}")
+
+        if failures:
+            typer.echo(f"Health check failed: {', '.join(failures)}")
+            raise typer.Exit(code=1)
     finally:
         conn.close()
 

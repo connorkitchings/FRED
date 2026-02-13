@@ -114,6 +114,25 @@ The project is configured to run daily data ingestion via **GitHub Actions**.
 - **Workflow File**: `.github/workflows/daily_ingest.yml`
 - **Schedule**: Daily at 10:00 UTC (6:00 AM ET).
 - **Triggers**: Scheduled cron, or manual `workflow_dispatch`.
+- **Health Gate**: `run-health` runs after ingestion and fails the workflow when:
+  - ingestion status is not `success`
+  - critical DQ findings are present
+- **Artifacts**: Every run uploads `artifacts/run-health.json` for triage context.
+- **Catalog Sync**: Workflow seeds `series_catalog` from `config/series_catalog.yaml` before ingestion to prevent FK drift.
+
+#### Local Reproduction of Automation Health Check
+
+```bash
+# Health summary for latest run
+uv run python -m src.fred_macro.cli run-health --run-id latest
+
+# Fail locally if run status is not success or critical findings exist
+uv run python -m src.fred_macro.cli run-health \
+  --run-id latest \
+  --fail-on-status \
+  --fail-on-critical \
+  --output-json artifacts/run-health.json
+```
 
 ### Secrets Configuration
 For the workflow to succeed, the following **Repository Secrets** must be configured in GitHub:
