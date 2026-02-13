@@ -270,7 +270,7 @@ Indicators are organized into thematic categories for easier navigation and unde
 
 **Purpose**: Additional indicators for broader economic coverage (Post-MVP).
 
-**Status**: Kickoff started on 2026-02-12 with an initial 5-series bundle in `config/series_catalog.yaml`.
+**Status**: Tier 2 rollout is active. Kickoff + Batch 2 + Batch 3 are in `config/series_catalog.yaml` (31 Tier 2 series; 35 total including Tier 1).
 
 ### Kickoff Bundle (In Catalog Now)
 
@@ -288,6 +288,17 @@ Indicators are organized into thematic categories for easier navigation and unde
 | PAYEMS | Labor Market | Primary measure of employment health |
 | CIVPART | Labor Market | Labor force participation measure |
 | VIXCLS | Financial Markets | Market volatility and sentiment index |
+
+### Batch 3 Additions (2026-02-13)
+
+| Series ID | Category | Why it was added |
+|-----------|----------|------------------|
+| AHETPI | Labor Market | Adds wage growth pressure to complement payroll/unemployment coverage |
+| U6RATE | Labor Market | Tracks broader labor underutilization beyond headline unemployment |
+| CPILFESL | Prices & Inflation | Core inflation signal for persistent price dynamics |
+| SP500 | Financial Markets | High-frequency equity market risk sentiment proxy |
+| DEXUSEU | Financial Markets / FX | Dollar strength signal versus euro benchmark |
+| BUSLOANS | Money & Credit | Business lending indicator for credit-cycle monitoring |
 
 ### Labor Market (Extended)
 
@@ -330,8 +341,8 @@ Indicators are organized into thematic categories for easier navigation and unde
 | TCU | Total Capacity Utilization | Monthly | Factory capacity usage |
 | NETEXP | Net Exports | Quarterly | Trade balance |
 
-**Estimated Total**: 25-30 series
-**Estimated Observations**: ~3,000-4,000 for 10 years
+**Configured Total**: 31 Tier 2 series (35 total with Tier 1)
+**Estimated Observations**: ~4,000-6,000 for 10 years
 
 ---
 
@@ -460,5 +471,5 @@ series:
 
 ---
 
-**Last Updated**: 2026-02-12
-**Status**: Tier 1 complete, Tier 2/3 placeholders
+**Last Updated**: 2026-02-13
+**Status**: Tier 1 complete, Tier 2 batches active through Batch 3, Tier 3 placeholder

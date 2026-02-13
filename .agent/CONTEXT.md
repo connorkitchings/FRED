@@ -13,12 +13,17 @@
 ### Current State
 
 - **Version**: 0.1.0 (MVP complete)
-- **Current Focus**: Phase 5 stabilization and transition (catalog integrity, doc alignment, automation monitoring)
-- **Next Milestone**: Tier 2 Batch 3 selection and validation scope definition
+- **Current Focus**: Phase 5 expansion hardening (DQ monitoring, automation reliability, and next-batch prioritization)
+- **Next Milestone**: Finalize Tier 2 Batch 4 shortlist and stale-series warning response plan
 - **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
 
+- **2026-02-13**: Tier 2 Batch 3 catalog update applied
+  - Added 6 Tier 2 indicators to `config/series_catalog.yaml`: `AHETPI`, `U6RATE`, `CPILFESL`, `SP500`, `DEXUSEU`, `BUSLOANS`
+  - Added catalog guardrail test coverage for Batch 3 presence
+  - Updated data dictionary and implementation schedule to reflect Batch 3 rollout state
+  - Ran catalog seed + incremental ingestion validation (`4ca8ef27-d3ba-4336-9b76-6947e55bae81`) with success status and no critical DQ findings
 - **2026-02-13**: Automation health reporting integrated
   - Added `run-health` CLI command for run-level status + DQ summaries with automation-friendly exit codes
   - Updated GitHub Actions workflow to run health gate checks and upload `run-health.json` artifacts
@@ -198,10 +203,10 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 **Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Finalize Tier 2 Batch 3 candidate set and validation criteria
+1. Prioritize Tier 2 Batch 4 candidate set with the same constrained-validation workflow used for Batch 3
 2. Expand operational reporting views/runbook guidance for DQ trend monitoring
 3. Keep full test suite green while transition work lands
-4. Monitor daily workflow health artifacts and tune alert thresholds if needed
+4. Monitor stale-series warnings from daily workflow artifacts and tune thresholds/remediation playbook
 
 **See**: `docs/implementation_schedule.md` for complete task list
 

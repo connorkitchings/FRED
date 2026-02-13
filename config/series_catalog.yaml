@@ -240,3 +240,53 @@ series:
     seasonal_adjustment: "Seasonally Adjusted"
     tier: 2
     description: "The total number of unemployed persons, complementing the unemployment rate."
+
+  # --- Tier 2: Series Batch 3 (Labor, Inflation, Markets, FX, Credit) ---
+
+  - series_id: "AHETPI"
+    title: "Average Hourly Earnings: Total Private"
+    units: "Dollars per Hour"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Tracks wage growth pressure in the private labor market."
+
+  - series_id: "U6RATE"
+    title: "U-6 Unemployment Rate"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Broader labor underutilization measure including underemployment."
+
+  - series_id: "CPILFESL"
+    title: "Core CPI (All Items Less Food and Energy)"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Core inflation series used to track persistent price trends."
+
+  - series_id: "SP500"
+    title: "S&P 500"
+    units: "Index"
+    frequency: "Daily, Close"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Equity benchmark used as a high-frequency financial conditions signal."
+
+  - series_id: "DEXUSEU"
+    title: "U.S. Dollars to Euro Spot Exchange Rate"
+    units: "U.S. Dollars to One Euro"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Dollar/euro exchange rate used to monitor external dollar strength."
+
+  - series_id: "BUSLOANS"
+    title: "Commercial and Industrial Loans, All Commercial Banks"
+    units: "Billions of U.S. Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Bank business lending proxy for credit cycle conditions."

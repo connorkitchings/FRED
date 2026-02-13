@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 - Expansion & Hardening
-**Progress:** ▶ Automation health gate integrated (workflow + run-health artifact); Tier 2 Batch 3 planning active
-**Next Milestone:** Finalize Tier 2 Batch 3 candidates and validation scope
+**Progress:** ▶ Tier 2 Batch 3 catalog integrated and incremental ingestion validated (success with warnings only)
+**Next Milestone:** Prioritize next Tier 2 expansion batch and tighten stale-series handling
 
 ---
 
@@ -174,8 +174,10 @@
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
 | Define Tier 2 catalog | ✅ Done | Connor | Updated `config/series_catalog.yaml` | 13 new series added (Batch 2) |
+| Add Tier 2 Batch 3 catalog set | ✅ Done | Connor | Updated catalog + tests + docs | Added AHETPI, U6RATE, CPILFESL, SP500, DEXUSEU, BUSLOANS |
 | Test Tier 2 ingestion | ✅ Done | Connor | Validation scripts | Backfill validation complete (partial status with valid warnings) |
-| Documentation update | ✅ Done | Connor | Update data dictionary | Batch 2 documented in catalog |
+| Validate Batch 3 incremental ingest | ✅ Done | Connor | `ingest --mode incremental` + `run-health` | Run `4ca8ef27-d3ba-4336-9b76-6947e55bae81`: status success, critical=0, warning=7 |
+| Documentation update | ✅ Done | Connor | Update data dictionary | Batch 2 and Batch 3 documented in catalog |
 
 ### Data Quality
 
@@ -413,6 +415,8 @@
 | 2026-02-13 | Template retirement Phase 1 completed | Separate active vs legacy test paths | Default tests now run FRED-only; legacy suite remains opt-in |
 | 2026-02-13 | Template retirement Phases 2-3 completed | De-primary legacy references and remove retired code path | `src/vibe_coding` and legacy tests removed; schedule marks retirement done |
 | 2026-02-13 | Automation health reporting added | Improve post-run observability and CI failure signal | Added `run-health` CLI command, workflow health gate, and artifact upload |
+| 2026-02-13 | Tier 2 Batch 3 catalog updates applied | Continue phased indicator expansion with constrained scope | Added 6 validated series and aligned tests/documentation |
+| 2026-02-13 | Tier 2 Batch 3 incremental validation completed | Confirm new indicators ingest cleanly in production path | Incremental run succeeded for all Batch 3 series; only non-critical DQ warnings observed |
 
 ---
 
@@ -442,11 +446,13 @@
 - Add explicit DQ reporting views/queries for operations
 - Tier 2 Batch 2 indicators and analytical views merged
 - Daily GitHub Actions scheduling enabled for incremental ingest
+- Tier 2 Batch 3 indicators added with catalog test coverage and docs updates
+- Tier 2 Batch 3 indicators validated via incremental run and run-health summary
 
 ### In Progress ▶
 
 **Phase 5 stabilization and transition**
-- Select and validate Tier 2 Batch 3 candidates
+- Prioritize Tier 2 Batch 4 candidates and stale-series warning remediation plan
 
 ### Backlog 📦
 
@@ -482,5 +488,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-13
-**Next Review**: After Tier 2 Batch 3 shortlist and validation scope are finalized
-**Status**: M4 complete; Phase 5 transition execution in progress
+**Next Review**: After Tier 2 Batch 4 shortlist and stale-series handling proposal are drafted
+**Status**: M4 complete; Phase 5 expansion hardening in progress
