@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 - Expansion & Hardening
-**Progress:** ▶ Tier 2 expansion batch 1 added (12 total series) + DQ thresholds tuned
-**Next Milestone:** Operational views and scheduling
+**Progress:** ▶ Tier 2 Batch 2 complete (29 total series), operational DQ views live, daily automation configured
+**Next Milestone:** Complete Phase 5 stabilization pass and start template module retirement
 
 ---
 
@@ -171,9 +171,6 @@
 
 ### Tier 2 Indicators
 
-
-### Tier 2 Indicators
-
 | Task | Status | Owner | Deliverable | Notes |
 |------|--------|-------|-------------|-------|
 | Define Tier 2 catalog | ✅ Done | Connor | Updated `config/series_catalog.yaml` | 13 new series added (Batch 2) |
@@ -196,8 +193,6 @@
 | Latest values view | ✅ Done | Connor | SQL CREATE VIEW | `dq_report_latest_runs` covers operational needs |
 | Year-over-year change view | ✅ Done | Connor | SQL CREATE VIEW | `view_yoy_change` implemented |
 | Rolling averages view | ✅ Done | Connor | SQL CREATE VIEW | `view_rolling_avg` implemented |
-
-### Automation
 
 ### Automation
 
@@ -267,16 +262,16 @@
 
 ---
 
-### M4: Tier 2 Expansion ☐
+### M4: Tier 2 Expansion ✅
 
-**Status**: ☐ Not Started
-**Target Date**: TBD (Post-MVP)
+**Status**: ✅ Complete
+**Target Date**: 2026-02-13
 
 **Deliverables**:
-- [ ] 20-30 additional indicators
-- [ ] Data quality checks
-- [ ] Query views
-- [ ] Automated scheduling
+- [x] 20-30 additional indicators
+- [x] Data quality checks
+- [x] Query views
+- [x] Automated scheduling
 
 ---
 
@@ -354,24 +349,24 @@
 ### Week 4+: Tier 2 Expansion (Optional)
 
 **Goals**:
-- [ ] Expand indicator catalog
-- [ ] Add data quality checks
-- [ ] Create query views
-- [ ] Set up automation
+- [x] Expand indicator catalog
+- [x] Add data quality checks
+- [x] Create query views
+- [x] Set up automation
 
-**Expected Progress**: Post-MVP enhancements
+**Expected Progress**: M4 complete; move focus to hardening and transition cleanup
 
 ---
 
-### Current Week: Stabilization Baseline
+### Current Week: Phase 5 Stabilization Pass
 
 **Goals**:
-- [ ] Eliminate status drift across docs and context
+- [x] Eliminate status drift across docs and context
 - [x] Ensure test/dependency baseline is green
 - [x] Finalize transition path for legacy template modules
-- [x] Pick first Tier 2 expansion slice
+- [x] Complete catalog metadata integrity checks
 
-**Expected Progress**: Phase 4.5 complete, Phase 5 ready to begin
+**Expected Progress**: Stable baseline for next expansion and template retirement work
 
 ---
 
@@ -410,6 +405,9 @@
 | 2026-02-12 | Tier 2 kickoff ingestion validation run | Confirm catalog + FK + ingestion compatibility | Seed flow fixed; incremental run succeeded |
 | 2026-02-12 | Tier 2 backfill + DQ gate completed | Validate scale and quality controls | 9-series backfill successful, DQ fail-on-critical integrated |
 | 2026-02-12 | Operational DQ report added | Improve run-level observability | Findings now persisted per run and accessible by CLI |
+| 2026-02-13 | Tier 2 Batch 2 and analytical views merged | Expand macro coverage and analyst-ready outputs | Catalog expanded and YOY/Rolling views operational |
+| 2026-02-13 | Daily ingestion automation configured | Improve operational reliability | GitHub Actions schedule + runbook guidance in place |
+| 2026-02-13 | Stabilization pass applied | Remove status drift and metadata inconsistency | Catalog integrity restored and schedule/context aligned |
 
 ---
 
@@ -429,7 +427,7 @@
 - Core pipeline (client, ingest, CLI, logging)
 - MVP validation (acceptance tests + performance checks)
 
-**Phase 5: Expansion kickoff**
+**Phase 5: Expansion kickoff and hardening**
 - Tier 2 kickoff bundle selected and added to catalog
 - Tier 2 kickoff docs added to data dictionary
 - Catalog validation test coverage added
@@ -437,12 +435,15 @@
 - Data-quality checks integrated into ingestion run lifecycle
 - Per-run DQ report persistence and CLI inspection command implemented
 - Add explicit DQ reporting views/queries for operations
+- Tier 2 Batch 2 indicators and analytical views merged
+- Daily GitHub Actions scheduling enabled for incremental ingest
 
 ### In Progress ▶
 
-**Phase 5 kickoff**
-- Tune DQ thresholds and severity policy by series/frequency
-- Plan next Tier 2 expansion batch and scheduling prototype
+**Phase 5 stabilization and transition**
+- Retire/deprecate legacy template modules (`src/vibe_coding`)
+- Add health/reporting checks for automated daily ingestion runs
+- Select and validate Tier 2 Batch 3 candidates
 
 ### Backlog 📦
 
@@ -450,7 +451,6 @@
 - Tier 2 indicators
 - Data quality checks
 - Query views
-- Automation
 - Template module deprecation/retirement
 
 ---
@@ -479,6 +479,6 @@ Every development session should:
 
 ---
 
-**Last Updated**: 2026-02-12
-**Next Review**: After DQ threshold tuning and next Tier 2 batch selection
-**Status**: MVP complete; Phase 5 quality hardening in progress
+**Last Updated**: 2026-02-13
+**Next Review**: After stabilization pass verification and template retirement plan definition
+**Status**: M4 complete; Phase 5 stabilization and transition work in progress

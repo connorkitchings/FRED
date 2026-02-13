@@ -8,17 +8,22 @@
 
 **FRED-Macro-Dashboard**: Personal macroeconomic data infrastructure
 **Stack**: Python 3.10+ · DuckDB/MotherDuck · FRED API · UV
-**Status**: 🟢 MVP Complete (Post-MVP Stabilization)
+**Status**: 🟢 Phase 5 Expansion & Hardening In Progress
 
 ### Current State
 
 - **Version**: 0.1.0 (MVP complete)
-- **Current Focus**: Phase 5 quality hardening (Tier 2 validation + DQ integration)
-- **Next Milestone**: DQ threshold tuning and next Tier 2 expansion batch
+- **Current Focus**: Phase 5 stabilization and transition (catalog integrity, doc alignment, automation monitoring)
+- **Next Milestone**: Template module retirement planning and Tier 2 Batch 3 selection
 - **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
 
+- **2026-02-13**: Tier 2 Batch 2 + automation delivered
+  - Added and validated Tier 2 Batch 2 indicators; removed failing series from ingestion path
+  - Implemented analytical views (`view_yoy_change`, `view_rolling_avg`) in setup workflow
+  - Added scheduled daily incremental ingestion via GitHub Actions + runbook guidance
+  - Completed stabilization pass to reconcile schedule/context drift and catalog metadata consistency
 - **2026-02-12**: Core pipeline implemented and MVP validation completed
   - Built `fred_client.py`, `ingest.py`, `setup.py`, `seed_catalog.py`, and CLI entrypoints
   - Completed acceptance scenarios for backfill, idempotency, incremental updates, and revisions
@@ -172,15 +177,15 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 
 ---
 
-## Current Phase: Post-MVP Stabilization (Phase 5 Prep)
+## Current Phase: Expansion & Hardening (Phase 5)
 
 **Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Tune DQ thresholds/severity rules from observed backfill outcomes
-2. Expand operational reporting views/runbooks for DQ findings and ingestion health
-3. Keep full test suite green while `fred_macro` and template modules coexist
-4. Expand Tier 2 beyond kickoff bundle toward target coverage
+1. Define and execute template module retirement path (`src/vibe_coding`) with no regressions
+2. Add operational checks for scheduled ingestion outcomes and DQ trend visibility
+3. Keep full test suite green while transition work lands
+4. Select and validate Tier 2 Batch 3 candidates
 
 **See**: `docs/implementation_schedule.md` for complete task list
 
