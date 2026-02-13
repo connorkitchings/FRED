@@ -17,6 +17,7 @@ REQUIRED_FIELDS = {
 TIER1_BIG_FOUR = {"FEDFUNDS", "UNRATE", "CPIAUCSL", "GDPC1"}
 TIER2_KICKOFF = {"HOUST", "PERMIT", "CSUSHPISA", "RSXFS", "INDPRO"}
 TIER2_BATCH3 = {"AHETPI", "U6RATE", "CPILFESL", "SP500", "DEXUSEU", "BUSLOANS"}
+TIER2_BATCH4 = {"T5YIE", "DCOILWTICO", "DTWEXBGS", "NFCI", "WALCL", "SOFR"}
 
 
 def _load_series() -> list[dict]:
@@ -57,3 +58,9 @@ def test_tier2_batch3_present():
     series_list = _load_series()
     tier2 = {item["series_id"] for item in series_list if item["tier"] == 2}
     assert TIER2_BATCH3.issubset(tier2)
+
+
+def test_tier2_batch4_present():
+    series_list = _load_series()
+    tier2 = {item["series_id"] for item in series_list if item["tier"] == 2}
+    assert TIER2_BATCH4.issubset(tier2)

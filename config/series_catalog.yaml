@@ -290,3 +290,53 @@ series:
     seasonal_adjustment: "Seasonally Adjusted"
     tier: 2
     description: "Bank business lending proxy for credit cycle conditions."
+
+  # --- Tier 2: Series Batch 4 (Financial Conditions, Rates, Energy, Dollar) ---
+
+  - series_id: "T5YIE"
+    title: "5-Year Breakeven Inflation Rate"
+    units: "Percent"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Market-implied medium-term inflation expectations from nominal vs TIPS yields."
+
+  - series_id: "DCOILWTICO"
+    title: "Crude Oil Prices: West Texas Intermediate (WTI) - Cushing, Oklahoma"
+    units: "Dollars per Barrel"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Benchmark oil price series used as an input-cost and inflation pressure signal."
+
+  - series_id: "DTWEXBGS"
+    title: "Nominal Broad U.S. Dollar Index"
+    units: "Index Jan 2006=100"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Broad trade-weighted dollar index for external competitiveness and financial conditions."
+
+  - series_id: "NFCI"
+    title: "Chicago Fed National Financial Conditions Index"
+    units: "Index"
+    frequency: "Weekly, Ending Friday"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Composite measure of U.S. financial conditions across risk, credit, and leverage channels."
+
+  - series_id: "WALCL"
+    title: "Assets: Total Assets: Total Assets (Less Eliminations from Consolidation): Wednesday Level"
+    units: "Millions of U.S. Dollars"
+    frequency: "Weekly, As of Wednesday"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Federal Reserve balance sheet size, a key liquidity and policy stance signal."
+
+  - series_id: "SOFR"
+    title: "Secured Overnight Financing Rate"
+    units: "Percent"
+    frequency: "Daily"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "Primary overnight secured funding rate benchmark in U.S. money markets."

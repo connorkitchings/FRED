@@ -270,7 +270,7 @@ Indicators are organized into thematic categories for easier navigation and unde
 
 **Purpose**: Additional indicators for broader economic coverage (Post-MVP).
 
-**Status**: Tier 2 rollout is active. Kickoff + Batch 2 + Batch 3 are in `config/series_catalog.yaml` (31 Tier 2 series; 35 total including Tier 1).
+**Status**: Tier 2 rollout is active. Kickoff + Batch 2 + Batch 3 + Batch 4 are in `config/series_catalog.yaml` (37 Tier 2 series; 41 total including Tier 1).
 
 ### Kickoff Bundle (In Catalog Now)
 
@@ -299,6 +299,17 @@ Indicators are organized into thematic categories for easier navigation and unde
 | SP500 | Financial Markets | High-frequency equity market risk sentiment proxy |
 | DEXUSEU | Financial Markets / FX | Dollar strength signal versus euro benchmark |
 | BUSLOANS | Money & Credit | Business lending indicator for credit-cycle monitoring |
+
+### Batch 4 Additions (2026-02-13)
+
+| Series ID | Category | Why it was added |
+|-----------|----------|------------------|
+| T5YIE | Prices & Inflation Expectations | Market-implied 5-year inflation expectations |
+| DCOILWTICO | Commodities & Inflation | Energy input-cost and headline inflation pressure signal |
+| DTWEXBGS | Financial Markets / FX | Broad trade-weighted dollar strength measure |
+| NFCI | Financial Conditions | Composite credit/risk/leverage conditions gauge |
+| WALCL | Monetary Policy & Liquidity | Federal Reserve balance-sheet size signal |
+| SOFR | Rates & Funding | Core overnight secured funding benchmark |
 
 ### Labor Market (Extended)
 
@@ -332,6 +343,16 @@ Indicators are organized into thematic categories for easier navigation and unde
 | DGS10 | 10-Year Treasury Yield | Daily | Benchmark interest rate |
 | SP500 | S&P 500 Index | Daily | Stock market performance |
 | DEXUSEU | USD/EUR Exchange Rate | Daily | Dollar strength |
+| DTWEXBGS | Nominal Broad U.S. Dollar Index | Daily | Broad trade-weighted dollar strength |
+| SOFR | Secured Overnight Financing Rate | Daily | Overnight funding benchmark |
+| T5YIE | 5-Year Breakeven Inflation Rate | Daily | Market-implied inflation expectations |
+
+### Financial Conditions & Liquidity
+
+| Series ID | Title | Frequency | Description |
+|-----------|-------|-----------|-------------|
+| NFCI | Chicago Fed National Financial Conditions Index | Weekly | Composite credit and risk conditions index |
+| WALCL | Federal Reserve Total Assets | Weekly | Proxy for central bank balance-sheet liquidity stance |
 
 ### Manufacturing & Trade
 
@@ -341,8 +362,8 @@ Indicators are organized into thematic categories for easier navigation and unde
 | TCU | Total Capacity Utilization | Monthly | Factory capacity usage |
 | NETEXP | Net Exports | Quarterly | Trade balance |
 
-**Configured Total**: 31 Tier 2 series (35 total with Tier 1)
-**Estimated Observations**: ~4,000-6,000 for 10 years
+**Configured Total**: 37 Tier 2 series (41 total with Tier 1)
+**Estimated Observations**: ~5,000-8,000 for 10 years
 
 ---
 
@@ -472,4 +493,4 @@ series:
 ---
 
 **Last Updated**: 2026-02-13
-**Status**: Tier 1 complete, Tier 2 batches active through Batch 3, Tier 3 placeholder
+**Status**: Tier 1 complete, Tier 2 batches active through Batch 4, Tier 3 placeholder

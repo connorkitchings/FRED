@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 - Expansion & Hardening
-**Progress:** ▶ Tier 2 Batch 3 catalog integrated and incremental ingestion validated (success with warnings only)
-**Next Milestone:** Prioritize next Tier 2 expansion batch and tighten stale-series handling
+**Progress:** ▶ Tier 2 Batch 4 catalog integrated and incremental ingestion validated (success with warnings only)
+**Next Milestone:** Prioritize Tier 2 Batch 5 candidates and finalize stale-series remediation policy
 
 ---
 
@@ -175,9 +175,11 @@
 |------|--------|-------|-------------|-------|
 | Define Tier 2 catalog | ✅ Done | Connor | Updated `config/series_catalog.yaml` | 13 new series added (Batch 2) |
 | Add Tier 2 Batch 3 catalog set | ✅ Done | Connor | Updated catalog + tests + docs | Added AHETPI, U6RATE, CPILFESL, SP500, DEXUSEU, BUSLOANS |
+| Add Tier 2 Batch 4 catalog set | ✅ Done | Connor | Updated catalog + tests + docs | Added T5YIE, DCOILWTICO, DTWEXBGS, NFCI, WALCL, SOFR |
 | Test Tier 2 ingestion | ✅ Done | Connor | Validation scripts | Backfill validation complete (partial status with valid warnings) |
 | Validate Batch 3 incremental ingest | ✅ Done | Connor | `ingest --mode incremental` + `run-health` | Run `4ca8ef27-d3ba-4336-9b76-6947e55bae81`: status success, critical=0, warning=7 |
-| Documentation update | ✅ Done | Connor | Update data dictionary | Batch 2 and Batch 3 documented in catalog |
+| Validate Batch 4 incremental ingest | ✅ Done | Connor | `ingest --mode incremental` + `run-health` | Run `cb667b1a-e74a-4f0b-b627-1667df74d306`: status success, critical=0, warning=7 |
+| Documentation update | ✅ Done | Connor | Update data dictionary | Batch 2, Batch 3, and Batch 4 documented in catalog |
 
 ### Data Quality
 
@@ -417,6 +419,8 @@
 | 2026-02-13 | Automation health reporting added | Improve post-run observability and CI failure signal | Added `run-health` CLI command, workflow health gate, and artifact upload |
 | 2026-02-13 | Tier 2 Batch 3 catalog updates applied | Continue phased indicator expansion with constrained scope | Added 6 validated series and aligned tests/documentation |
 | 2026-02-13 | Tier 2 Batch 3 incremental validation completed | Confirm new indicators ingest cleanly in production path | Incremental run succeeded for all Batch 3 series; only non-critical DQ warnings observed |
+| 2026-02-13 | Tier 2 Batch 4 catalog updates applied | Extend market/liquidity/inflation-expectations coverage with high-frequency signals | Added 6 validated series and aligned tests/documentation |
+| 2026-02-13 | Tier 2 Batch 4 incremental validation completed | Confirm Batch 4 indicators ingest cleanly in production path | Incremental run succeeded for all Batch 4 series; only non-critical DQ warnings observed |
 
 ---
 
@@ -448,11 +452,13 @@
 - Daily GitHub Actions scheduling enabled for incremental ingest
 - Tier 2 Batch 3 indicators added with catalog test coverage and docs updates
 - Tier 2 Batch 3 indicators validated via incremental run and run-health summary
+- Tier 2 Batch 4 indicators added with catalog test coverage and docs updates
+- Tier 2 Batch 4 indicators validated via incremental run and run-health summary
 
 ### In Progress ▶
 
 **Phase 5 stabilization and transition**
-- Prioritize Tier 2 Batch 4 candidates and stale-series warning remediation plan
+- Prioritize Tier 2 Batch 5 candidates and stale-series warning remediation plan
 
 ### Backlog 📦
 
@@ -488,5 +494,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-13
-**Next Review**: After Tier 2 Batch 4 shortlist and stale-series handling proposal are drafted
+**Next Review**: After Tier 2 Batch 5 shortlist and stale-series handling proposal are drafted
 **Status**: M4 complete; Phase 5 expansion hardening in progress

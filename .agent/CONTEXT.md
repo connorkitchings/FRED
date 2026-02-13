@@ -14,11 +14,16 @@
 
 - **Version**: 0.1.0 (MVP complete)
 - **Current Focus**: Phase 5 expansion hardening (DQ monitoring, automation reliability, and next-batch prioritization)
-- **Next Milestone**: Finalize Tier 2 Batch 4 shortlist and stale-series warning response plan
+- **Next Milestone**: Finalize Tier 2 Batch 5 shortlist and stale-series warning response plan
 - **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
 
+- **2026-02-13**: Tier 2 Batch 4 rollout completed
+  - Added 6 Tier 2 indicators to `config/series_catalog.yaml`: `T5YIE`, `DCOILWTICO`, `DTWEXBGS`, `NFCI`, `WALCL`, `SOFR`
+  - Added catalog guardrail test coverage for Batch 4 presence
+  - Updated data dictionary and implementation schedule to reflect Batch 4 rollout state
+  - Ran catalog seed + incremental ingestion validation (`cb667b1a-e74a-4f0b-b627-1667df74d306`) with success status and no critical DQ findings
 - **2026-02-13**: Tier 2 Batch 3 catalog update applied
   - Added 6 Tier 2 indicators to `config/series_catalog.yaml`: `AHETPI`, `U6RATE`, `CPILFESL`, `SP500`, `DEXUSEU`, `BUSLOANS`
   - Added catalog guardrail test coverage for Batch 3 presence
@@ -203,7 +208,7 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 **Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Prioritize Tier 2 Batch 4 candidate set with the same constrained-validation workflow used for Batch 3
+1. Prioritize Tier 2 Batch 5 candidate set with the same constrained-validation workflow used for Batch 4
 2. Expand operational reporting views/runbook guidance for DQ trend monitoring
 3. Keep full test suite green while transition work lands
 4. Monitor stale-series warnings from daily workflow artifacts and tune thresholds/remediation playbook
