@@ -7,10 +7,12 @@ from src.fred_macro.services.catalog import SeriesConfig
 
 logger = get_logger(__name__)
 
+
 class DataFetcher:
     """
     Component responsible for fetching data from external APIs.
     """
+
     def __init__(self):
         self.clients = {}
 
@@ -28,7 +30,9 @@ class DataFetcher:
             start_date = today - timedelta(days=60)
         return start_date.strftime("%Y-%m-%d")
 
-    def fetch_series(self, series: SeriesConfig, mode: str = "incremental") -> pd.DataFrame:
+    def fetch_series(
+        self, series: SeriesConfig, mode: str = "incremental"
+    ) -> pd.DataFrame:
         """
         Fetch data for a single series.
         Returns empty DataFrame on failure/no data.
@@ -36,16 +40,20 @@ class DataFetcher:
         try:
             client = self._get_client(series.source)
             start_date = self._determine_start_date(mode)
-            
+
             df = client.get_series_data(series.series_id, start_date=start_date)
-            
+
             if df.empty:
-                logger.warning(f"No data found for {series.series_id} ({series.source})")
+                logger.warning(
+                    f"No data found for {series.series_id} ({series.source})"
+                )
                 return df
-                
-            logger.info(f"Fetched {len(df)} rows for {series.series_id} ({series.source})")
+
+            logger.info(
+                f"Fetched {len(df)} rows for {series.series_id} ({series.source})"
+            )
             return df
-            
+
         except Exception as e:
             logger.error(f"Failed to fetch {series.series_id} ({series.source}): {e}")
             return pd.DataFrame()

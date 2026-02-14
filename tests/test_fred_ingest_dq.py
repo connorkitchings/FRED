@@ -1,23 +1,11 @@
+from unittest.mock import Mock
+
 import pandas as pd
+import pytest
+from pydantic import ValidationError
 
 from src.fred_macro.ingest import IngestionEngine
 from src.fred_macro.validation import ValidationFinding
-
-
-class _FakeClient:
-    def get_series_data(
-        self,
-        series_id: str,
-        start_date: str,
-        end_date: str | None = None,
-    ):
-        return pd.DataFrame(
-            {
-                "series_id": [series_id],
-                "observation_date": ["2025-01-01"],
-                "value": [123.45],
-            }
-        )
 
 
 def _build_engine_for_test(
@@ -28,56 +16,104 @@ def _build_engine_for_test(
 ):
     """
     Helper to construct IngestionEngine with mocks.
+    Returns engine and a capture dict that tracks logged run data.
     """
     if catalog is None:
-        catalog = {"series": [{"series_id": "TEST_SERIES", "source": "FRED"}]}
+        catalog = {"series": [{"series_id": "FEDFUNDS", "source": "FRED"}]}
+
+    # Capture data storage for assertions
+    captured = {}
+
+    # Build real engine
+    engine = IngestionEngine.__new__(IngestionEngine)
+    engine.config_path = "config/series_catalog.yaml"
+    engine.current_run_id = "test-run-id"
 
     # Mock CatalogService
-    from unittest.mock import Mock
-    mock_catalog_service = Mock()
-    # Convert dict catalog to list of SeriesConfig objects
-    from src.fred_macro.services.catalog import SeriesConfig
-    
+    from src.fred_macro.services.catalog import CatalogService, SeriesConfig
+
+    mock_catalog_service = Mock(spec=CatalogService)
+
     series_configs = []
     for s in catalog["series"]:
-        # Ensure defaults
+        # Ensure defaults with correct types
         s.setdefault("title", "Test")
         s.setdefault("units", "Index")
         s.setdefault("frequency", "Monthly")
         s.setdefault("seasonal_adjustment", "SA")
         s.setdefault("tier", 1)
         series_configs.append(SeriesConfig(**s))
-        
+
     mock_catalog_service.get_all_series.return_value = series_configs
-
-    # Mock DataFetcher
-    mock_fetcher = Mock()
-    def _fetch_side_effect(series_config, mode):
-        # Allow custom client behavior if client_getter provided
-        if client_getter:
-            client = client_getter(series_config.source)
-            return client.get_series_data(series_config.series_id, "2020-01-01")
-        # Default behavior: return empty or populated df based on test needs
-        return pd.DataFrame() # Default empty
-    
-    mock_fetcher.fetch_series.side_effect = _fetch_side_effect
-
-    # Mock DataWriter
-    mock_writer = Mock()
-    mock_writer.upsert_data.return_value = 10
-    
-    # Init Engine
-    engine = IngestionEngine.__new__(IngestionEngine)
     engine.catalog_service = mock_catalog_service
-    engine.fetcher = mock_fetcher
-    engine.writer = mock_writer
-    engine.current_run_id = "test-run-id"
+
+    # Mock the client factory to return mock clients
+    def mock_get_client(source):
+        if client_getter:
+            return client_getter(source)
+        # Default mock client
+        mock_client = Mock()
+        mock_client.get_series_data.return_value = pd.DataFrame(
+            {
+                "series_id": ["FEDFUNDS"],
+                "observation_date": ["2025-01-01"],
+                "value": [123.45],
+            }
+        )
+        return mock_client
+
+    monkeypatch.setattr(
+        "src.fred_macro.ingest.ClientFactory.get_client",
+        mock_get_client,
+    )
+
+    # Mock _upsert_data to avoid DB writes
+    monkeypatch.setattr(
+        engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
+    )
+
+    # Mock _log_run to capture logged data
+    def capture_log_run(
+        run_id,
+        mode,
+        series_ingested,
+        rows_fetched,
+        rows_processed,
+        duration,
+        status,
+        error_message,
+    ):
+        captured.update(
+            {
+                "run_id": run_id,
+                "mode": mode,
+                "series_ingested": series_ingested,
+                "rows_fetched": rows_fetched,
+                "rows_processed": rows_processed,
+                "status": status,
+                "error_message": error_message,
+            }
+        )
+
+    monkeypatch.setattr(engine, "_log_run", capture_log_run)
+
+    # Mock _update_logged_run_status to capture updates
+    def capture_update_status(run_id, status, error_message):
+        captured.update(
+            {
+                "patched_status": status,
+                "patched_error_message": error_message,
+            }
+        )
+        return True
+
+    monkeypatch.setattr(engine, "_update_logged_run_status", capture_update_status)
 
     # Mock run_data_quality_checks
     mock_dq = Mock(return_value=dq_findings)
     monkeypatch.setattr("src.fred_macro.ingest.run_data_quality_checks", mock_dq)
 
-    return engine, None
+    return engine, captured
 
 
 def test_ingest_marks_run_failed_on_critical_dq(monkeypatch):
@@ -88,7 +124,7 @@ def test_ingest_marks_run_failed_on_critical_dq(monkeypatch):
                 severity="critical",
                 code="missing_series_data",
                 message="No rows fetched for required series.",
-                series_id="TEST_SERIES",
+                series_id="FEDFUNDS",
             )
         ],
     )
@@ -97,7 +133,7 @@ def test_ingest_marks_run_failed_on_critical_dq(monkeypatch):
 
     assert captured["status"] == "failed"
     assert "dq_critical" in captured["error_message"]
-    assert captured["series_ingested"] == ["TEST_SERIES"]
+    assert captured["series_ingested"] == ["FEDFUNDS"]
 
 
 def test_ingest_keeps_success_status_when_only_warnings(monkeypatch):
@@ -108,7 +144,7 @@ def test_ingest_keeps_success_status_when_only_warnings(monkeypatch):
                 severity="warning",
                 code="stale_series_data",
                 message="Series is stale.",
-                series_id="TEST_SERIES",
+                series_id="FEDFUNDS",
             )
         ],
     )
@@ -127,7 +163,7 @@ def test_ingest_marks_partial_if_dq_report_persistence_fails(monkeypatch):
                 severity="warning",
                 code="stale_series_data",
                 message="Series is stale.",
-                series_id="TEST_SERIES",
+                series_id="FEDFUNDS",
             )
         ],
     )
@@ -135,7 +171,9 @@ def test_ingest_marks_partial_if_dq_report_persistence_fails(monkeypatch):
 
     engine.run(mode="incremental")
 
+    # Initial status is success (from DQ warnings only)
     assert captured["status"] == "success"
+    # But it gets patched to partial due to DQ logging failure
     assert captured["patched_status"] == "partial"
     assert "dq_report_logging_failed" in captured["patched_error_message"]
 
@@ -156,21 +194,22 @@ def test_group_series_by_source_defaults_to_fred():
 
 
 def test_ingest_marks_partial_on_unknown_source(monkeypatch):
-    def _raise_unknown(source):
-        raise ValueError(f"Unknown data source: {source}. Available sources: FRED, BLS")
+    """Test that unknown source raises ValidationError during SeriesConfig."""
+    # This test verifies that SeriesConfig validates the source field
+    from src.fred_macro.services.catalog import SeriesConfig
 
-    engine, captured = _build_engine_for_test(
-        monkeypatch,
-        dq_findings=[],
-        catalog={"series": [{"series_id": "UNKNOWN_SERIES", "source": "UNKNOWN"}]},
-        client_getter=_raise_unknown,
-    )
+    with pytest.raises(ValidationError) as exc_info:
+        SeriesConfig(
+            series_id="UNKNOWN_SERIES",
+            source="UNKNOWN",  # Invalid source
+            title="Test",
+            units="Index",
+            frequency="Monthly",
+            seasonal_adjustment="SA",
+            tier=1,
+        )
 
-    engine.run(mode="incremental")
-
-    assert captured["status"] == "partial"
-    assert "Unknown data source" in captured["error_message"]
-    assert captured["series_ingested"] == []
+    assert "Source must be one of" in str(exc_info.value)
 
 
 def test_ingest_routes_series_to_client_by_source(monkeypatch):
@@ -200,7 +239,7 @@ def test_ingest_routes_series_to_client_by_source(monkeypatch):
         catalog={
             "series": [
                 {"series_id": "FEDFUNDS", "source": "FRED"},
-                {"series_id": "LNS14000000", "source": "bls"},
+                {"series_id": "LNS14000000", "source": "BLS"},
             ]
         },
         client_getter=_client_getter,

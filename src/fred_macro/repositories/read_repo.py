@@ -2,6 +2,7 @@ import pandas as pd
 from typing import List, Dict, Any, Optional
 from src.fred_macro.db import get_connection
 
+
 class ReadRepository:
     def get_run_by_id(self, run_id: str) -> Optional[Dict[str, Any]]:
         conn = get_connection()
@@ -27,7 +28,7 @@ class ReadRepository:
                 "rows_fetched": row[4],
                 "rows_inserted": row[5],
                 "duration": row[7],
-                "error": row[8]
+                "error": row[8],
             }
         finally:
             conn.close()
@@ -35,12 +36,16 @@ class ReadRepository:
     def get_latest_run_id(self) -> Optional[str]:
         conn = get_connection()
         try:
-            res = conn.execute("SELECT run_id FROM ingestion_log ORDER BY run_timestamp DESC LIMIT 1").fetchone()
+            res = conn.execute(
+                "SELECT run_id FROM ingestion_log ORDER BY run_timestamp DESC LIMIT 1"
+            ).fetchone()
             return res[0] if res else None
         finally:
             conn.close()
 
-    def get_dq_findings(self, run_id: str, severity: str = "all", limit: int = 50) -> List[tuple]:
+    def get_dq_findings(
+        self, run_id: str, severity: str = "all", limit: int = 50
+    ) -> List[tuple]:
         conn = get_connection()
         try:
             query = """
@@ -63,7 +68,7 @@ class ReadRepository:
         try:
             rows = conn.execute(
                 "SELECT severity, COUNT(*) FROM dq_report WHERE run_id = ? GROUP BY severity",
-                (run_id,)
+                (run_id,),
             ).fetchall()
             counts = {"info": 0, "warning": 0, "critical": 0}
             for sev, cnt in rows:
@@ -102,7 +107,7 @@ class ReadRepository:
             if tier:
                 query += " AND s.tier = ?"
                 params.append(tier)
-            
+
             query += """
                 )
                 SELECT 

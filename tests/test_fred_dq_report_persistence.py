@@ -1,6 +1,7 @@
 import duckdb
-from unittest.mock import Mock
+
 from src.fred_macro.ingest import IngestionEngine
+from src.fred_macro.services.writer import DataWriter
 from src.fred_macro.validation import ValidationFinding
 
 
@@ -37,9 +38,11 @@ def _init_dq_schema(db_path):
 
 
 def test_log_dq_findings_persists_rows(tmp_path, monkeypatch):
+    """Integration test: verify DQ findings are actually persisted to database."""
     db_path = tmp_path / "dq_report.duckdb"
     _init_dq_schema(db_path)
 
+    # Seed the ingestion_log (required for FK constraint)
     conn = duckdb.connect(str(db_path))
     conn.execute(
         """
@@ -53,14 +56,19 @@ def test_log_dq_findings_persists_rows(tmp_path, monkeypatch):
     )
     conn.close()
 
-    # Mock writer repository
-    mock_writer_repo = Mock()
-    # When insert_dq_findings is called, we'll verify it
-    
+    # Monkeypatch get_connection at the repository level to use test DB
+    def test_connection():
+        return duckdb.connect(str(db_path))
+
+    monkeypatch.setattr(
+        "src.fred_macro.repositories.write_repo.get_connection",
+        test_connection,
+    )
+
+    # Use real DataWriter with real WriteRepository
     engine = IngestionEngine.__new__(IngestionEngine)
-    engine.writer = Mock()
-    engine.writer.repo = mock_writer_repo
-    
+    engine.writer = DataWriter()
+
     findings = [
         ValidationFinding(
             severity="warning",
@@ -69,15 +77,19 @@ def test_log_dq_findings_persists_rows(tmp_path, monkeypatch):
             series_id="UNRATE",
             metadata={"age_days": 120, "threshold_days": 90},
         ),
+        ValidationFinding(
+            severity="critical",
+            code="duplicate_observations",
+            message="Duplicate rows detected.",
+            series_id="CPIAUCSL",
+            metadata={"duplicate_count": 2},
+        ),
     ]
 
     ok = engine._log_dq_findings("run-123", findings)
     assert ok is True
-    mock_writer_repo.insert_dq_findings.assert_called_once()
-    args = mock_writer_repo.insert_dq_findings.call_args[0]
-    assert args[0] == "run-123"
-    assert args[1] == findings
 
+    # Verify data was actually persisted in the database
     conn = duckdb.connect(str(db_path))
     rows = conn.execute(
         """

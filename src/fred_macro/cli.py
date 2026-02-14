@@ -134,7 +134,7 @@ def dq_report(
             f"info={count_map['info']}"
         )
 
-        if run_row['error']:
+        if run_row["error"]:
             typer.echo(f"Run Error: {run_row['error']}")
 
         if not findings:
@@ -193,8 +193,8 @@ def run_health(
             raise typer.Exit(code=1)
 
         count_map = repo.get_dq_counts(target_run_id)
-        
-        run_timestamp = run_row['run_timestamp']
+
+        run_timestamp = run_row["run_timestamp"]
         run_timestamp_text = (
             run_timestamp.isoformat()
             if hasattr(run_timestamp, "isoformat")
@@ -202,14 +202,14 @@ def run_health(
         )
 
         summary = {
-            "run_id": run_row['run_id'],
+            "run_id": run_row["run_id"],
             "run_timestamp": run_timestamp_text,
-            "mode": run_row['mode'],
-            "status": run_row['status'],
-            "rows_fetched": run_row['rows_fetched'],
-            "rows_inserted": run_row['rows_inserted'],
-            "duration_seconds": run_row['duration'],
-            "error_message": run_row['error'],
+            "mode": run_row["mode"],
+            "status": run_row["status"],
+            "rows_fetched": run_row["rows_fetched"],
+            "rows_inserted": run_row["rows_inserted"],
+            "duration_seconds": run_row["duration"],
+            "error_message": run_row["error"],
             "dq_counts": count_map,
             "dq_total": (
                 count_map["critical"] + count_map["warning"] + count_map["info"]

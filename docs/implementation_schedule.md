@@ -427,6 +427,8 @@
 | 2026-02-14 | Tier 2 Batch 5 backfill validation completed | Confirm Phase 1 BLS expansion approach successful | Backfill run succeeded for all 56 series; catalog seeding workflow verified |
 | 2026-02-14 | Multi-source ingestion baseline hardening applied | Close known blockers before broader Phase 2 rollout | Ingestion now routes series by `source` via `ClientFactory`, BLS retry/warning test blockers resolved, and source-routing tests added |
 | 2026-02-14 | Mixed-source merge-readiness validation completed | Validate runtime FRED+BLS routing path before merge | Fixed BLS date filter type mismatch (`Timestamp` vs `str`), full test suite passed (55), verify passed, mixed-source incremental run succeeded with run-health clean (`critical=0`, `warning=0`) |
+| 2026-02-14 | Test suite restoration completed | Fix broken tests after architecture refactor | Fixed 9 failing tests in CLI, ingestion, and persistence modules; refactored mocks to match new service-oriented architecture |
+| 2026-02-14 | Multi-source integration tests added | Expand test coverage for FRED+BLS scenarios | Added 8 new integration tests covering mixed catalog processing, error paths, client routing, and singleton patterns |
 
 ---
 
@@ -463,13 +465,19 @@
 - Tier 2 Batch 5 (BLS Expansion via FRED) indicators added with catalog test coverage and docs updates
 - Tier 2 Batch 5 indicators validated via backfill run and run-health summary (56 total series ingested)
 
-### In Progress ▶
+### Done ✅
 
 **Phase 2 readiness hardening**
-- Multi-source client routing in `IngestionEngine` with `ClientFactory` dispatch is implemented on feature branch
+- Multi-source client routing in `IngestionEngine` with `ClientFactory` dispatch
 - BLS client warning/test blockers resolved and covered by tests
-- Mixed-source runtime validation succeeded on feature branch (`run_id=6bf005e4-ca10-4d88-946f-272b42c0ad9a`)
-- Pending: merge to mainline and decide whether direct BLS API scope should be activated
+- Mixed-source runtime validation succeeded
+- Test suite restoration completed (all 60 tests passing)
+- Multi-source integration tests added (8 new tests covering FRED+BLS scenarios)
+
+### In Progress ▶
+
+**Direct BLS API Scope Decision**
+- Evaluate whether direct BLS API scope should be activated beyond current FRED-mediated BLS coverage
 
 ### Backlog 📦
 
@@ -505,5 +513,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-14
-**Next Review**: After multi-source baseline merge readiness check and direct BLS scope decision
-**Status**: M4 complete; Phase 5 Tier 2 expansion complete (56 series); Phase 2 readiness hardening in progress on feature branch
+**Next Review**: After direct BLS API scope decision
+**Status**: M4 complete; Phase 5 Tier 2 expansion complete (56 series); Phase 2 readiness hardening complete; 68 tests passing (60 existing + 8 new multi-source integration)
