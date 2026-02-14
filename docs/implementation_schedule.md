@@ -429,6 +429,7 @@
 | 2026-02-14 | Mixed-source merge-readiness validation completed | Validate runtime FRED+BLS routing path before merge | Fixed BLS date filter type mismatch (`Timestamp` vs `str`), full test suite passed (55), verify passed, mixed-source incremental run succeeded with run-health clean (`critical=0`, `warning=0`) |
 | 2026-02-14 | Test suite restoration completed | Fix broken tests after architecture refactor | Fixed 9 failing tests in CLI, ingestion, and persistence modules; refactored mocks to match new service-oriented architecture |
 | 2026-02-14 | Multi-source integration tests added | Expand test coverage for FRED+BLS scenarios | Added 8 new integration tests covering mixed catalog processing, error paths, client routing, and singleton patterns |
+| 2026-02-14 | Direct BLS API expansion completed | Expand beyond FRED-mediated BLS to direct API sources | Added 23 new direct BLS series across 4 phases (Core, Extended Employment, Price Detail, Regional/Demographics). Total: 80 series (55 FRED + 25 BLS direct). Created BLS setup documentation. All 68 tests passing. |
 
 ---
 
@@ -471,13 +472,18 @@
 - Multi-source client routing in `IngestionEngine` with `ClientFactory` dispatch
 - BLS client warning/test blockers resolved and covered by tests
 - Mixed-source runtime validation succeeded
-- Test suite restoration completed (all 60 tests passing)
+- Test suite restoration completed (all 68 tests passing)
 - Multi-source integration tests added (8 new tests covering FRED+BLS scenarios)
+
+**Direct BLS API Expansion**
+- Expanded from 2 to 25 direct BLS series (23 new series added)
+- Catalog now contains 80 total series (55 FRED + 25 BLS direct)
+- Added BLS setup documentation
+- All 68 tests passing with new catalog
 
 ### In Progress ▶
 
-**Direct BLS API Scope Decision**
-- Evaluate whether direct BLS API scope should be activated beyond current FRED-mediated BLS coverage
+None - Ready for next phase
 
 ### Backlog 📦
 
@@ -513,5 +519,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-14
-**Next Review**: After direct BLS API scope decision
-**Status**: M4 complete; Phase 5 Tier 2 expansion complete (56 series); Phase 2 readiness hardening complete; 68 tests passing (60 existing + 8 new multi-source integration)
+**Next Review**: After next phase selection (Alerting or Analytics)
+**Status**: M4 complete; Phase 5 Tier 2 expansion complete (80 series: 55 FRED + 25 BLS direct); Phase 2 readiness hardening complete; 68 tests passing
