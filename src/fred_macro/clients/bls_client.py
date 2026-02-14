@@ -219,9 +219,9 @@ class BLSClient:
 
             # Filter by date range if specified
             if start_date:
-                df = df[df["observation_date"] >= start_date]
+                df = df[df["observation_date"] >= pd.Timestamp(start_date)]
             if end_date:
-                df = df[df["observation_date"] <= end_date]
+                df = df[df["observation_date"] <= pd.Timestamp(end_date)]
 
             logger.info(f"Fetched {len(df)} observations for BLS series {series_id}")
 

@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 Complete; Multi-Source Readiness Follow-On
-**Progress:** ✅ Tier 2 Batch 5 (BLS Expansion via FRED) complete; ▶ multi-source ingestion client-routing baseline hardened on feature branch
-**Next Milestone:** Merge and validate multi-source ingestion baseline (FRED + BLS routing), then evaluate direct BLS API scope
+**Progress:** ✅ Tier 2 Batch 5 (BLS Expansion via FRED) complete; ✅ mixed-source runtime validation succeeded on feature branch (`run_id=6bf005e4-ca10-4d88-946f-272b42c0ad9a`)
+**Next Milestone:** Merge multi-source ingestion baseline (FRED + BLS routing), then evaluate direct BLS API scope
 
 ---
 
@@ -163,7 +163,7 @@
 
 ---
 
-## Phase 5: Expansion (Post-MVP) ▶ IN PROGRESS
+## Phase 5: Expansion (Post-MVP) ✅ COMPLETE
 
 **Goal**: Extend beyond Big Four indicators
 
@@ -426,6 +426,7 @@
 | 2026-02-14 | Tier 2 Batch 5 (BLS Expansion) completed | Comprehensive BLS coverage via FRED API using existing infrastructure | Added 15 BLS series: JOLTS flows (3), sectoral employment (3), wages/comp (3), unemployment detail (2), PPI (2), CPI components (2). Total: 56 series |
 | 2026-02-14 | Tier 2 Batch 5 backfill validation completed | Confirm Phase 1 BLS expansion approach successful | Backfill run succeeded for all 56 series; catalog seeding workflow verified |
 | 2026-02-14 | Multi-source ingestion baseline hardening applied | Close known blockers before broader Phase 2 rollout | Ingestion now routes series by `source` via `ClientFactory`, BLS retry/warning test blockers resolved, and source-routing tests added |
+| 2026-02-14 | Mixed-source merge-readiness validation completed | Validate runtime FRED+BLS routing path before merge | Fixed BLS date filter type mismatch (`Timestamp` vs `str`), full test suite passed (55), verify passed, mixed-source incremental run succeeded with run-health clean (`critical=0`, `warning=0`) |
 
 ---
 
@@ -467,6 +468,7 @@
 **Phase 2 readiness hardening**
 - Multi-source client routing in `IngestionEngine` with `ClientFactory` dispatch is implemented on feature branch
 - BLS client warning/test blockers resolved and covered by tests
+- Mixed-source runtime validation succeeded on feature branch (`run_id=6bf005e4-ca10-4d88-946f-272b42c0ad9a`)
 - Pending: merge to mainline and decide whether direct BLS API scope should be activated
 
 ### Backlog 📦

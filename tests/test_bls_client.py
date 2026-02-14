@@ -119,17 +119,35 @@ class TestBLSClient(unittest.TestCase):
         mock_response.status_code = 200
         mock_response.json.return_value = {
             "status": "REQUEST_SUCCEEDED",
-            "Results": {"series": [{"seriesID": "TEST", "data": []}]},
+            "Results": {
+                "series": [
+                    {
+                        "seriesID": "TEST",
+                        "data": [
+                            {"year": "2020", "period": "M01", "value": "10"},
+                            {"year": "2020", "period": "M02", "value": "20"},
+                            {"year": "2020", "period": "M03", "value": "30"},
+                        ],
+                    }
+                ]
+            },
         }
         mock_post.return_value = mock_response
 
         client = BLSClient(api_key="test_key")
-        client.get_series_data("TEST", start_date="2020-01-01", end_date="2024-12-31")
+        df = client.get_series_data(
+            "TEST",
+            start_date="2020-02-01",
+            end_date="2020-03-01",
+        )
 
         # Verify years are extracted correctly
         payload = mock_post.call_args[1]["json"]
         self.assertEqual(payload["startyear"], "2020")
-        self.assertEqual(payload["endyear"], "2024")
+        self.assertEqual(payload["endyear"], "2020")
+        self.assertEqual(len(df), 2)
+        self.assertEqual(df.iloc[0]["observation_date"], pd.Timestamp("2020-02-01"))
+        self.assertEqual(df.iloc[1]["observation_date"], pd.Timestamp("2020-03-01"))
 
     @patch("src.fred_macro.clients.bls_client.requests.post")
     @patch("src.fred_macro.clients.bls_client.time.sleep")

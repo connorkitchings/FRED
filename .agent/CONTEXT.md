@@ -19,6 +19,11 @@
 
 ## Recent Activity
 
+- **2026-02-14**: Multi-source merge-readiness validation completed
+  - Fixed BLS incremental date-filter type mismatch (`Timestamp` vs `str`) in `BLSClient`
+  - Ran full test suite successfully (`55 passed`) and validated `cli verify`
+  - Executed mixed-source incremental validation using temporary FRED+BLS config (`run_id=6bf005e4-ca10-4d88-946f-272b42c0ad9a`)
+  - Run health result: `status=success`, `critical=0`, `warning=0`, `info=0`
 - **2026-02-14**: Multi-source ingestion baseline hardening
   - Refactored ingestion routing to dispatch by `source` via `ClientFactory` instead of direct FRED-only wiring
   - Resolved BLS retry-behavior test mismatch (`RetryError` expectation) and removed pandas chained-assignment warnings
