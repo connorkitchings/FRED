@@ -488,3 +488,209 @@ series:
     tier: 2
     source: "BLS"
     description: "CPI-U All Items (Sourced directly from BLS)."
+
+  # Phase 1: Core BLS Series (8 additional series)
+
+  - series_id: "CES0000000001"
+    title: "Total Nonfarm Employment (BLS Source)"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Total nonfarm payroll employment from Current Employment Statistics survey. Principal economic indicator sourced directly from BLS for same-day availability."
+
+  - series_id: "CES0500000003"
+    title: "Average Hourly Earnings - Total Private (BLS Source)"
+    units: "Dollars per Hour"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Average hourly earnings of production and nonsupervisory employees in the private sector. Key wage inflation tracker from CES survey."
+
+  - series_id: "LNS11300000"
+    title: "Labor Force Participation Rate (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Labor force participation rate from Current Population Survey. Measures the percentage of working-age population that is either employed or actively seeking employment."
+
+  - series_id: "CUUS0000SA0"
+    title: "Core CPI - All Items Less Food and Energy (BLS Source)"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Core CPI excluding volatile food and energy components. Primary measure of underlying inflation trends, sourced directly from BLS."
+
+  - series_id: "WPUFD4"
+    title: "Producer Price Index - Finished Goods (BLS Source)"
+    units: "Index 1982=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Producer Price Index for finished goods. Measures wholesale inflation pressures at the final production stage."
+
+  - series_id: "CUUR0000SETB01"
+    title: "CPI - Gasoline, All Types (BLS Source)"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "CPI component for gasoline (all types). Key energy price indicator and shock transmission mechanism."
+
+  - series_id: "PRS85006112"
+    title: "Nonfarm Business Sector Labor Productivity (BLS Source)"
+    units: "Index 2017=100"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Labor productivity for nonfarm business sector. Measures output per hour worked, critical for long-term economic growth and inflation analysis."
+
+  # Phase 2: Extended Employment (6 series)
+
+  - series_id: "LNS12000000"
+    title: "Employment-Population Ratio (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Employment-population ratio from CPS. Complements unemployment rate by measuring what share of working-age population is employed."
+
+  - series_id: "LNS13000000"
+    title: "Persons Unemployed 15+ Weeks (BLS Source)"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Number of persons unemployed for 15 weeks or longer. Indicator of structural unemployment and labor market scarring."
+
+  - series_id: "LNS14027662"
+    title: "Youth Unemployment Rate 16-19 Years (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Unemployment rate for youth aged 16-19. Vulnerable worker segment that signals labor market entry conditions."
+
+  - series_id: "CES3000000001"
+    title: "Manufacturing Employment (BLS Source)"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Manufacturing sector payroll employment from CES. Leading indicator of industrial activity and business cycle turning points."
+
+  - series_id: "CES4200000001"
+    title: "Trade/Transport/Utilities Employment (BLS Source)"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Employment in wholesale trade, retail trade, transportation, and utilities. Large service sector proxy (~20% of nonfarm jobs)."
+
+  - series_id: "CES5051000001"
+    title: "Financial Activities Employment (BLS Source)"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Financial activities sector employment. Tracks finance, insurance, and real estate employment trends."
+
+  # Phase 3: Price Detail (6 series)
+
+  - series_id: "CUSR0000SAF11"
+    title: "CPI - Food at Home (BLS Source)"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "CPI component for food consumed at home. Tracks grocery store inflation affecting household budgets."
+
+  - series_id: "CUSR0000SAS"
+    title: "CPI - Services (BLS Source)"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "CPI services component. Represents ~60% of CPI basket and shows persistent service sector inflation trends."
+
+  - series_id: "CUSR0000SAC"
+    title: "CPI - Commodities (BLS Source)"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "CPI commodities component. Tracks goods inflation excluding services, more volatile but responsive to supply shocks."
+
+  - series_id: "WPUSOP3000"
+    title: "PPI - Crude Materials (BLS Source)"
+    units: "Index 1982=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Producer Price Index for crude materials. Leading indicator of input cost pressures further up the production chain."
+
+  - series_id: "PRS85006152"
+    title: "Unit Labor Costs - Nonfarm Business (BLS Source)"
+    units: "Index 2017=100"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Unit labor costs for nonfarm business sector. Combines productivity and compensation trends to measure inflation pressure from labor markets."
+
+  - series_id: "PRS85006092"
+    title: "Real Hourly Compensation (BLS Source)"
+    units: "Index 2017=100"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Real (inflation-adjusted) hourly compensation. Measures worker purchasing power after accounting for inflation."
+
+  # Phase 4: Regional & Demographics (3 series)
+
+  - series_id: "LASST060000000000003"
+    title: "California Unemployment Rate (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "California state unemployment rate from LAUS (Local Area Unemployment Statistics). Largest state economy indicator."
+
+  - series_id: "LASST360000000000003"
+    title: "New York Unemployment Rate (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "New York state unemployment rate from LAUS. Financial center regional indicator with unique sector composition."
+
+  - series_id: "LNS14027660"
+    title: "Unemployment Rate - Bachelor's Degree+ (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "Unemployment rate for persons with bachelor's degree or higher. Educational attainment premium and skills-based labor market indicator."
