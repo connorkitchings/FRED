@@ -23,61 +23,61 @@ class _FakeClient:
 def _build_engine_for_test(
     monkeypatch,
     dq_findings,
-    *,
     catalog=None,
     client_getter=None,
 ):
+    """
+    Helper to construct IngestionEngine with mocks.
+    """
+    if catalog is None:
+        catalog = {"series": [{"series_id": "TEST_SERIES", "source": "FRED"}]}
+
+    # Mock CatalogService
+    from unittest.mock import Mock
+    mock_catalog_service = Mock()
+    # Convert dict catalog to list of SeriesConfig objects
+    from src.fred_macro.services.catalog import SeriesConfig
+    
+    series_configs = []
+    for s in catalog["series"]:
+        # Ensure defaults
+        s.setdefault("title", "Test")
+        s.setdefault("units", "Index")
+        s.setdefault("frequency", "Monthly")
+        s.setdefault("seasonal_adjustment", "SA")
+        s.setdefault("tier", 1)
+        series_configs.append(SeriesConfig(**s))
+        
+    mock_catalog_service.get_all_series.return_value = series_configs
+
+    # Mock DataFetcher
+    mock_fetcher = Mock()
+    def _fetch_side_effect(series_config, mode):
+        # Allow custom client behavior if client_getter provided
+        if client_getter:
+            client = client_getter(series_config.source)
+            return client.get_series_data(series_config.series_id, "2020-01-01")
+        # Default behavior: return empty or populated df based on test needs
+        return pd.DataFrame() # Default empty
+    
+    mock_fetcher.fetch_series.side_effect = _fetch_side_effect
+
+    # Mock DataWriter
+    mock_writer = Mock()
+    mock_writer.upsert_data.return_value = 10
+    
+    # Init Engine
     engine = IngestionEngine.__new__(IngestionEngine)
-    engine.catalog = catalog or {
-        "series": [{"series_id": "TEST_SERIES", "source": "FRED"}]
-    }
+    engine.catalog_service = mock_catalog_service
+    engine.fetcher = mock_fetcher
+    engine.writer = mock_writer
+    engine.current_run_id = "test-run-id"
 
-    monkeypatch.setattr(engine, "_determine_start_date", lambda mode: "2020-01-01")
-    monkeypatch.setattr(engine, "_upsert_data", lambda df: len(df))
-    if client_getter is None:
-        client_getter = lambda source: _FakeClient()  # noqa: E731
-    monkeypatch.setattr(
-        "src.fred_macro.ingest.ClientFactory.get_client",
-        client_getter,
-    )
+    # Mock run_data_quality_checks
+    mock_dq = Mock(return_value=dq_findings)
+    monkeypatch.setattr("src.fred_macro.ingest.run_data_quality_checks", mock_dq)
 
-    captured = {}
-
-    def _capture_log_run(
-        run_id,
-        mode,
-        series_ingested,
-        rows_fetched,
-        rows_processed,
-        duration,
-        status,
-        error_message,
-    ):
-        captured["status"] = status
-        captured["error_message"] = error_message
-        captured["series_ingested"] = series_ingested
-        captured["rows_fetched"] = rows_fetched
-        captured["rows_processed"] = rows_processed
-
-    monkeypatch.setattr(engine, "_log_run", _capture_log_run)
-    monkeypatch.setattr(
-        "src.fred_macro.ingest.run_data_quality_checks",
-        lambda mode, configured_series, run_series_stats: dq_findings,
-    )
-    monkeypatch.setattr(engine, "_log_dq_findings", lambda run_id, findings: True)
-    monkeypatch.setattr(
-        engine,
-        "_update_logged_run_status",
-        lambda run_id, status, error_message: captured.update(
-            {
-                "patched_run_id": run_id,
-                "patched_status": status,
-                "patched_error_message": error_message,
-            }
-        )
-        or True,
-    )
-    return engine, captured
+    return engine, None
 
 
 def test_ingest_marks_run_failed_on_critical_dq(monkeypatch):
