@@ -62,11 +62,9 @@ def test_dq_report_command_for_specific_run(tmp_path, monkeypatch):
     )
     conn.close()
 
-    import src.fred_macro.cli as cli_module
-
+    # Monkeypatch get_connection at the repository level where ReadRepository uses it
     monkeypatch.setattr(
-        cli_module,
-        "get_connection",
+        "src.fred_macro.repositories.read_repo.get_connection",
         lambda: duckdb.connect(str(db_path)),
     )
 
@@ -110,11 +108,9 @@ def test_dq_report_command_uses_latest_run_by_default(tmp_path, monkeypatch):
     )
     conn.close()
 
-    import src.fred_macro.cli as cli_module
-
+    # Monkeypatch get_connection at the repository level
     monkeypatch.setattr(
-        cli_module,
-        "get_connection",
+        "src.fred_macro.repositories.read_repo.get_connection",
         lambda: duckdb.connect(str(db_path)),
     )
 
@@ -155,11 +151,9 @@ def test_dq_report_command_accepts_latest_alias(tmp_path, monkeypatch):
     )
     conn.close()
 
-    import src.fred_macro.cli as cli_module
-
+    # Monkeypatch get_connection at the repository level
     monkeypatch.setattr(
-        cli_module,
-        "get_connection",
+        "src.fred_macro.repositories.read_repo.get_connection",
         lambda: duckdb.connect(str(db_path)),
     )
 
@@ -174,11 +168,9 @@ def test_dq_report_command_errors_for_missing_run(tmp_path, monkeypatch):
     db_path = tmp_path / "dq_cli_missing.duckdb"
     _init_report_db(db_path)
 
-    import src.fred_macro.cli as cli_module
-
+    # Monkeypatch get_connection at the repository level
     monkeypatch.setattr(
-        cli_module,
-        "get_connection",
+        "src.fred_macro.repositories.read_repo.get_connection",
         lambda: duckdb.connect(str(db_path)),
     )
 

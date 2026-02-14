@@ -8,6 +8,7 @@ from src.fred_macro.logging_config import get_logger
 
 logger = get_logger(__name__)
 
+
 class WriteRepository:
     def upsert_observations(self, df: pd.DataFrame) -> int:
         if df.empty:
@@ -33,9 +34,17 @@ class WriteRepository:
         finally:
             conn.close()
 
-    def create_run_log(self, run_id: str, mode: str, series_ingested: List[str], 
-                      rows_fetched: int, rows_processed: int, duration: float, 
-                      status: str, error_message: Optional[str]):
+    def create_run_log(
+        self,
+        run_id: str,
+        mode: str,
+        series_ingested: List[str],
+        rows_fetched: int,
+        rows_processed: int,
+        duration: float,
+        status: str,
+        error_message: Optional[str],
+    ):
         conn = get_connection()
         try:
             query = """
@@ -46,8 +55,16 @@ class WriteRepository:
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
             params = (
-                run_id, datetime.now(), mode, json.dumps(series_ingested),
-                rows_fetched, rows_processed, 0, duration, status, error_message
+                run_id,
+                datetime.now(),
+                mode,
+                json.dumps(series_ingested),
+                rows_fetched,
+                rows_processed,
+                0,
+                duration,
+                status,
+                error_message,
             )
             conn.execute(query, params)
         finally:
@@ -82,10 +99,18 @@ class WriteRepository:
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """
             for f in findings:
-                conn.execute(query, (
-                    str(uuid.uuid4()), run_id, datetime.now(),
-                    f.severity, f.code, f.series_id, f.message,
-                    json.dumps(f.metadata) if f.metadata else None
-                ))
+                conn.execute(
+                    query,
+                    (
+                        str(uuid.uuid4()),
+                        run_id,
+                        datetime.now(),
+                        f.severity,
+                        f.code,
+                        f.series_id,
+                        f.message,
+                        json.dumps(f.metadata) if f.metadata else None,
+                    ),
+                )
         finally:
             conn.close()

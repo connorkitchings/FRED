@@ -5,10 +5,12 @@ from src.fred_macro.logging_config import get_logger
 
 logger = get_logger(__name__)
 
+
 class DataWriter:
     """
     Service responsible for writing data, delegating to WriteRepository.
     """
+
     def __init__(self):
         self.repo = WriteRepository()
 
@@ -32,13 +34,21 @@ class DataWriter:
     ):
         try:
             self.repo.create_run_log(
-                run_id, mode, series_ingested, rows_fetched, 
-                rows_processed, duration, status, error_message
+                run_id,
+                mode,
+                series_ingested,
+                rows_fetched,
+                rows_processed,
+                duration,
+                status,
+                error_message,
             )
         except Exception as e:
             logger.error(f"Failed to log run: {e}")
 
-    def update_run_status(self, run_id: str, status: str, error_message: str | None) -> bool:
+    def update_run_status(
+        self, run_id: str, status: str, error_message: str | None
+    ) -> bool:
         try:
             self.repo.update_run_status(run_id, status, error_message)
             return True

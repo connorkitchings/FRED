@@ -1,7 +1,9 @@
-from typing import Any, Dict, List, Optional
 from pathlib import Path
+from typing import List, Optional
+
 import yaml
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, field_validator
+
 
 class SeriesConfig(BaseModel):
     series_id: str
@@ -13,18 +15,20 @@ class SeriesConfig(BaseModel):
     source: str = "FRED"
     description: str = ""
 
-    @validator("source")
-    def validate_source(cls, v):
+    @field_validator("source")
+    def validate_source(cls, v):  # noqa: N805
         allowed = {"FRED", "BLS"}
         if v.upper() not in allowed:
             raise ValueError(f"Source must be one of {allowed}")
         return v.upper()
+
 
 class CatalogService:
     """
     Centralized service for accessing the series catalog.
     Handles loading, validation, and filtering.
     """
+
     def __init__(self, config_path: str = "config/series_catalog.yaml"):
         self.config_path = Path(config_path)
         self._series: List[SeriesConfig] = []
@@ -34,10 +38,10 @@ class CatalogService:
         """Reload the catalog from disk."""
         if not self.config_path.exists():
             raise FileNotFoundError(f"Catalog not found at {self.config_path}")
-            
+
         with open(self.config_path, "r") as f:
             data = yaml.safe_load(f)
-            
+
         raw_list = data.get("series", [])
         self._series = [SeriesConfig(**item) for item in raw_list]
 
