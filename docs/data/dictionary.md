@@ -270,7 +270,7 @@ Indicators are organized into thematic categories for easier navigation and unde
 
 **Purpose**: Additional indicators for broader economic coverage (Post-MVP).
 
-**Status**: Tier 2 rollout is active. Kickoff + Batch 2 + Batch 3 + Batch 4 are in `config/series_catalog.yaml` (37 Tier 2 series; 41 total including Tier 1).
+**Status**: Tier 2 rollout is active. Kickoff + Batch 2 + Batch 3 + Batch 4 + Batch 5 are in `config/series_catalog.yaml` (52 Tier 2 series; 56 total including Tier 1).
 
 ### Kickoff Bundle (In Catalog Now)
 
@@ -311,6 +311,34 @@ Indicators are organized into thematic categories for easier navigation and unde
 | WALCL | Monetary Policy & Liquidity | Federal Reserve balance-sheet size signal |
 | SOFR | Rates & Funding | Core overnight secured funding benchmark |
 
+### Batch 5 Additions (2026-02-14) - BLS Expansion via FRED
+
+**Focus**: Comprehensive Bureau of Labor Statistics coverage via FRED API
+
+| Series ID | Category | Why it was added |
+|-----------|----------|------------------|
+| **JOLTS Flow Data** | | |
+| JTSQUR | Labor Market | Quits rate signals labor market confidence and worker mobility |
+| JTSHIR | Labor Market | Hires rate tracks forward-looking labor demand flows |
+| JTSLDR | Labor Market | Layoffs/discharges rate indicates labor market stress |
+| **Sectoral Employment** | | |
+| MANEMP | Manufacturing | Manufacturing employment is a leading cyclical indicator |
+| USCONS | Construction | Construction employment is highly cycle-sensitive |
+| USGOVT | Government | Government employment serves as fiscal policy proxy |
+| **Wage/Compensation** | | |
+| ECIWAG | Labor Costs | Fed's preferred wage measure without composition bias |
+| ECIALLCIV | Labor Costs | Total compensation including wages and benefits |
+| ULCNFB | Labor Costs | Unit labor costs signal inflation pressure from labor |
+| **Unemployment Detail** | | |
+| UEMPMEAN | Labor Market | Average unemployment duration signals job-finding difficulty |
+| EMRATIO | Labor Market | Employment-population ratio provides broader employment measure |
+| **Producer Prices** | | |
+| PPIACO | Prices & Inflation | PPI All Commodities tracks input-cost inflation |
+| WPSFD49207 | Prices & Inflation | Core PPI reveals underlying producer inflation trends |
+| **CPI Components** | | |
+| CUSR0000SAH1 | Prices & Inflation | Shelter is largest CPI component (~33% weight) |
+| CPIENGSL | Prices & Inflation | Energy CPI enables headline inflation decomposition |
+
 ### Labor Market (Extended)
 
 | Series ID | Title | Frequency | Description |
@@ -319,6 +347,17 @@ Indicators are organized into thematic categories for easier navigation and unde
 | AHETPI | Average Hourly Earnings | Monthly | Wage growth indicator |
 | CIVPART | Labor Force Participation Rate | Monthly | % of population in labor force |
 | U6RATE | U-6 Unemployment Rate | Monthly | Broader unemployment measure (includes underemployed) |
+| JTSQUR | JOLTS Quits Rate | Monthly | Voluntary separations signal labor market confidence |
+| JTSHIR | JOLTS Hires Rate | Monthly | New job flows measure labor demand |
+| JTSLDR | JOLTS Layoffs/Discharges Rate | Monthly | Involuntary separations signal labor market stress |
+| UEMPMEAN | Average Unemployment Duration | Monthly | Weeks unemployed signal job-finding difficulty |
+| EMRATIO | Employment-Population Ratio | Monthly | Broader employment measure than participation rate |
+| MANEMP | Manufacturing Employment | Monthly | Manufacturing sector jobs (leading indicator) |
+| USCONS | Construction Employment | Monthly | Construction sector jobs (cycle-sensitive) |
+| USGOVT | Government Employment | Monthly | Public sector employment (fiscal policy proxy) |
+| ECIWAG | Employment Cost Index: Wages | Quarterly | Fed's preferred wage measure (no composition bias) |
+| ECIALLCIV | Employment Cost Index: Total Comp | Quarterly | Wages plus benefits comprehensive measure |
+| ULCNFB | Unit Labor Costs | Quarterly | Labor cost per output unit (inflation signal) |
 
 ### Housing
 
@@ -362,8 +401,17 @@ Indicators are organized into thematic categories for easier navigation and unde
 | TCU | Total Capacity Utilization | Monthly | Factory capacity usage |
 | NETEXP | Net Exports | Quarterly | Trade balance |
 
-**Configured Total**: 37 Tier 2 series (41 total with Tier 1)
-**Estimated Observations**: ~5,000-8,000 for 10 years
+### Prices & Inflation (Extended)
+
+| Series ID | Title | Frequency | Description |
+|-----------|-------|-----------|-------------|
+| PPIACO | Producer Price Index: All Commodities | Monthly | Input-cost inflation and upstream pricing pressures |
+| WPSFD49207 | Core PPI (Final Demand ex Food/Energy) | Monthly | Underlying producer inflation trends |
+| CUSR0000SAH1 | CPI: Shelter | Monthly | Largest CPI component (~33% weight) |
+| CPIENGSL | CPI: Energy | Monthly | Energy contribution to headline inflation |
+
+**Configured Total**: 52 Tier 2 series (56 total with Tier 1)
+**Estimated Observations**: ~8,000-12,000 for 10 years
 
 ---
 

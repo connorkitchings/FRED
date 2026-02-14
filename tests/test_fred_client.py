@@ -3,11 +3,11 @@ from unittest.mock import patch
 
 import pandas as pd
 
-from src.fred_macro.fred_client import FredClient
+from src.fred_macro.clients import FredClient
 
 
 class TestFredClient(unittest.TestCase):
-    @patch("src.fred_macro.fred_client.Fred")
+    @patch("src.fred_macro.clients.fred_client.Fred")
     def test_init_success(self, mock_fred):
         """Test successful initialization with API key."""
         client = FredClient(api_key="test_key")
@@ -20,8 +20,8 @@ class TestFredClient(unittest.TestCase):
         with self.assertRaises(ValueError):
             FredClient()
 
-    @patch("src.fred_macro.fred_client.Fred")
-    @patch("src.fred_macro.fred_client.time.sleep")
+    @patch("src.fred_macro.clients.fred_client.Fred")
+    @patch("src.fred_macro.clients.fred_client.time.sleep")
     def test_get_series_data_success(self, mock_sleep, mock_fred):
         """Test successful data fetch."""
         # Setup mock return
@@ -49,18 +49,18 @@ class TestFredClient(unittest.TestCase):
         self.assertEqual(df.iloc[0]["series_id"], "GDP")
         self.assertEqual(df.iloc[0]["value"], 100.0)
 
-    @patch("src.fred_macro.fred_client.Fred")
-    @patch("src.fred_macro.fred_client.time.sleep")
+    @patch("src.fred_macro.clients.fred_client.Fred")
+    @patch("src.fred_macro.clients.fred_client.time.sleep")
     def test_rate_limiting(self, mock_sleep, mock_fred):
         """Test that rate limiting triggers sleep."""
         client = FredClient(api_key="test_key")
         client._last_request_time = 1000.0
 
-        with patch("src.fred_macro.fred_client.time.time", return_value=1000.5):
+        with patch("src.fred_macro.clients.fred_client.time.time", return_value=1000.5):
             client._enforce_rate_limit()
             mock_sleep.assert_called()  # Should sleep because only 0.5s passed
 
-    @patch("src.fred_macro.fred_client.Fred")
+    @patch("src.fred_macro.clients.fred_client.Fred")
     def test_get_series_data_failure(self, mock_fred):
         """Test error propagation."""
         mock_fred_instance = mock_fred.return_value

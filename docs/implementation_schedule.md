@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 - Expansion & Hardening
-**Progress:** ▶ Tier 2 Batch 4 catalog integrated and incremental ingestion validated (success with warnings only)
-**Next Milestone:** Prioritize Tier 2 Batch 5 candidates and finalize stale-series remediation policy
+**Progress:** ✅ Tier 2 Batch 5 (BLS Expansion via FRED) catalog integrated and backfill validated (56 total series, all ingested successfully)
+**Next Milestone:** Consider Phase 2 (multi-source architecture) or Phase 3 (direct BLS API) when specialized data needs arise
 
 ---
 
@@ -176,10 +176,12 @@
 | Define Tier 2 catalog | ✅ Done | Connor | Updated `config/series_catalog.yaml` | 13 new series added (Batch 2) |
 | Add Tier 2 Batch 3 catalog set | ✅ Done | Connor | Updated catalog + tests + docs | Added AHETPI, U6RATE, CPILFESL, SP500, DEXUSEU, BUSLOANS |
 | Add Tier 2 Batch 4 catalog set | ✅ Done | Connor | Updated catalog + tests + docs | Added T5YIE, DCOILWTICO, DTWEXBGS, NFCI, WALCL, SOFR |
+| Add Tier 2 Batch 5 catalog set (BLS Expansion) | ✅ Done | Connor | Updated catalog + tests + docs | Added 15 BLS series via FRED: JOLTS flows, sectoral employment, wages/comp, unemployment detail, PPI, CPI components |
 | Test Tier 2 ingestion | ✅ Done | Connor | Validation scripts | Backfill validation complete (partial status with valid warnings) |
 | Validate Batch 3 incremental ingest | ✅ Done | Connor | `ingest --mode incremental` + `run-health` | Run `4ca8ef27-d3ba-4336-9b76-6947e55bae81`: status success, critical=0, warning=7 |
 | Validate Batch 4 incremental ingest | ✅ Done | Connor | `ingest --mode incremental` + `run-health` | Run `cb667b1a-e74a-4f0b-b627-1667df74d306`: status success, critical=0, warning=7 |
-| Documentation update | ✅ Done | Connor | Update data dictionary | Batch 2, Batch 3, and Batch 4 documented in catalog |
+| Validate Batch 5 backfill | ✅ Done | Connor | `ingest --mode backfill` + `run-health` | Run `7ba696c2-f721-41f5-bb0c-9fe6425937f6`: status success, 56 series, critical=0, warning=8 |
+| Documentation update | ✅ Done | Connor | Update data dictionary | Batch 2, Batch 3, Batch 4, and Batch 5 documented in catalog |
 
 ### Data Quality
 
@@ -421,6 +423,8 @@
 | 2026-02-13 | Tier 2 Batch 3 incremental validation completed | Confirm new indicators ingest cleanly in production path | Incremental run succeeded for all Batch 3 series; only non-critical DQ warnings observed |
 | 2026-02-13 | Tier 2 Batch 4 catalog updates applied | Extend market/liquidity/inflation-expectations coverage with high-frequency signals | Added 6 validated series and aligned tests/documentation |
 | 2026-02-13 | Tier 2 Batch 4 incremental validation completed | Confirm Batch 4 indicators ingest cleanly in production path | Incremental run succeeded for all Batch 4 series; only non-critical DQ warnings observed |
+| 2026-02-14 | Tier 2 Batch 5 (BLS Expansion) completed | Comprehensive BLS coverage via FRED API using existing infrastructure | Added 15 BLS series: JOLTS flows (3), sectoral employment (3), wages/comp (3), unemployment detail (2), PPI (2), CPI components (2). Total: 56 series |
+| 2026-02-14 | Tier 2 Batch 5 backfill validation completed | Confirm Phase 1 BLS expansion approach successful | Backfill run succeeded for all 56 series; catalog seeding workflow verified |
 
 ---
 
@@ -454,11 +458,13 @@
 - Tier 2 Batch 3 indicators validated via incremental run and run-health summary
 - Tier 2 Batch 4 indicators added with catalog test coverage and docs updates
 - Tier 2 Batch 4 indicators validated via incremental run and run-health summary
+- Tier 2 Batch 5 (BLS Expansion via FRED) indicators added with catalog test coverage and docs updates
+- Tier 2 Batch 5 indicators validated via backfill run and run-health summary (56 total series ingested)
 
 ### In Progress ▶
 
-**Phase 5 stabilization and transition**
-- Prioritize Tier 2 Batch 5 candidates and stale-series warning remediation plan
+**Phase 5 expansion complete**
+- Future phases (multi-source architecture, direct BLS API) on hold pending specialized data requirements
 
 ### Backlog 📦
 
@@ -493,6 +499,6 @@ Every development session should:
 
 ---
 
-**Last Updated**: 2026-02-13
-**Next Review**: After Tier 2 Batch 5 shortlist and stale-series handling proposal are drafted
-**Status**: M4 complete; Phase 5 expansion hardening in progress
+**Last Updated**: 2026-02-14
+**Next Review**: When specialized BLS data requirements (geographic/occupational detail) arise
+**Status**: M4 complete; Phase 5 Tier 2 expansion complete (56 series); Phase 1 BLS expansion validated

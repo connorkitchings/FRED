@@ -340,3 +340,131 @@ series:
     seasonal_adjustment: "Not Seasonally Adjusted"
     tier: 2
     description: "Primary overnight secured funding rate benchmark in U.S. money markets."
+
+  # --- Tier 2: Series Batch 5 (BLS Expansion via FRED) ---
+
+  # JOLTS Flow Data
+  - series_id: "JTSQUR"
+    title: "JOLTS Quits Rate: Total Nonfarm"
+    units: "Rate"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The quits rate measures voluntary separations, signaling labor market confidence and worker mobility."
+
+  - series_id: "JTSHIR"
+    title: "JOLTS Hires Rate: Total Nonfarm"
+    units: "Rate"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The hires rate tracks new job flows into employment, a forward-looking labor demand signal."
+
+  - series_id: "JTSLDR"
+    title: "JOLTS Layoffs and Discharges Rate: Total Nonfarm"
+    units: "Rate"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The layoffs and discharges rate indicates labor market stress and employment separations."
+
+  # Sectoral Employment
+  - series_id: "MANEMP"
+    title: "All Employees, Manufacturing"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Manufacturing employment is a leading indicator of industrial cycle strength and turning points."
+
+  - series_id: "USCONS"
+    title: "All Employees, Construction"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Construction employment is a cycle-sensitive indicator of building activity and economic momentum."
+
+  - series_id: "USGOVT"
+    title: "All Employees, Government"
+    units: "Thousands of Persons"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Government employment serves as a fiscal policy proxy and public sector employment trend."
+
+  # Wage/Compensation
+  - series_id: "ECIWAG"
+    title: "Employment Cost Index: Wages and Salaries for All Civilian Workers"
+    units: "Index Dec 2005=100"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The Fed's preferred wage measure, tracking labor cost pressures without composition bias."
+
+  - series_id: "ECIALLCIV"
+    title: "Employment Cost Index: Total Compensation for All Civilian Workers"
+    units: "Index Dec 2005=100"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Comprehensive labor cost measure including wages, salaries, and employer benefits."
+
+  - series_id: "ULCNFB"
+    title: "Nonfarm Business Sector: Unit Labor Costs"
+    units: "Index 2017=100"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Unit labor costs measure labor cost per unit of output, a key inflation pressure signal."
+
+  # Unemployment Detail
+  - series_id: "UEMPMEAN"
+    title: "Average (Mean) Duration of Unemployment"
+    units: "Weeks"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Average weeks unemployed signals labor market health and job-finding difficulty."
+
+  - series_id: "EMRATIO"
+    title: "Employment-Population Ratio"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "The employment-population ratio provides a broader employment measure than the participation rate."
+
+  # Producer Prices
+  - series_id: "PPIACO"
+    title: "Producer Price Index for All Commodities"
+    units: "Index 1982=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    description: "PPI All Commodities tracks input-cost inflation and upstream pricing pressures."
+
+  - series_id: "WPSFD49207"
+    title: "Producer Price Index by Commodity: Final Demand: Finished Goods Less Foods and Energy"
+    units: "Index 1982=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Core PPI excludes volatile food and energy to reveal underlying producer inflation trends."
+
+  # CPI Components
+  - series_id: "CUSR0000SAH1"
+    title: "Consumer Price Index for All Urban Consumers: Shelter in U.S. City Average"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "Shelter is the largest CPI component (~33% weight) and a key driver of headline inflation."
+
+  - series_id: "CPIENGSL"
+    title: "Consumer Price Index for All Urban Consumers: Energy in U.S. City Average"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    description: "CPI Energy component enables decomposition of headline inflation volatility from energy prices."
