@@ -1,0 +1,102 @@
+# Alerting Configuration
+# Defines alert rules, notification channels, and digest settings
+
+# Global Settings
+global:
+  enabled: true
+  digest_mode: true  # If true, sends daily digest instead of real-time alerts
+  digest_time: "08:00"  # UTC time for daily digest
+  timezone: "UTC"
+
+# Email Configuration
+email:
+  enabled: true
+  smtp_host: "${SMTP_HOST:-smtp.gmail.com}"
+  smtp_port: ${SMTP_PORT:-587}
+  smtp_user: "${SMTP_USER:-}"  # Email address
+  smtp_password: "${SMTP_PASSWORD:-}"  # App password or SMTP password
+  smtp_tls: true
+  from_address: "${ALERT_FROM:-fred-alerts@example.com}"
+  to_addresses:
+    - "${ALERT_TO:-admin@example.com}"
+  
+# Alert Rules
+# Each rule defines when an alert should be triggered
+rules:
+  # Ingestion Failure Alerts
+  - name: "ingestion_failure"
+    enabled: true
+    severity: "critical"
+    description: "Alert when ingestion run fails or has critical errors"
+    condition:
+      type: "ingestion_status"
+      statuses: ["failed", "critical"]
+    cooldown_hours: 1  # Don't alert more than once per hour for same issue
+    
+  # Data Quality Critical Findings
+  - name: "dq_critical_findings"
+    enabled: true
+    severity: "critical"
+    description: "Alert when 3+ critical DQ findings in a run"
+    condition:
+      type: "dq_count"
+      severity: "critical"
+      threshold: 3
+      operator: ">="
+    cooldown_hours: 4
+    
+  # Data Quality Warning Findings
+  - name: "dq_warning_findings"
+    enabled: true
+    severity: "warning"
+    description: "Alert when 10+ warning DQ findings in a run"
+    condition:
+      type: "dq_count"
+      severity: "warning"
+      threshold: 10
+      operator: ">="
+    cooldown_hours: 24
+    
+  # Stale Series Data
+  - name: "stale_series_data"
+    enabled: true
+    severity: "warning"
+    description: "Alert when series hasn't been updated in 60 days"
+    condition:
+      type: "data_freshness"
+      max_age_days: 60
+    cooldown_hours: 72  # Alert every 3 days about stale data
+    
+  # Missing Series Data
+  - name: "missing_series_data"
+    enabled: true
+    severity: "critical"
+    description: "Alert when series has no observations in last 30 days"
+    condition:
+      type: "missing_data"
+      days: 30
+    cooldown_hours: 24
+    
+  # High API Error Rate
+  - name: "high_api_error_rate"
+    enabled: true
+    severity: "warning"
+    description: "Alert when >20% of series fail to fetch in a run"
+    condition:
+      type: "error_rate"
+      threshold: 0.20
+      operator: ">="
+    cooldown_hours: 6
+
+# Digest Configuration
+digest:
+  enabled: true
+  format: "html"  # Options: html, markdown, plain
+  include_charts: false  # If true, includes simple data visualizations
+  max_alerts_per_category: 10  # Limit alerts per category in digest
+  summary_stats: true  # Include run statistics in digest
+  
+# Alert History Settings
+history:
+  retention_days: 90  # Keep alert history for 90 days
+  max_alerts_per_day: 100  # Prevent alert storms

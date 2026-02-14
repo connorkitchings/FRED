@@ -2,7 +2,7 @@ import json
 import time
 import uuid
 from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 import yaml
@@ -23,10 +23,14 @@ logger = get_logger(__name__)
 
 
 class IngestionEngine:
-    def __init__(self, config_path: str = "config/series_catalog.yaml"):
+    def __init__(
+        self, config_path: str = "config/series_catalog.yaml", alert_manager=None
+    ):
         self.config_path = config_path
         self.catalog_service = CatalogService(config_path)
         self.current_run_id = None
+        self.alert_manager = alert_manager
+        self.writer = None  # Initialize writer attribute to avoid AttributeError
 
     def _get_series_list(self) -> List[Dict[str, Any]]:
         """Retrieve list of series from config as dictionaries."""
@@ -328,6 +332,19 @@ class IngestionEngine:
                     status=patched_status,
                     error_message=patched_error,
                 )
+
+            # Evaluate alerting rules
+            if self.alert_manager:
+                alert_context = {
+                    "run_id": self.current_run_id,
+                    "run_status": status,
+                    "dq_findings": [f.model_dump() for f in dq_findings],
+                    "total_series": len(series_list),
+                    "failed_series": len(series_list) - len(series_ingested),
+                    "series_ingested": series_ingested,
+                }
+                self.alert_manager.check_and_alert(alert_context)
+
         return self.current_run_id
 
 
