@@ -35,6 +35,7 @@ TIER2_BATCH5 = {
     "CUSR0000SAH1",
     "CPIENGSL",  # CPI Components
 }
+TIER2_BATCH6 = {"LNS14000000", "CUUR0000SA0"}
 
 
 def _load_series() -> list[dict]:
@@ -57,6 +58,18 @@ def test_series_catalog_has_unique_series_ids():
     series_list = _load_series()
     series_ids = [item["series_id"] for item in series_list]
     assert len(series_ids) == len(set(series_ids)), "Duplicate series_id values found."
+
+
+def test_series_catalog_source_validity():
+    """Ensure 'source' field is valid if present."""
+    valid_sources = {"FRED", "BLS"}
+    series_list = _load_series()
+    for item in series_list:
+        source = item.get("source", "FRED")  # Default to FRED
+        assert source in valid_sources, (
+            f"Invalid source '{source}' for series {item.get('series_id')}. "
+            f"Must be one of {valid_sources}"
+        )
 
 
 def test_tier1_big_four_present():
@@ -87,3 +100,9 @@ def test_tier2_batch5_present():
     series_list = _load_series()
     tier2 = {item["series_id"] for item in series_list if item["tier"] == 2}
     assert TIER2_BATCH5.issubset(tier2)
+
+
+def test_tier2_batch6_present():
+    series_list = _load_series()
+    tier2 = {item["series_id"] for item in series_list if item["tier"] == 2}
+    assert TIER2_BATCH6.issubset(tier2)

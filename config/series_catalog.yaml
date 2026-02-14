@@ -468,3 +468,23 @@ series:
     seasonal_adjustment: "Seasonally Adjusted"
     tier: 2
     description: "CPI Energy component enables decomposition of headline inflation volatility from energy prices."
+
+  # --- Tier 2: Series Batch 6 (Direct BLS Source Expansion) ---
+
+  - series_id: "LNS14000000"
+    title: "Unemployment Rate (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "The unemployment rate represents the number of unemployed as a percentage of the labor force (Sourced directly from BLS)."
+
+  - series_id: "CUUR0000SA0"
+    title: "CPI-U (BLS Source)"
+    units: "Index 1982-1984=100"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "CPI-U All Items (Sourced directly from BLS)."
