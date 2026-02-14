@@ -5,6 +5,7 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  workflow_dispatch:
 
 jobs:
   lint-and-format:
@@ -56,6 +57,9 @@ jobs:
     - name: Install dependencies
       run: uv sync
     
+    - name: Run catalog verification
+      run: uv run pytest tests/test_series_catalog_config.py
+
     - name: Run tests with pytest
       run: uv run pytest -v
 
