@@ -1,37 +1,17 @@
 import streamlit as st
 import pandas as pd
-from src.fred_macro.db import get_connection
+from src.fred_macro.repositories.read_repo import ReadRepository
 
-@st.cache_data(ttl=60)  # Short cache for health data
+# Repo is lightweight
+repo = ReadRepository()
+
+@st.cache_data(ttl=60)
 def get_recent_runs(limit: int = 10) -> pd.DataFrame:
-    conn = get_connection()
-    try:
-        return conn.execute(f"""
-            SELECT 
-                run_id, run_timestamp, mode, status, 
-                total_rows_fetched, total_rows_inserted, duration_seconds
-            FROM ingestion_log
-            ORDER BY run_timestamp DESC
-            LIMIT {limit}
-        """).fetchdf()
-    finally:
-        conn.close()
+    return repo.get_recent_runs_df(limit)
 
 @st.cache_data(ttl=60)
 def get_active_warnings(limit: int = 50) -> pd.DataFrame:
-    """Get recent Warnings and Critical errors."""
-    conn = get_connection()
-    try:
-        return conn.execute(f"""
-            SELECT 
-                finding_timestamp, severity, code, series_id, message
-            FROM dq_report
-            WHERE severity IN ('warning', 'critical')
-            ORDER BY finding_timestamp DESC
-            LIMIT {limit}
-        """).fetchdf()
-    finally:
-        conn.close()
+    return repo.get_active_warnings_df(limit)
 
 def show_health_monitor():
     st.header("🏥 Pipeline Health")

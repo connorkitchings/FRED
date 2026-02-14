@@ -17,26 +17,29 @@ from src.fred_macro.validation import (
     summarize_findings,
 )
 
+from src.fred_macro.services.catalog import CatalogService
+
 logger = get_logger(__name__)
 
 
 class IngestionEngine:
     def __init__(self, config_path: str = "config/series_catalog.yaml"):
         self.config_path = config_path
-        with open(config_path, "r") as f:
-            self.catalog = yaml.safe_load(f)
+        self.catalog_service = CatalogService(config_path)
+        self.current_run_id = None
 
     def _get_series_list(self) -> List[Dict[str, Any]]:
-        """Retrieve list of series from config."""
-        return self.catalog.get("series", [])
+        """Retrieve list of series from config as dictionaries."""
+        # Convert Pydantic models back to dicts for compatibility with existing logic
+        return [s.model_dump() for s in self.catalog_service.get_all_series()]
 
     def _group_series_by_source(
         self, series_list: List[Dict[str, Any]]
     ) -> Dict[str, List[Dict[str, Any]]]:
-        """Group configured series by data source, defaulting to FRED."""
+        """Group configured series by data source."""
         grouped: Dict[str, List[Dict[str, Any]]] = {}
         for item in series_list:
-            source = str(item.get("source", "FRED")).strip().upper() or "FRED"
+            source = str(item.get("source", "FRED")).strip().upper()
             grouped.setdefault(source, []).append(item)
         return grouped
 
@@ -154,41 +157,12 @@ class IngestionEngine:
         findings: List[ValidationFinding],
     ) -> bool:
         """Persist structured data-quality findings for a run."""
-        if not findings:
-            return True
-
-        conn = get_connection()
         try:
-            query = """
-            INSERT INTO dq_report (
-                report_id, run_id, finding_timestamp, severity, code,
-                series_id, message, metadata
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """
-            for finding in findings:
-                conn.execute(
-                    query,
-                    (
-                        str(uuid.uuid4()),
-                        run_id,
-                        datetime.now(),
-                        finding.severity,
-                        finding.code,
-                        finding.series_id,
-                        finding.message,
-                        (
-                            json.dumps(finding.metadata)
-                            if finding.metadata is not None
-                            else None
-                        ),
-                    ),
-                )
+            self.writer.repo.insert_dq_findings(run_id, findings)
             return True
         except Exception as e:
             logger.error("Failed to persist DQ findings for run %s: %s", run_id, e)
             return False
-        finally:
-            conn.close()
 
     def _update_logged_run_status(
         self,

@@ -1,6 +1,9 @@
 from prefect import task
-from src.fred_macro.ingest import IngestionEngine
 from src.fred_macro.seed_catalog import seed_catalog
+from src.fred_macro.ingest import IngestionEngine
+from src.fred_macro.services.fetcher import DataFetcher
+from src.fred_macro.services.writer import DataWriter
+from src.fred_macro.services.catalog import SeriesConfig
 import pandas as pd
 
 @task(name="Seed Catalog", retries=2)
@@ -8,17 +11,30 @@ def task_seed_catalog():
     """Seed the series catalog to ensure new series exist in DB."""
     seed_catalog()
 
-@task(name="Ingest Batch", retries=3, retry_delay_seconds=30)
+@task(name="Ingest Batch (Legacy)", retries=0)
 def task_ingest_batch(mode: str = "incremental") -> str:
-    """
-    Run the ingestion engine for a batch.
-    Returns the run_id.
-    """
+    """Run the legacy monolithic ingestion engine."""
     engine = IngestionEngine()
-    # The engine handles its own internal batching/routing.
-    # We are wrapping the top-level execution here.
     engine.run(mode=mode)
     return engine.current_run_id
+
+# --- New Parallel Tasks ---
+
+@task(name="Fetch Series", retries=3, retry_delay_seconds=5)
+def task_fetch_single_series(series_config: dict, mode: str) -> pd.DataFrame:
+    """Fetch data for a single series (Config dict passed for serialization)."""
+    fetcher = DataFetcher()
+    # Reconstruct config object from dict
+    config = SeriesConfig(**series_config)
+    return fetcher.fetch_series(config, mode=mode)
+
+@task(name="Write Data", retries=2)
+def task_write_dataframe(df: pd.DataFrame) -> int:
+    """Write a dataframe to the DB."""
+    if df.empty:
+        return 0
+    writer = DataWriter()
+    return writer.upsert_data(df)
 
 @task(name="Validate Run Health")
 def task_validate_run(run_id: str) -> dict:

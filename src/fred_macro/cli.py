@@ -8,59 +8,23 @@ import yaml
 from src.fred_macro.db import get_connection
 from src.fred_macro.ingest import IngestionEngine
 from src.fred_macro.logging_config import get_logger, setup_logging
+from src.fred_macro.repositories.read_repo import ReadRepository
 
 # Initialize logging
 setup_logging()
 logger = get_logger(__name__)
 
 app = typer.Typer(help="FRED Macro Dashboard CLI")
+repo = ReadRepository()
 
 
-def _resolve_target_run_id(conn, requested_run_id: Optional[str]) -> str:
+def _resolve_target_run_id(requested_run_id: Optional[str]) -> str:
     if requested_run_id is None or requested_run_id.lower() == "latest":
-        latest = conn.execute(
-            """
-            SELECT run_id
-            FROM ingestion_log
-            ORDER BY run_timestamp DESC
-            LIMIT 1
-            """
-        ).fetchone()
-        if latest is None:
+        latest_id = repo.get_latest_run_id()
+        if latest_id is None:
             raise ValueError("No ingestion runs found.")
-        return latest[0]
+        return latest_id
     return requested_run_id
-
-
-def _get_run_row(conn, run_id: str):
-    return conn.execute(
-        """
-        SELECT
-            run_id, run_timestamp, mode, status,
-            total_rows_fetched, total_rows_inserted, total_rows_updated,
-            duration_seconds, error_message
-        FROM ingestion_log
-        WHERE run_id = ?
-        """,
-        (run_id,),
-    ).fetchone()
-
-
-def _get_dq_count_map(conn, run_id: str) -> dict[str, int]:
-    counts = conn.execute(
-        """
-        SELECT severity, COUNT(*) AS count
-        FROM dq_report
-        WHERE run_id = ?
-        GROUP BY severity
-        ORDER BY severity
-        """,
-        (run_id,),
-    ).fetchall()
-    count_map = {"info": 0, "warning": 0, "critical": 0}
-    for sev, count in counts:
-        count_map[sev] = count
-    return count_map
 
 
 @app.command()
@@ -99,6 +63,7 @@ def verify():
         conn = get_connection()
         conn.execute("SELECT 1")
         typer.echo("Database connection: OK")
+        conn.close()
 
         from src.fred_macro.clients import FredClient
 
@@ -141,40 +106,26 @@ def dq_report(
         )
         raise typer.Exit(code=1)
 
-    conn = get_connection()
     try:
         try:
-            target_run_id = _resolve_target_run_id(conn, run_id)
+            target_run_id = _resolve_target_run_id(run_id)
         except ValueError as e:
             typer.echo(str(e))
             raise typer.Exit(code=1)
 
-        run_row = _get_run_row(conn, target_run_id)
+        run_row = repo.get_run_by_id(target_run_id)
 
         if run_row is None:
             typer.echo(f"Run not found: {target_run_id}")
             raise typer.Exit(code=1)
 
-        count_map = _get_dq_count_map(conn, target_run_id)
-
-        findings_query = """
-            SELECT severity, code, series_id, message, metadata
-            FROM dq_report
-            WHERE run_id = ?
-        """
-        params = [target_run_id]
-        if severity != "all":
-            findings_query += " AND severity = ?"
-            params.append(severity)
-        findings_query += " ORDER BY finding_timestamp DESC LIMIT ?"
-        params.append(limit)
-
-        findings = conn.execute(findings_query, params).fetchall()
+        count_map = repo.get_dq_counts(target_run_id)
+        findings = repo.get_dq_findings(target_run_id, severity, limit)
 
         typer.echo(
             "Run Summary: "
-            f"run_id={run_row[0]} mode={run_row[2]} status={run_row[3]} "
-            f"rows_fetched={run_row[4]} duration={run_row[7]:.2f}s"
+            f"run_id={run_row['run_id']} mode={run_row['mode']} status={run_row['status']} "
+            f"rows_fetched={run_row['rows_fetched']} duration={run_row['duration']:.2f}s"
         )
         typer.echo(
             "DQ Counts: "
@@ -183,8 +134,8 @@ def dq_report(
             f"info={count_map['info']}"
         )
 
-        if run_row[8]:
-            typer.echo(f"Run Error: {run_row[8]}")
+        if run_row['error']:
+            typer.echo(f"Run Error: {run_row['error']}")
 
         if not findings:
             typer.echo("No DQ findings for this selection.")
@@ -200,8 +151,9 @@ def dq_report(
                 )
                 line += f" | metadata={metadata_text}"
             typer.echo(line)
-    finally:
-        conn.close()
+    except Exception as e:
+        typer.echo(f"Error fetching report: {e}")
+        raise typer.Exit(code=1)
 
 
 @app.command("run-health")
@@ -228,21 +180,21 @@ def run_health(
     ),
 ):
     """Show ingestion run health summary (for automation and triage)."""
-    conn = get_connection()
     try:
         try:
-            target_run_id = _resolve_target_run_id(conn, run_id)
+            target_run_id = _resolve_target_run_id(run_id)
         except ValueError as e:
             typer.echo(str(e))
             raise typer.Exit(code=1)
 
-        run_row = _get_run_row(conn, target_run_id)
+        run_row = repo.get_run_by_id(target_run_id)
         if run_row is None:
             typer.echo(f"Run not found: {target_run_id}")
             raise typer.Exit(code=1)
 
-        count_map = _get_dq_count_map(conn, target_run_id)
-        run_timestamp = run_row[1]
+        count_map = repo.get_dq_counts(target_run_id)
+        
+        run_timestamp = run_row['run_timestamp']
         run_timestamp_text = (
             run_timestamp.isoformat()
             if hasattr(run_timestamp, "isoformat")
@@ -250,15 +202,14 @@ def run_health(
         )
 
         summary = {
-            "run_id": run_row[0],
+            "run_id": run_row['run_id'],
             "run_timestamp": run_timestamp_text,
-            "mode": run_row[2],
-            "status": run_row[3],
-            "rows_fetched": run_row[4],
-            "rows_inserted": run_row[5],
-            "rows_updated": run_row[6],
-            "duration_seconds": run_row[7],
-            "error_message": run_row[8],
+            "mode": run_row['mode'],
+            "status": run_row['status'],
+            "rows_fetched": run_row['rows_fetched'],
+            "rows_inserted": run_row['rows_inserted'],
+            "duration_seconds": run_row['duration'],
+            "error_message": run_row['error'],
             "dq_counts": count_map,
             "dq_total": (
                 count_map["critical"] + count_map["warning"] + count_map["info"]
@@ -300,8 +251,9 @@ def run_health(
         if failures:
             typer.echo(f"Health check failed: {', '.join(failures)}")
             raise typer.Exit(code=1)
-    finally:
-        conn.close()
+    except Exception as e:
+        typer.echo(f"Error fetching health: {e}")
+        raise typer.Exit(code=1)
 
 
 if __name__ == "__main__":
