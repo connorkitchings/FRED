@@ -7,8 +7,8 @@ from typing import Any, Dict, List
 import pandas as pd
 import yaml
 
+from src.fred_macro.clients import ClientFactory
 from src.fred_macro.db import get_connection
-from src.fred_macro.fred_client import FredClient
 from src.fred_macro.logging_config import get_logger, setup_logging
 from src.fred_macro.validation import (
     ValidationFinding,
@@ -23,13 +23,22 @@ logger = get_logger(__name__)
 class IngestionEngine:
     def __init__(self, config_path: str = "config/series_catalog.yaml"):
         self.config_path = config_path
-        self.client = FredClient()
         with open(config_path, "r") as f:
             self.catalog = yaml.safe_load(f)
 
     def _get_series_list(self) -> List[Dict[str, Any]]:
         """Retrieve list of series from config."""
         return self.catalog.get("series", [])
+
+    def _group_series_by_source(
+        self, series_list: List[Dict[str, Any]]
+    ) -> Dict[str, List[Dict[str, Any]]]:
+        """Group configured series by data source, defaulting to FRED."""
+        grouped: Dict[str, List[Dict[str, Any]]] = {}
+        for item in series_list:
+            source = str(item.get("source", "FRED")).strip().upper() or "FRED"
+            grouped.setdefault(source, []).append(item)
+        return grouped
 
     def _determine_start_date(self, mode: str) -> str:
         """
@@ -240,25 +249,43 @@ class IngestionEngine:
                     "rows_fetched": 0,
                     "rows_processed": 0,
                 }
+
+            for source, source_items in self._group_series_by_source(
+                series_list
+            ).items():
                 try:
-                    df = self.client.get_series_data(series_id, start_date=start_date)
-                    run_series_stats[series_id]["rows_fetched"] = len(df)
-
-                    if not df.empty:
-                        count = self._upsert_data(df)
-                        run_series_stats[series_id]["rows_processed"] = count
-                        total_fetched += len(df)
-                        total_processed += count
-                        logger.info(f"Processed {series_id}: {len(df)} rows")
-                    else:
-                        logger.warning(f"No data found for {series_id}")
-
-                    series_ingested.append(series_id)
-
+                    client = ClientFactory.get_client(source)
                 except Exception as e:
-                    logger.error(f"Failed to process {series_id}: {e}")
-                    status = "partial"  # Continue processing others
-                    error_msg = str(e)  # Store last error
+                    logger.error(
+                        f"Failed to initialize client for source {source}: {e}"
+                    )
+                    status = "partial"
+                    error_msg = self._append_error(error_msg, f"{source}: {e}")
+                    continue
+
+                for item in source_items:
+                    series_id = item["series_id"]
+                    try:
+                        df = client.get_series_data(series_id, start_date=start_date)
+                        run_series_stats[series_id]["rows_fetched"] = len(df)
+
+                        if not df.empty:
+                            count = self._upsert_data(df)
+                            run_series_stats[series_id]["rows_processed"] = count
+                            total_fetched += len(df)
+                            total_processed += count
+                            logger.info(
+                                f"Processed {series_id} ({source}): {len(df)} rows"
+                            )
+                        else:
+                            logger.warning(f"No data found for {series_id} ({source})")
+
+                        series_ingested.append(series_id)
+
+                    except Exception as e:
+                        logger.error(f"Failed to process {series_id} ({source}): {e}")
+                        status = "partial"  # Continue processing others
+                        error_msg = self._append_error(error_msg, f"{series_id}: {e}")
 
             dq_findings = run_data_quality_checks(
                 mode=mode,

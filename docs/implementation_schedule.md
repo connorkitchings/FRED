@@ -18,9 +18,9 @@
 
 ## Current Status
 
-**Phase:** 5 - Expansion & Hardening
-**Progress:** ✅ Tier 2 Batch 5 (BLS Expansion via FRED) catalog integrated and backfill validated (56 total series, all ingested successfully)
-**Next Milestone:** Consider Phase 2 (multi-source architecture) or Phase 3 (direct BLS API) when specialized data needs arise
+**Phase:** 5 Complete; Multi-Source Readiness Follow-On
+**Progress:** ✅ Tier 2 Batch 5 (BLS Expansion via FRED) complete; ▶ multi-source ingestion client-routing baseline hardened on feature branch
+**Next Milestone:** Merge and validate multi-source ingestion baseline (FRED + BLS routing), then evaluate direct BLS API scope
 
 ---
 
@@ -425,6 +425,7 @@
 | 2026-02-13 | Tier 2 Batch 4 incremental validation completed | Confirm Batch 4 indicators ingest cleanly in production path | Incremental run succeeded for all Batch 4 series; only non-critical DQ warnings observed |
 | 2026-02-14 | Tier 2 Batch 5 (BLS Expansion) completed | Comprehensive BLS coverage via FRED API using existing infrastructure | Added 15 BLS series: JOLTS flows (3), sectoral employment (3), wages/comp (3), unemployment detail (2), PPI (2), CPI components (2). Total: 56 series |
 | 2026-02-14 | Tier 2 Batch 5 backfill validation completed | Confirm Phase 1 BLS expansion approach successful | Backfill run succeeded for all 56 series; catalog seeding workflow verified |
+| 2026-02-14 | Multi-source ingestion baseline hardening applied | Close known blockers before broader Phase 2 rollout | Ingestion now routes series by `source` via `ClientFactory`, BLS retry/warning test blockers resolved, and source-routing tests added |
 
 ---
 
@@ -463,15 +464,17 @@
 
 ### In Progress ▶
 
-**Phase 5 expansion complete**
-- Future phases (multi-source architecture, direct BLS API) on hold pending specialized data requirements
+**Phase 2 readiness hardening**
+- Multi-source client routing in `IngestionEngine` with `ClientFactory` dispatch is implemented on feature branch
+- BLS client warning/test blockers resolved and covered by tests
+- Pending: merge to mainline and decide whether direct BLS API scope should be activated
 
 ### Backlog 📦
 
-**Phase 5: Expansion**
-- Tier 2 indicators
-- Data quality checks
-- Query views
+**Future Enhancements**
+- Direct BLS API feature expansion beyond current FRED-mediated BLS coverage
+- Additional mixed-source integration scenarios and operational runbook updates
+- New indicator expansion as specialized analysis needs arise
 
 ---
 
@@ -500,5 +503,5 @@ Every development session should:
 ---
 
 **Last Updated**: 2026-02-14
-**Next Review**: When specialized BLS data requirements (geographic/occupational detail) arise
-**Status**: M4 complete; Phase 5 Tier 2 expansion complete (56 series); Phase 1 BLS expansion validated
+**Next Review**: After multi-source baseline merge readiness check and direct BLS scope decision
+**Status**: M4 complete; Phase 5 Tier 2 expansion complete (56 series); Phase 2 readiness hardening in progress on feature branch

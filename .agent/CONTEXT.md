@@ -8,17 +8,25 @@
 
 **FRED-Macro-Dashboard**: Personal macroeconomic data infrastructure
 **Stack**: Python 3.10+ · DuckDB/MotherDuck · FRED API · UV
-**Status**: 🟢 Phase 5 Expansion & Hardening In Progress
+**Status**: 🟢 Phase 5 Expansion Complete; Multi-Source Readiness In Progress
 
 ### Current State
 
 - **Version**: 0.1.0 (MVP complete)
-- **Current Focus**: Phase 5 expansion hardening (DQ monitoring, automation reliability, and next-batch prioritization)
-- **Next Milestone**: Finalize Tier 2 Batch 5 shortlist and stale-series warning response plan
+- **Current Focus**: Multi-source ingestion readiness hardening (FRED + BLS client routing, reliability, and validation)
+- **Next Milestone**: Finalize and merge the multi-source ingestion baseline, then evaluate direct BLS API scope against specialized data needs
 - **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
 
+- **2026-02-14**: Multi-source ingestion baseline hardening
+  - Refactored ingestion routing to dispatch by `source` via `ClientFactory` instead of direct FRED-only wiring
+  - Resolved BLS retry-behavior test mismatch (`RetryError` expectation) and removed pandas chained-assignment warnings
+  - Added ingestion source-routing coverage (default source grouping, unknown source handling, FRED/BLS dispatch)
+  - Removed deprecated `FredClient` import usage from CLI verification flow
+- **2026-02-14**: Tier 2 Batch 5 (BLS Expansion via FRED) completed
+  - Added 15 Tier 2 indicators spanning JOLTS flows, sectoral employment, wages/comp, unemployment detail, PPI, and CPI components
+  - Validated full backfill run (`7ba696c2-f721-41f5-bb0c-9fe6425937f6`) with status `success`, `critical=0`, `warning=8`
 - **2026-02-13**: Tier 2 Batch 4 rollout completed
   - Added 6 Tier 2 indicators to `config/series_catalog.yaml`: `T5YIE`, `DCOILWTICO`, `DTWEXBGS`, `NFCI`, `WALCL`, `SOFR`
   - Added catalog guardrail test coverage for Batch 4 presence
@@ -203,15 +211,15 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 
 ---
 
-## Current Phase: Expansion & Hardening (Phase 5)
+## Current Phase: Multi-Source Readiness (Post-Phase 5)
 
 **Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Prioritize Tier 2 Batch 5 candidate set with the same constrained-validation workflow used for Batch 4
-2. Expand operational reporting views/runbook guidance for DQ trend monitoring
+1. Validate and merge feature-branch multi-source ingestion routing changes
+2. Expand multi-source integration tests across mixed catalogs and error paths
 3. Keep full test suite green while transition work lands
-4. Monitor stale-series warnings from daily workflow artifacts and tune thresholds/remediation playbook
+4. Decide whether direct BLS API scope is required beyond current FRED-mediated BLS coverage
 
 **See**: `docs/implementation_schedule.md` for complete task list
 

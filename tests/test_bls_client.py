@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 import pandas as pd
+from tenacity import RetryError
 
 from src.fred_macro.clients import BLSClient
 
@@ -178,8 +179,12 @@ class TestBLSClient(unittest.TestCase):
 
         client = BLSClient(api_key="test_key")
 
-        with self.assertRaises(ConnectionError):
+        with self.assertRaises(RetryError) as context:
             client.get_series_data("TEST")
+
+        self.assertIsInstance(
+            context.exception.last_attempt.exception(), ConnectionError
+        )
 
     @patch("src.fred_macro.clients.bls_client.requests.post")
     @patch("src.fred_macro.clients.bls_client.time.sleep")

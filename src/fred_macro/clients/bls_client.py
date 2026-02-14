@@ -210,9 +210,9 @@ class BLSClient:
             # Create DataFrame
             df = pd.DataFrame(rows)
 
-            # Ensure proper types
-            df["observation_date"] = pd.to_datetime(df["observation_date"])
-            df["value"] = pd.to_numeric(df["value"], errors="coerce")
+            # Ensure proper types (use .loc to avoid chained assignment warnings)
+            df.loc[:, "observation_date"] = pd.to_datetime(df["observation_date"])
+            df.loc[:, "value"] = pd.to_numeric(df["value"], errors="coerce")
 
             # Sort by date (BLS returns newest first)
             df = df.sort_values("observation_date").reset_index(drop=True)

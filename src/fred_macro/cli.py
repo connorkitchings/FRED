@@ -100,7 +100,7 @@ def verify():
         conn.execute("SELECT 1")
         typer.echo("Database connection: OK")
 
-        from src.fred_macro.fred_client import FredClient
+        from src.fred_macro.clients import FredClient
 
         client = FredClient()  # This will fail if no API Key
         typer.echo(f"FRED API Key found: {client.api_key[:4]}...")
