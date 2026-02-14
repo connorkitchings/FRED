@@ -256,5 +256,49 @@ def run_health(
         raise typer.Exit(code=1)
 
 
+@app.command()
+def send_digest(
+    config_path: str = typer.Option("config/alerts.yaml", help="Path to alerts config"),
+):
+    """Send daily alert digest manually."""
+    from src.fred_macro.services.alert_manager import AlertManager
+
+    try:
+        alert_manager = AlertManager(config_path)
+        alert_manager.send_digest()
+        typer.echo("Digest sent successfully")
+    except Exception as e:
+        typer.echo(f"Error sending digest: {e}")
+        raise typer.Exit(code=1)
+
+
+@app.command()
+def test_alert(
+    rule_name: str = typer.Argument(..., help="Name of alert rule to test"),
+    config_path: str = typer.Option("config/alerts.yaml", help="Path to alerts config"),
+):
+    """Test an alert rule by triggering it manually."""
+    from src.fred_macro.services.alert_manager import AlertManager
+
+    try:
+        alert_manager = AlertManager(config_path)
+
+        # Create a test alert
+        test_alert_data = {
+            "rule_name": rule_name,
+            "severity": "warning",
+            "description": f"Test alert for rule: {rule_name}",
+            "timestamp": "2024-01-01T00:00:00",
+            "details": "This is a test alert to verify the alerting system is working",
+            "metadata": {"test": True},
+        }
+
+        alert_manager.send_alert(test_alert_data)
+        typer.echo(f"Test alert sent for rule: {rule_name}")
+    except Exception as e:
+        typer.echo(f"Error sending test alert: {e}")
+        raise typer.Exit(code=1)
+
+
 if __name__ == "__main__":
     app()

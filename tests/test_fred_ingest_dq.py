@@ -28,6 +28,7 @@ def _build_engine_for_test(
     engine = IngestionEngine.__new__(IngestionEngine)
     engine.config_path = "config/series_catalog.yaml"
     engine.current_run_id = "test-run-id"
+    engine.alert_manager = None  # Initialize alert_manager
 
     # Mock CatalogService
     from src.fred_macro.services.catalog import CatalogService, SeriesConfig
