@@ -220,16 +220,18 @@ class IngestionEngine:
             return f"{existing}; {message}"
         return message
 
-    def run(self, mode: str = "incremental"):
+    def run(self, mode: str = "incremental") -> str:
         """
         Execute the ingestion pipeline.
 
         Args:
             mode: 'backfill' or 'incremental'
+        Returns:
+            str: The run_id
         """
-        run_id = str(uuid.uuid4())
+        self.current_run_id = str(uuid.uuid4())
         start_time = time.time()
-        logger.info(f"Starting ingestion run {run_id} in {mode} mode")
+        logger.info(f"Starting ingestion run {self.current_run_id} in {mode} mode")
 
         series_list = self._get_series_list()
         series_ingested = []
@@ -327,7 +329,7 @@ class IngestionEngine:
         finally:
             duration = time.time() - start_time
             self._log_run(
-                run_id,
+                self.current_run_id,
                 mode,
                 series_ingested,
                 total_fetched,
@@ -340,7 +342,7 @@ class IngestionEngine:
                 f"Ingestion run complete. Status: {status}. "
                 f"Series: {len(series_ingested)}"
             )
-            dq_logged = self._log_dq_findings(run_id, dq_findings)
+            dq_logged = self._log_dq_findings(self.current_run_id, dq_findings)
             if not dq_logged:
                 patched_status = "failed" if status == "failed" else "partial"
                 patched_error = self._append_error(
@@ -348,10 +350,11 @@ class IngestionEngine:
                     "dq_report_logging_failed",
                 )
                 self._update_logged_run_status(
-                    run_id=run_id,
+                    run_id=self.current_run_id,
                     status=patched_status,
                     error_message=patched_error,
                 )
+        return self.current_run_id
 
 
 if __name__ == "__main__":

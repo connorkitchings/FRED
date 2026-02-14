@@ -26,35 +26,14 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras --dev
 
-      - name: Sync Series Catalog
-        env:
-          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
-        run: uv run python -m src.fred_macro.seed_catalog
-
-      - name: Run Ingestion (Incremental)
+      - name: Run Daily Ingest Flow
         env:
           MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-        run: uv run python -m src.fred_macro.cli ingest --mode incremental
-
-      - name: Run Data Quality Report
-        if: always()  # Run even if ingestion fails
-        env:
-          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
-        # Report warnings and critical errors for the latest run
-        run: uv run python -m src.fred_macro.cli dq-report --run-id latest --severity warning
-
-      - name: Run Ingestion Health Check
-        if: always()  # Always capture run-health context
-        env:
-          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
-        run: |
-          mkdir -p artifacts
-          uv run python -m src.fred_macro.cli run-health \
-            --run-id latest \
-            --fail-on-status \
-            --fail-on-critical \
-            --output-json artifacts/run-health.json
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+          PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        run: uv run python -m src.fred_macro.flows.daily
 
       - name: Upload Ingestion Health Artifact
         if: always()
