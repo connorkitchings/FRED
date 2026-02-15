@@ -3,7 +3,7 @@
 import unittest
 from unittest.mock import patch
 
-from src.fred_macro.clients import ClientFactory, DataSourceClient, FredClient
+from src.fred_macro.clients import ClientFactory, DataSourceClient, FredClient, TreasuryClient
 
 
 class TestClientFactory(unittest.TestCase):
@@ -56,6 +56,24 @@ class TestClientFactory(unittest.TestCase):
     def test_client_has_required_method(self):
         """Test that client has get_series_data method."""
         client = ClientFactory.get_client("FRED")
+        self.assertTrue(hasattr(client, "get_series_data"))
+        self.assertTrue(callable(getattr(client, "get_series_data")))
+
+    def test_get_client_treasury(self):
+        """Test getting Treasury client from factory."""
+        client = ClientFactory.get_client("TREASURY")
+        self.assertIsInstance(client, TreasuryClient)
+
+    def test_get_client_treasury_singleton(self):
+        """Test that factory returns same Treasury instance (singleton pattern)."""
+        client1 = ClientFactory.get_client("TREASURY")
+        client2 = ClientFactory.get_client("TREASURY")
+        self.assertIs(client1, client2)
+
+    def test_treasury_implements_protocol(self):
+        """Test that Treasury client implements DataSourceClient protocol."""
+        client = ClientFactory.get_client("TREASURY")
+        self.assertIsInstance(client, DataSourceClient)
         self.assertTrue(hasattr(client, "get_series_data"))
         self.assertTrue(callable(getattr(client, "get_series_data")))
 
