@@ -9,6 +9,7 @@ from typing import Dict, Type
 
 from src.fred_macro.clients.base import DataSourceClient
 from src.fred_macro.clients.bls_client import BLSClient
+from src.fred_macro.clients.census_client import CensusClient
 from src.fred_macro.clients.fred_client import FredClient
 from src.fred_macro.clients.treasury_client import TreasuryClient
 
@@ -24,6 +25,7 @@ class ClientFactory:
         "FRED": FredClient,
         "BLS": BLSClient,
         "TREASURY": TreasuryClient,
+        "CENSUS": CensusClient,
     }
     _instances: Dict[str, DataSourceClient] = {}
 
@@ -37,6 +39,7 @@ class ClientFactory:
                 - "FRED": Federal Reserve Economic Data
                 - "BLS": Bureau of Labor Statistics
                 - "TREASURY": U.S. Treasury Fiscal Data
+                - "CENSUS": U.S. Census Bureau
 
         Returns:
             DataSourceClient: A client instance implementing the
@@ -69,5 +72,6 @@ __all__ = [
     "FredClient",
     "BLSClient",
     "TreasuryClient",
+    "CensusClient",
     "ClientFactory",
 ]

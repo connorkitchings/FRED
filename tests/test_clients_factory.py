@@ -8,6 +8,7 @@ from src.fred_macro.clients import (
     DataSourceClient,
     FredClient,
     TreasuryClient,
+    CensusClient,
 )
 
 
@@ -78,6 +79,24 @@ class TestClientFactory(unittest.TestCase):
     def test_treasury_implements_protocol(self):
         """Test that Treasury client implements DataSourceClient protocol."""
         client = ClientFactory.get_client("TREASURY")
+        self.assertIsInstance(client, DataSourceClient)
+        self.assertTrue(hasattr(client, "get_series_data"))
+        self.assertTrue(callable(getattr(client, "get_series_data")))
+
+    def test_get_client_census(self):
+        """Test getting Census client from factory."""
+        client = ClientFactory.get_client("CENSUS")
+        self.assertIsInstance(client, CensusClient)
+
+    def test_get_client_census_singleton(self):
+        """Test that factory returns same Census instance (singleton pattern)."""
+        client1 = ClientFactory.get_client("CENSUS")
+        client2 = ClientFactory.get_client("CENSUS")
+        self.assertIs(client1, client2)
+
+    def test_census_implements_protocol(self):
+        """Test that Census client implements DataSourceClient protocol."""
+        client = ClientFactory.get_client("CENSUS")
         self.assertIsInstance(client, DataSourceClient)
         self.assertTrue(hasattr(client, "get_series_data"))
         self.assertTrue(callable(getattr(client, "get_series_data")))

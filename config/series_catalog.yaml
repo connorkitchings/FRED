@@ -768,3 +768,142 @@ series:
     tier: 2
     source: "TREASURY"
     description: "Bid-to-cover ratio from 10-year Treasury Note auctions. Measures auction demand strength; higher ratio indicates stronger demand."
+
+  # --- Tier 2: Census Bureau Integration (15 series) ---
+
+  # International Trade (8 series)
+  - series_id: "CENSUS_EXP_GOODS"
+    title: "U.S. Exports of Goods"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "Total U.S. exports of goods (Census basis). Key indicator of external demand."
+
+  - series_id: "CENSUS_IMP_GOODS"
+    title: "U.S. Imports of Goods"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "Total U.S. imports of goods (Census basis). Key indicator of domestic demand and supply chains."
+
+  - series_id: "CENSUS_EXP_CHINA"
+    title: "U.S. Exports to China"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "U.S. exports of goods to China. Critical bilateral trade relationship indicator."
+
+  - series_id: "CENSUS_IMP_CHINA"
+    title: "U.S. Imports from China"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "U.S. imports of goods from China. Critical bilateral trade relationship indicator."
+
+  - series_id: "CENSUS_EXP_CANADA"
+    title: "U.S. Exports to Canada"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "U.S. exports of goods to Canada. Major USMCA trading partner flow."
+
+  - series_id: "CENSUS_IMP_CANADA"
+    title: "U.S. Imports from Canada"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "U.S. imports of goods from Canada. Major USMCA trading partner flow."
+
+  - series_id: "CENSUS_EXP_MEXICO"
+    title: "U.S. Exports to Mexico"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "U.S. exports of goods to Mexico. Major USMCA trading partner flow."
+
+  - series_id: "CENSUS_IMP_MEXICO"
+    title: "U.S. Imports from Mexico"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "U.S. imports of goods from Mexico. Major USMCA trading partner flow."
+
+  # Business Inventories (7 series)
+  - series_id: "CENSUS_INV_MFG"
+    title: "Manufacturing Inventories"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "Total manufacturing inventories. Leading indicator of production cycles."
+
+  - series_id: "CENSUS_INV_WHOLESALE"
+    title: "Wholesale Trade Inventories"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "Total merchant wholesalers inventories. Key supply chain health indicator."
+
+  - series_id: "CENSUS_INV_RETAIL"
+    title: "Retail Trade Inventories"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "Total retail trade inventories. Indicates consumer goods stocking levels."
+
+  - series_id: "CENSUS_INV_SALES_RATIO"
+    title: "Total Business Inventory/Sales Ratio"
+    units: "Ratio"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "Ratio of total business inventories to sales. Measure of supply chain efficiency and potential overhang."
+
+  - series_id: "CENSUS_INV_MFG_RATIO"
+    title: "Manufacturing Inventory/Sales Ratio"
+    units: "Ratio"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "Ratio of manufacturing inventories to shipments. Specific measure of factory supply/demand balance."
+
+  - series_id: "CENSUS_SHIP_MFG"
+    title: "Manufacturing Shipments"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "Value of manufacturers' shipments. Direct measure of industrial sales activity."
+
+  - series_id: "CENSUS_ORDERS_MFG"
+    title: "Manufacturing New Orders"
+    units: "Millions of Dollars"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "CENSUS"
+    description: "New orders for manufactured goods. Forward-looking indicator of future production."

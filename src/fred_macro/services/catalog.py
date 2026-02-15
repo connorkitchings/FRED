@@ -17,7 +17,7 @@ class SeriesConfig(BaseModel):
 
     @field_validator("source")
     def validate_source(cls, v):  # noqa: N805
-        allowed = {"FRED", "BLS", "TREASURY"}
+        allowed = {"FRED", "BLS", "TREASURY", "CENSUS"}
         if v.upper() not in allowed:
             raise ValueError(f"Source must be one of {allowed}")
         return v.upper()

@@ -62,7 +62,7 @@ def test_series_catalog_has_unique_series_ids():
 
 def test_series_catalog_source_validity():
     """Ensure 'source' field is valid if present."""
-    valid_sources = {"FRED", "BLS", "TREASURY"}
+    valid_sources = {"FRED", "BLS", "TREASURY", "CENSUS"}
     series_list = _load_series()
     for item in series_list:
         source = item.get("source", "FRED")  # Default to FRED
