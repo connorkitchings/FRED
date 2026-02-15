@@ -46,28 +46,28 @@ class TestTreasuryClient(unittest.TestCase):
         """Test filter building with only base filter."""
         client = TreasuryClient()
         result = client._build_filters(
-            "security_type_desc:eq:Treasury Bills",
+            "security_desc:eq:Treasury Bills",
             "v2/accounting/od/avg_interest_rates"
         )
-        self.assertEqual(result, "security_type_desc:eq:Treasury Bills")
+        self.assertEqual(result, "security_desc:eq:Treasury Bills")
 
     def test_build_filters_with_start_date(self):
         """Test filter building with start date for avg interest rates."""
         client = TreasuryClient()
         result = client._build_filters(
-            "security_type_desc:eq:Treasury Bills",
+            "security_desc:eq:Treasury Bills",
             "v2/accounting/od/avg_interest_rates",
             start_date="2020-01-01"
         )
         # Should use record_date for avg_interest_rates endpoint
         self.assertIn("record_date:gte:2020-01-01", result)
-        self.assertIn("security_type_desc:eq:Treasury Bills", result)
+        self.assertIn("security_desc:eq:Treasury Bills", result)
 
     def test_build_filters_with_date_range(self):
         """Test filter building with date range for avg interest rates."""
         client = TreasuryClient()
         result = client._build_filters(
-            "security_type_desc:eq:Treasury Bills",
+            "security_desc:eq:Treasury Bills",
             "v2/accounting/od/avg_interest_rates",
             start_date="2020-01-01",
             end_date="2023-12-31"
@@ -106,12 +106,12 @@ class TestTreasuryClient(unittest.TestCase):
                 {
                     "record_date": "2024-02-01",
                     "avg_interest_rate_amt": "4.25",
-                    "security_type_desc": "Treasury Bills",
+                    "security_desc": "Treasury Bills",
                 },
                 {
                     "record_date": "2024-01-01",
                     "avg_interest_rate_amt": "4.10",
-                    "security_type_desc": "Treasury Bills",
+                    "security_desc": "Treasury Bills",
                 },
             ],
             "meta": {"total-pages": 1},

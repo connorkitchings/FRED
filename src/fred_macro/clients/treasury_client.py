@@ -34,22 +34,22 @@ class TreasuryClient:
     SERIES_MAPPING = {
         "TREAS_AVG_BILLS": {
             "endpoint": "v2/accounting/od/avg_interest_rates",
-            "filter": "security_type_desc:eq:Treasury Bills",
+            "filter": "security_desc:eq:Treasury Bills",
             "value_field": "avg_interest_rate_amt",
         },
         "TREAS_AVG_NOTES": {
             "endpoint": "v2/accounting/od/avg_interest_rates",
-            "filter": "security_type_desc:eq:Treasury Notes",
+            "filter": "security_desc:eq:Treasury Notes",
             "value_field": "avg_interest_rate_amt",
         },
         "TREAS_AVG_BONDS": {
             "endpoint": "v2/accounting/od/avg_interest_rates",
-            "filter": "security_type_desc:eq:Treasury Bonds",
+            "filter": "security_desc:eq:Treasury Bonds",
             "value_field": "avg_interest_rate_amt",
         },
         "TREAS_AVG_TIPS": {
             "endpoint": "v2/accounting/od/avg_interest_rates",
-            "filter": "security_type_desc:eq:Treasury Inflation-Protected Securities (TIPS)",
+            "filter": "security_desc:eq:Treasury Inflation-Protected Securities (TIPS)",
             "value_field": "avg_interest_rate_amt",
         },
         "TREAS_AUCTION_10Y": {
