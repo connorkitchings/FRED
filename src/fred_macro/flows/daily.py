@@ -1,12 +1,14 @@
-from prefect import flow, get_run_logger
-from prefect.artifacts import create_markdown_artifact
-from src.fred_macro.tasks.core import (
-    task_seed_catalog,
-    task_ingest_batch,
-    task_validate_run,
-)
 import json
 from pathlib import Path
+
+from prefect import flow, get_run_logger
+from prefect.artifacts import create_markdown_artifact
+
+from src.fred_macro.tasks.core import (
+    task_ingest_batch,
+    task_seed_catalog,
+    task_validate_run,
+)
 
 
 @flow(name="Daily Ingest Pipeline")

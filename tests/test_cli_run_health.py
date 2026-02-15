@@ -72,7 +72,6 @@ def test_run_health_latest_summary_and_json_output(tmp_path, monkeypatch):
     )
     conn.close()
 
-    import src.fred_macro.cli as cli_module
     import src.fred_macro.repositories.read_repo as read_repo
 
     monkeypatch.setattr(
@@ -118,7 +117,6 @@ def test_run_health_fail_on_status(tmp_path, monkeypatch):
     )
     conn.close()
 
-    import src.fred_macro.cli as cli_module
     import src.fred_macro.repositories.read_repo as read_repo
 
     monkeypatch.setattr(
@@ -164,7 +162,6 @@ def test_run_health_fail_on_critical(tmp_path, monkeypatch):
     )
     conn.close()
 
-    import src.fred_macro.cli as cli_module
     import src.fred_macro.repositories.read_repo as read_repo
 
     monkeypatch.setattr(

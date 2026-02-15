@@ -1,8 +1,9 @@
 """Alert History page for the Streamlit dashboard."""
 
-import streamlit as st
-import pandas as pd
 from datetime import datetime, timedelta
+
+import pandas as pd
+import streamlit as st
 
 from src.fred_macro.db import get_connection
 from src.fred_macro.logging_config import get_logger

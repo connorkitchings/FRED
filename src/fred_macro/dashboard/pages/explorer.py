@@ -1,7 +1,7 @@
-import streamlit as st
 import plotly.express as px
-from src.fred_macro.dashboard.data import get_series_catalog, get_history
-import pandas as pd
+import streamlit as st
+
+from src.fred_macro.dashboard.data import get_history, get_series_catalog
 
 
 def show_data_explorer():

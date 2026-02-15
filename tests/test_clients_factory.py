@@ -3,7 +3,12 @@
 import unittest
 from unittest.mock import patch
 
-from src.fred_macro.clients import ClientFactory, DataSourceClient, FredClient, TreasuryClient
+from src.fred_macro.clients import (
+    ClientFactory,
+    DataSourceClient,
+    FredClient,
+    TreasuryClient,
+)
 
 
 class TestClientFactory(unittest.TestCase):

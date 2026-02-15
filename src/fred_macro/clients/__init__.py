@@ -64,4 +64,10 @@ class ClientFactory:
         return cls._instances[source_upper]
 
 
-__all__ = ["DataSourceClient", "FredClient", "BLSClient", "TreasuryClient", "ClientFactory"]
+__all__ = [
+    "DataSourceClient",
+    "FredClient",
+    "BLSClient",
+    "TreasuryClient",
+    "ClientFactory",
+]

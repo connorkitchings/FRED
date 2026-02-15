@@ -1,10 +1,11 @@
+import pandas as pd
 from prefect import task
-from src.fred_macro.seed_catalog import seed_catalog
+
 from src.fred_macro.ingest import IngestionEngine
+from src.fred_macro.seed_catalog import seed_catalog
+from src.fred_macro.services.catalog import SeriesConfig
 from src.fred_macro.services.fetcher import DataFetcher
 from src.fred_macro.services.writer import DataWriter
-from src.fred_macro.services.catalog import SeriesConfig
-import pandas as pd
 
 
 @task(name="Seed Catalog", retries=2)

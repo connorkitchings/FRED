@@ -1,5 +1,6 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
+
 from src.fred_macro.repositories.read_repo import ReadRepository
 
 # Repo is lightweight

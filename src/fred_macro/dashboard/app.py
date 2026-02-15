@@ -1,12 +1,12 @@
-import streamlit as st
-import plotly.graph_objects as go
 import plotly.express as px
+import plotly.graph_objects as go
+import streamlit as st
+
 from src.fred_macro.dashboard.data import (
-    get_series_catalog,
-    get_latest_values,
     get_history,
+    get_latest_values,
+    get_series_catalog,
 )
-import pandas as pd
 
 # Import Pages
 from src.fred_macro.dashboard.pages.explorer import show_data_explorer

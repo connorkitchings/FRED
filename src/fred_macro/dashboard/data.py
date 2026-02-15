@@ -1,7 +1,8 @@
 import pandas as pd
 import streamlit as st
-from src.fred_macro.services.catalog import CatalogService
+
 from src.fred_macro.repositories.read_repo import ReadRepository
+from src.fred_macro.services.catalog import CatalogService
 
 # Initialize repo (it's stateless)
 repo = ReadRepository()

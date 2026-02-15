@@ -2,22 +2,20 @@ import json
 import time
 import uuid
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import pandas as pd
-import yaml
 
 from src.fred_macro.clients import ClientFactory
 from src.fred_macro.db import get_connection
 from src.fred_macro.logging_config import get_logger, setup_logging
+from src.fred_macro.services.catalog import CatalogService
 from src.fred_macro.validation import (
     ValidationFinding,
     count_findings_by_severity,
     run_data_quality_checks,
     summarize_findings,
 )
-
-from src.fred_macro.services.catalog import CatalogService
 
 logger = get_logger(__name__)
 

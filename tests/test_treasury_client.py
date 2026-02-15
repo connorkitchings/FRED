@@ -46,8 +46,7 @@ class TestTreasuryClient(unittest.TestCase):
         """Test filter building with only base filter."""
         client = TreasuryClient()
         result = client._build_filters(
-            "security_desc:eq:Treasury Bills",
-            "v2/accounting/od/avg_interest_rates"
+            "security_desc:eq:Treasury Bills", "v2/accounting/od/avg_interest_rates"
         )
         self.assertEqual(result, "security_desc:eq:Treasury Bills")
 
@@ -57,7 +56,7 @@ class TestTreasuryClient(unittest.TestCase):
         result = client._build_filters(
             "security_desc:eq:Treasury Bills",
             "v2/accounting/od/avg_interest_rates",
-            start_date="2020-01-01"
+            start_date="2020-01-01",
         )
         # Should use record_date for avg_interest_rates endpoint
         self.assertIn("record_date:gte:2020-01-01", result)
@@ -70,7 +69,7 @@ class TestTreasuryClient(unittest.TestCase):
             "security_desc:eq:Treasury Bills",
             "v2/accounting/od/avg_interest_rates",
             start_date="2020-01-01",
-            end_date="2023-12-31"
+            end_date="2023-12-31",
         )
         self.assertIn("record_date:gte:2020-01-01", result)
         self.assertIn("record_date:lte:2023-12-31", result)
@@ -81,7 +80,7 @@ class TestTreasuryClient(unittest.TestCase):
         result = client._build_filters(
             "security_term:eq:10-Year",
             "v1/accounting/od/auctions_query",
-            start_date="2020-01-01"
+            start_date="2020-01-01",
         )
         # Should use auction_date for auctions_query endpoint
         self.assertIn("auction_date:gte:2020-01-01", result)
@@ -292,7 +291,9 @@ class TestTreasuryClient(unittest.TestCase):
         client = TreasuryClient()
         client._last_request_time = 1000.0
 
-        with patch("src.fred_macro.clients.treasury_client.time.time", return_value=1000.1):
+        with patch(
+            "src.fred_macro.clients.treasury_client.time.time", return_value=1000.1
+        ):
             client._enforce_rate_limit()
             # Should sleep because only 0.1s passed (< 0.3s delay)
             mock_sleep.assert_called()

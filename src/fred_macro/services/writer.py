@@ -1,7 +1,8 @@
+
 import pandas as pd
-from typing import List, Optional
-from src.fred_macro.repositories.write_repo import WriteRepository
+
 from src.fred_macro.logging_config import get_logger
+from src.fred_macro.repositories.write_repo import WriteRepository
 
 logger = get_logger(__name__)
 

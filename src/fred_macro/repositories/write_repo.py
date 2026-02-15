@@ -1,8 +1,10 @@
-from typing import List, Optional, Any
 import json
-from datetime import datetime
 import uuid
+from datetime import datetime
+from typing import Any, List, Optional
+
 import pandas as pd
+
 from src.fred_macro.db import get_connection
 from src.fred_macro.logging_config import get_logger
 

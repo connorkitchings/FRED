@@ -1,7 +1,6 @@
 """Client for U.S. Treasury Fiscal Data API."""
 
 import time
-from datetime import datetime
 from typing import Optional
 
 import pandas as pd
@@ -117,9 +116,7 @@ class TreasuryClient:
         # Average interest rates use 'record_date'
         # Auction data uses 'auction_date'
         date_field = (
-            "record_date"
-            if "avg_interest_rates" in endpoint
-            else "auction_date"
+            "record_date" if "avg_interest_rates" in endpoint else "auction_date"
         )
 
         if start_date:
@@ -176,9 +173,7 @@ class TreasuryClient:
 
         # Determine date field for parsing
         date_field = (
-            "record_date"
-            if "avg_interest_rates" in endpoint
-            else "auction_date"
+            "record_date" if "avg_interest_rates" in endpoint else "auction_date"
         )
 
         try:
@@ -256,7 +251,9 @@ class TreasuryClient:
             if end_date:
                 df = df[df["observation_date"] <= pd.Timestamp(end_date)]
 
-            logger.info(f"Fetched {len(df)} observations for Treasury series {series_id}")
+            logger.info(
+                f"Fetched {len(df)} observations for Treasury series {series_id}"
+            )
 
             return df
 

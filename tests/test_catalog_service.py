@@ -1,4 +1,5 @@
 import pytest
+
 from src.fred_macro.services.catalog import CatalogService, SeriesConfig
 
 

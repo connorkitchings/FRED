@@ -1,6 +1,7 @@
-import pandas as pd
-from typing import List, Dict, Any, Optional
 from datetime import datetime, timedelta
+
+import pandas as pd
+
 from src.fred_macro.clients import ClientFactory
 from src.fred_macro.logging_config import get_logger
 from src.fred_macro.services.catalog import SeriesConfig

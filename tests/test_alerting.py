@@ -1,15 +1,14 @@
 """Tests for the alerting system."""
 
+from unittest.mock import patch
+
 import pytest
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock
 
 from src.fred_macro.services.alert_handlers import (
-    AlertHandler,
-    EmailAlertHandler,
     ConsoleAlertHandler,
+    EmailAlertHandler,
 )
-from src.fred_macro.services.alert_manager import AlertRule, AlertManager
+from src.fred_macro.services.alert_manager import AlertManager, AlertRule
 
 
 class TestAlertRule:

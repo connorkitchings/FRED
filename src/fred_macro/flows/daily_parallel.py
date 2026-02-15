@@ -1,18 +1,19 @@
+import json
+import time
+import uuid
+from pathlib import Path
+
 from prefect import flow, get_run_logger
 from prefect.artifacts import create_markdown_artifact
-from src.fred_macro.tasks.core import (
-    task_seed_catalog,
-    task_fetch_single_series,
-    task_write_dataframe,
-    task_validate_run,
-)
+
 from src.fred_macro.services.catalog import CatalogService
 from src.fred_macro.services.writer import DataWriter
-from src.fred_macro.services.fetcher import DataFetcher
-import uuid
-import time
-import json
-from pathlib import Path
+from src.fred_macro.tasks.core import (
+    task_fetch_single_series,
+    task_seed_catalog,
+    task_validate_run,
+    task_write_dataframe,
+)
 
 
 @flow(name="Daily Ingest Pipeline (Parallel)")
