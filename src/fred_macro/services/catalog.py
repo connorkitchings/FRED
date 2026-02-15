@@ -17,7 +17,7 @@ class SeriesConfig(BaseModel):
 
     @field_validator("source")
     def validate_source(cls, v):  # noqa: N805
-        allowed = {"FRED", "BLS"}
+        allowed = {"FRED", "BLS", "TREASURY"}
         if v.upper() not in allowed:
             raise ValueError(f"Source must be one of {allowed}")
         return v.upper()
@@ -58,7 +58,7 @@ class CatalogService:
         return self._series
 
     def filter_by_source(self, source: str) -> List[SeriesConfig]:
-        """Filter series by source (FRED/BLS)."""
+        """Filter series by source (FRED/BLS/TREASURY)."""
         return [s for s in self._series if s.source == source.upper()]
 
     def filter_by_tier(self, tier: int) -> List[SeriesConfig]:
