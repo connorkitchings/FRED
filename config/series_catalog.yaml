@@ -694,3 +694,77 @@ series:
     tier: 2
     source: "BLS"
     description: "Unemployment rate for persons with bachelor's degree or higher. Educational attainment premium and skills-based labor market indicator."
+
+  # --- Tier 2: Treasury Direct Integration (8 series) ---
+
+  - series_id: "TREAS_AVG_BILLS"
+    title: "Average Interest Rate - Treasury Bills"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "TREASURY"
+    description: "Average interest rate on outstanding U.S. Treasury Bills. Short-term government borrowing cost indicator from Treasury Fiscal Data API."
+
+  - series_id: "TREAS_AVG_NOTES"
+    title: "Average Interest Rate - Treasury Notes"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "TREASURY"
+    description: "Average interest rate on outstanding U.S. Treasury Notes. Medium-term government borrowing cost from Treasury Fiscal Data API."
+
+  - series_id: "TREAS_AVG_BONDS"
+    title: "Average Interest Rate - Treasury Bonds"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "TREASURY"
+    description: "Average interest rate on outstanding U.S. Treasury Bonds. Long-term government borrowing cost from Treasury Fiscal Data API."
+
+  - series_id: "TREAS_AVG_TIPS"
+    title: "Average Interest Rate - TIPS"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "TREASURY"
+    description: "Average interest rate on outstanding Treasury Inflation-Protected Securities (TIPS). Real yield indicator from Treasury Fiscal Data API."
+
+  - series_id: "TREAS_AUCTION_10Y"
+    title: "10-Year Note Auction High Rate"
+    units: "Percent"
+    frequency: "Irregular (as auctioned)"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "TREASURY"
+    description: "High investment rate from 10-year Treasury Note auctions. Reflects market-clearing yield for benchmark maturity directly from Treasury auctions."
+
+  - series_id: "TREAS_AUCTION_2Y"
+    title: "2-Year Note Auction High Rate"
+    units: "Percent"
+    frequency: "Irregular (as auctioned)"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "TREASURY"
+    description: "High investment rate from 2-year Treasury Note auctions. Short-term rate expectations signal directly from Treasury auctions."
+
+  - series_id: "TREAS_AUCTION_30Y"
+    title: "30-Year Bond Auction High Rate"
+    units: "Percent"
+    frequency: "Irregular (as auctioned)"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "TREASURY"
+    description: "High investment rate from 30-year Treasury Bond auctions. Long-duration yield benchmark directly from Treasury auctions."
+
+  - series_id: "TREAS_BID_COVER_10Y"
+    title: "10-Year Note Bid-to-Cover Ratio"
+    units: "Ratio"
+    frequency: "Irregular (as auctioned)"
+    seasonal_adjustment: "Not Seasonally Adjusted"
+    tier: 2
+    source: "TREASURY"
+    description: "Bid-to-cover ratio from 10-year Treasury Note auctions. Measures auction demand strength; higher ratio indicates stronger demand."
