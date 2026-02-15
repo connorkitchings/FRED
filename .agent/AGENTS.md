@@ -40,6 +40,17 @@
 **Key Files**:
 - `docs/knowledge_base.md` - Patterns, rate limits, gotchas
 - `docs/data/sources/` - Data source documentation
+- `.agent/skills/web-research/SKILL.md` - Web research with markdown.new
+
+**Web Research**:
+Use markdown.new for 80% token savings vs raw HTML:
+```python
+from src.fred_macro.utils.web_to_markdown import fetch_markdown
+
+content, metadata = fetch_markdown("https://docs.example.com")
+# Or prepend markdown.new/ to any URL in browser
+# https://markdown.new/https://example.com
+```
 
 ---
 

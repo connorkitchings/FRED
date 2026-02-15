@@ -84,6 +84,13 @@
 **Outputs**: Web project scaffold
 **Use when**: Starting new web project
 
+### web-research
+**Path**: `.agent/skills/web-research/SKILL.md`
+**Purpose**: Research web sources using markdown.new for 80% token savings
+**Triggers**: "research web", "fetch url", "web research", "markdown"
+**Outputs**: Clean markdown content with metadata (tokens, method used)
+**Use when**: Gathering information from web pages, researching external docs
+
 ---
 
 ## Workflow References
