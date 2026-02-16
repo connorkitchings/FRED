@@ -26,7 +26,7 @@ def load_alert_history(days: int = 30) -> pd.DataFrame:
             return pd.DataFrame()
 
         query = """
-            SELECT 
+            SELECT
                 alert_id,
                 rule_name,
                 severity,
@@ -74,7 +74,7 @@ def get_alert_summary(days: int = 7) -> dict:
 
         summary = conn.execute(
             """
-            SELECT 
+            SELECT
                 COUNT(*) as total,
                 SUM(CASE WHEN severity = 'critical' THEN 1 ELSE 0 END) as critical,
                 SUM(CASE WHEN severity = 'warning' THEN 1 ELSE 0 END) as warning,
@@ -187,9 +187,9 @@ def render_alert_history():
         st.warning("Please select at least one acknowledgment status")
         return
     elif not show_acknowledged:
-        alerts_df = alerts_df[alerts_df["acknowledged"] == False]
+        alerts_df = alerts_df[not alerts_df["acknowledged"]]
     elif not show_unacknowledged:
-        alerts_df = alerts_df[alerts_df["acknowledged"] == True]
+        alerts_df = alerts_df[alerts_df["acknowledged"]]
 
     if alerts_df.empty:
         st.info("No alerts match the selected filters")

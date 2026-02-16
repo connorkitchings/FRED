@@ -6,7 +6,6 @@ from unittest.mock import Mock, patch
 
 import pandas as pd
 
-
 from src.fred_macro.clients import CensusClient
 
 

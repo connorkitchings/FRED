@@ -18,9 +18,9 @@
 
 ## Current Status
 
-**Phase:** 5 Complete; Multi-Source Readiness Follow-On
-**Progress:** ✅ Tier 2 Batch 5 (BLS Expansion via FRED) complete; ✅ mixed-source runtime validation succeeded on feature branch (`run_id=6bf005e4-ca10-4d88-946f-272b42c0ad9a`)
-**Next Milestone:** Merge multi-source ingestion baseline (FRED + BLS routing), then evaluate direct BLS API scope
+**Phase:** 5 Complete; Tier 2 Expansion Complete
+**Progress:** ✅ Tier 2 Batch 7 (Census Bureau) complete; ✅ Tier 2 Batch 6 (Treasury Direct) complete; ✅ Tier 2 Batch 5 (BLS Expansion via FRED) complete; ✅ mixed-source runtime validation succeeded.
+**Next Milestone:** Multi-source verification and Direct BLS evaluation
 
 ---
 
@@ -181,7 +181,9 @@
 | Validate Batch 3 incremental ingest | ✅ Done | Connor | `ingest --mode incremental` + `run-health` | Run `4ca8ef27-d3ba-4336-9b76-6947e55bae81`: status success, critical=0, warning=7 |
 | Validate Batch 4 incremental ingest | ✅ Done | Connor | `ingest --mode incremental` + `run-health` | Run `cb667b1a-e74a-4f0b-b627-1667df74d306`: status success, critical=0, warning=7 |
 | Validate Batch 5 backfill | ✅ Done | Connor | `ingest --mode backfill` + `run-health` | Run `7ba696c2-f721-41f5-bb0c-9fe6425937f6`: status success, 56 series, critical=0, warning=8 |
-| Documentation update | ✅ Done | Connor | Update data dictionary | Batch 2, Batch 3, Batch 4, and Batch 5 documented in catalog |
+| Add Tier 2 Batch 6 catalog set (Treasury Direct) | ✅ Done | Connor | Updated catalog + tests + docs | Added 8 Treasury series: Avg rates (Bills, Notes, Bonds, TIPS) + Auctions (2Y, 10Y, 30Y) |
+| Add Tier 2 Batch 7 catalog set (Census Bureau) | ✅ Done | Connor | Updated catalog + tests + docs | Added 15 Census series: Trade (8) and Business Inventories (7) |
+| Documentation update | ✅ Done | Connor | Update data dictionary | Batch 2-7 documented in catalog |
 
 ### Data Quality
 
@@ -429,7 +431,8 @@
 | 2026-02-14 | Mixed-source merge-readiness validation completed | Validate runtime FRED+BLS routing path before merge | Fixed BLS date filter type mismatch (`Timestamp` vs `str`), full test suite passed (55), verify passed, mixed-source incremental run succeeded with run-health clean (`critical=0`, `warning=0`) |
 | 2026-02-14 | Test suite restoration completed | Fix broken tests after architecture refactor | Fixed 9 failing tests in CLI, ingestion, and persistence modules; refactored mocks to match new service-oriented architecture |
 | 2026-02-14 | Multi-source integration tests added | Expand test coverage for FRED+BLS scenarios | Added 8 new integration tests covering mixed catalog processing, error paths, client routing, and singleton patterns |
-| 2026-02-14 | Direct BLS API expansion completed | Expand beyond FRED-mediated BLS to direct API sources | Added 23 new direct BLS series across 4 phases (Core, Extended Employment, Price Detail, Regional/Demographics). Total: 80 series (55 FRED + 25 BLS direct). Created BLS setup documentation. All 68 tests passing. |
+| 2026-02-15 | Tier 2 Batch 6 (Treasury Direct) completed | Expand coverage to direct Treasury source | Added 8 series: Average rates and Auction results. Validated with live API verification. |
+| 2026-02-15 | Tier 2 Batch 7 (Census Bureau) completed | Expand coverage to direct Census source | Added 15 series: International Trade (8) and Business Inventories (7). Code complete; pending API key for live verification. |
 
 ---
 
@@ -481,6 +484,11 @@
 - Added BLS setup documentation
 - All 68 tests passing with new catalog
 
+**Treasury & Census Expansion**
+- Treasury Direct: 8 series added (Rates & Auctions)
+- Census Bureau: 15 series added (Trade & Inventories)
+- Total Catalog Size: 103 series
+
 ### In Progress ▶
 
 None - Ready for next phase
@@ -520,4 +528,4 @@ Every development session should:
 
 **Last Updated**: 2026-02-14
 **Next Review**: After next phase selection (Alerting or Analytics)
-**Status**: M4 complete; Phase 5 Tier 2 expansion complete (80 series: 55 FRED + 25 BLS direct); Phase 2 readiness hardening complete; 68 tests passing
+**Status**: M4 complete; Phase 5 Tier 2 expansion complete (103 series: 55 FRED + 25 BLS + 8 Treasury + 15 Census); Multi-source verification in progress

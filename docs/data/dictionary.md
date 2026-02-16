@@ -410,8 +410,41 @@ Indicators are organized into thematic categories for easier navigation and unde
 | CUSR0000SAH1 | CPI: Shelter | Monthly | Largest CPI component (~33% weight) |
 | CPIENGSL | CPI: Energy | Monthly | Energy contribution to headline inflation |
 
-**Configured Total**: 52 Tier 2 series (56 total with Tier 1)
-**Estimated Observations**: ~8,000-12,000 for 10 years
+### Treasury Direct (8 series)
+
+| Series ID | Title | Frequency | Source | Description |
+|-----------|-------|-----------|--------|-------------|
+| TREAS_AVG_BILLS | Average Interest Rate - Treasury Bills | Monthly | TREASURY | Average interest rate on outstanding U.S. Treasury Bills. |
+| TREAS_AVG_NOTES | Average Interest Rate - Treasury Notes | Monthly | TREASURY | Average interest rate on outstanding U.S. Treasury Notes. |
+| TREAS_AVG_BONDS | Average Interest Rate - Treasury Bonds | Monthly | TREASURY | Average interest rate on outstanding U.S. Treasury Bonds. |
+| TREAS_AVG_TIPS | Average Interest Rate - TIPS | Monthly | TREASURY | Average interest rate on outstanding TIPS. |
+| TREAS_AUCTION_10Y | 10-Year Note Auction High Rate | Irregular | TREASURY | High investment rate from 10-year Treasury Note auctions. |
+| TREAS_AUCTION_2Y | 2-Year Note Auction High Rate | Irregular | TREASURY | High investment rate from 2-year Treasury Note auctions. |
+| TREAS_AUCTION_30Y | 30-Year Bond Auction High Rate | Irregular | TREASURY | High investment rate from 30-year Treasury Bond auctions. |
+| TREAS_BID_COVER_10Y | 10-Year Note Bid-to-Cover Ratio | Irregular | TREASURY | Bid-to-cover ratio from 10-year Treasury Note auctions. |
+
+### Census Bureau (15 series)
+
+| Series ID | Title | Frequency | Source | Description |
+|-----------|-------|-----------|--------|-------------|
+| CENSUS_EXP_GOODS | U.S. Exports of Goods | Monthly | CENSUS | Total U.S. exports of goods. |
+| CENSUS_IMP_GOODS | U.S. Imports of Goods | Monthly | CENSUS | Total U.S. imports of goods. |
+| CENSUS_EXP_CHINA | U.S. Exports to China | Monthly | CENSUS | Exports to China. |
+| CENSUS_IMP_CHINA | U.S. Imports from China | Monthly | CENSUS | Imports from China. |
+| CENSUS_EXP_CANADA | U.S. Exports to Canada | Monthly | CENSUS | Exports to Canada. |
+| CENSUS_IMP_CANADA | U.S. Imports from Canada | Monthly | CENSUS | Imports from Canada. |
+| CENSUS_EXP_MEXICO | U.S. Exports to Mexico | Monthly | CENSUS | Exports to Mexico. |
+| CENSUS_IMP_MEXICO | U.S. Imports from Mexico | Monthly | CENSUS | Imports from Mexico. |
+| CENSUS_INV_MFG | Manufacturing Inventories | Monthly | CENSUS | Total manufacturing inventories. |
+| CENSUS_INV_WHOLESALE | Wholesale Trade Inventories | Monthly | CENSUS | Merchant wholesalers inventories. |
+| CENSUS_INV_RETAIL | Retail Trade Inventories | Monthly | CENSUS | Retail trade inventories. |
+| CENSUS_INV_SALES_RATIO | Total Business Inventory/Sales Ratio | Monthly | CENSUS | Ratio of inventories to sales. |
+| CENSUS_INV_MFG_RATIO | Manufacturing Inventory/Sales Ratio | Monthly | CENSUS | Ratio of mfg inventories to shipments. |
+| CENSUS_SHIP_MFG | Manufacturing Shipments | Monthly | CENSUS | Value of manufacturers' shipments. |
+| CENSUS_ORDERS_MFG | Manufacturing New Orders | Monthly | CENSUS | New orders for manufactured goods. |
+
+**Configured Total**: 75 Tier 2 series (79 total configured; 103 total including all sources)
+**Estimated Observations**: ~15,000+ for 10 years
 
 ---
 
@@ -442,6 +475,18 @@ Indicators are organized into thematic categories for easier navigation and unde
 - **Revisions**: Common for GDP, employment, and some other series
 - **Missing Data**: Some series have gaps (economic disruptions, data collection issues)
 - **Vintage Data**: FRED tracks historical revisions (not implemented in MVP)
+
+### Treasury API Characteristics
+
+- **Update Frequency**: Monthly (Avg Rates), Irregular (Auctions)
+- **Granularity**: High precision interaction with Fiscal Data API
+- **Key Feature**: Direct source for government debt costs
+
+### Census API Characteristics
+
+- **Update Frequency**: Monthly
+- **Lag**: Trade data typically lags by ~1-2 months
+- **Key Feature**: Detailed breakdown of trade partners and inventory components
 
 ### Data Quality
 

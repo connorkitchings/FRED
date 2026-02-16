@@ -354,7 +354,7 @@ class AlertManager:
             conn = get_connection()
             conn.execute(
                 """
-                INSERT INTO alert_history 
+                INSERT INTO alert_history
                 (alert_id, rule_name, severity, description, timestamp, details, metadata)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,

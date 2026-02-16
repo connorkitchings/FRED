@@ -4,11 +4,11 @@ import unittest
 from unittest.mock import patch
 
 from src.fred_macro.clients import (
+    CensusClient,
     ClientFactory,
     DataSourceClient,
     FredClient,
     TreasuryClient,
-    CensusClient,
 )
 
 

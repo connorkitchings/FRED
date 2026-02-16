@@ -422,10 +422,8 @@ rules:
         manager = AlertManager(str(config_file))
 
         # Mock the console handler to capture alerts
-        console_handler = None
         for handler in manager.handlers:
             if isinstance(handler, ConsoleAlertHandler):
-                console_handler = handler
                 break
 
         # Trigger an alert

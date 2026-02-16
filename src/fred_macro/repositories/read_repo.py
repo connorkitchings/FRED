@@ -91,7 +91,7 @@ class ReadRepository:
         try:
             query = """
                 WITH RankedObs AS (
-                    SELECT 
+                    SELECT
                         o.series_id,
                         o.observation_date,
                         o.value,
@@ -112,7 +112,7 @@ class ReadRepository:
 
             query += """
                 )
-                SELECT 
+                SELECT
                     series_id, title, observation_date, value, prev_value, units, frequency, tier,
                     (value - prev_value) as delta
                 FROM RankedObs
@@ -130,7 +130,7 @@ class ReadRepository:
         try:
             placeholders = ",".join(["?"] * len(series_ids))
             query = f"""
-                SELECT 
+                SELECT
                     o.observation_date,
                     o.series_id,
                     o.value
@@ -147,8 +147,8 @@ class ReadRepository:
         conn = get_connection()
         try:
             return conn.execute(f"""
-                SELECT 
-                    run_id, run_timestamp, mode, status, 
+                SELECT
+                    run_id, run_timestamp, mode, status,
                     total_rows_fetched, total_rows_inserted, duration_seconds
                 FROM ingestion_log
                 ORDER BY run_timestamp DESC
@@ -161,7 +161,7 @@ class ReadRepository:
         conn = get_connection()
         try:
             return conn.execute(f"""
-                SELECT 
+                SELECT
                     finding_timestamp, severity, code, series_id, message
                 FROM dq_report
                 WHERE severity IN ('warning', 'critical')

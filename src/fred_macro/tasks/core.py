@@ -64,9 +64,9 @@ def task_validate_run(run_id: str) -> dict:
         # Get DQ counts
         dq_counts = conn.execute(
             """
-            SELECT severity, COUNT(*) 
-            FROM dq_report 
-            WHERE run_id = ? 
+            SELECT severity, COUNT(*)
+            FROM dq_report
+            WHERE run_id = ?
             GROUP BY severity
             """,
             (run_id,),
