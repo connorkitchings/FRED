@@ -39,7 +39,7 @@ class CensusClient:
         # International Trade (Monthly)
         "CENSUS_EXP_GOODS": {
             "dataset": "intltrade/exports/hs",
-            "variables": {"MONTH": "time", "GEN_VAL_MO": "value"},
+            "variables": {"MONTH": "time", "ALL_VAL_MO": "value"},
             "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL"},
             "time_format": "%Y-%m",
             "is_eits": False,
@@ -77,7 +77,7 @@ class CensusClient:
         # Country Trade (China, Canada, Mexico)
         "CENSUS_EXP_CHINA": {
             "dataset": "intltrade/exports/hs",
-            "variables": {"MONTH": "time", "GEN_VAL_MO": "value"},
+            "variables": {"MONTH": "time", "ALL_VAL_MO": "value"},
             "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL", "CTY_CODE": "5700"},
             "time_format": "%Y-%m",
             "is_eits": False,
@@ -91,7 +91,7 @@ class CensusClient:
         },
         "CENSUS_EXP_CANADA": {
             "dataset": "intltrade/exports/hs",
-            "variables": {"MONTH": "time", "GEN_VAL_MO": "value"},
+            "variables": {"MONTH": "time", "ALL_VAL_MO": "value"},
             "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL", "CTY_CODE": "1220"},
             "time_format": "%Y-%m",
             "is_eits": False,
@@ -105,7 +105,7 @@ class CensusClient:
         },
         "CENSUS_EXP_MEXICO": {
             "dataset": "intltrade/exports/hs",
-            "variables": {"MONTH": "time", "GEN_VAL_MO": "value"},
+            "variables": {"MONTH": "time", "ALL_VAL_MO": "value"},
             "params": {
                 "COMM_LVL": "HS2",
                 "DISTRICT": "TOTAL",
@@ -117,80 +117,87 @@ class CensusClient:
         # Business Inventories (EITS)
         "CENSUS_INV_MFG": {
             "dataset": "eits/mwts",
-            "variables": {"per": "time", "val": "value"},
+            "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
                 "category_code": "MNSI",
                 "data_type_code": "INV",
             },
-            "time_format": "%Y-%m",
+            "time_format": "%Y-%m-%d",
             "is_eits": True,
+            "skip": True,
         },
         "CENSUS_INV_WHOLESALE": {
             "dataset": "eits/mwts",
-            "variables": {"per": "time", "val": "value"},
+            "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
                 "category_code": "MWSI",
                 "data_type_code": "INV",
             },
-            "time_format": "%Y-%m",
+            "time_format": "%Y-%m-%d",
             "is_eits": True,
+            "skip": True,
         },
         "CENSUS_INV_RETAIL": {
             "dataset": "eits/mwts",
-            "variables": {"per": "time", "val": "value"},
+            "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
                 "category_code": "MRSI",
                 "data_type_code": "INV",
             },
-            "time_format": "%Y-%m",
+            "time_format": "%Y-%m-%d",
             "is_eits": True,
+            "skip": True,
         },
         "CENSUS_INV_SALES_RATIO": {
             "dataset": "eits/mwts",
-            "variables": {"per": "time", "val": "value"},
+            "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
                 "category_code": "MTIR",
                 "data_type_code": "RATIO",
             },
-            "time_format": "%Y-%m",
+            "time_format": "%Y-%m-%d",
             "is_eits": True,
+            "skip": True,
         },
         "CENSUS_INV_MFG_RATIO": {
             "dataset": "eits/mwts",
-            "variables": {"per": "time", "val": "value"},
+            "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
                 "category_code": "MNIR",
                 "data_type_code": "RATIO",
             },
-            "time_format": "%Y-%m",
+            "time_format": "%Y-%m-%d",
             "is_eits": True,
+            "skip": True,
         },
         "CENSUS_SHIP_MFG": {
             "dataset": "eits/mwts",
-            "variables": {"per": "time", "val": "value"},
+            "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
                 "category_code": "MNS",
                 "data_type_code": "SM",
             },
-            "time_format": "%Y-%m",
+            "time_format": "%Y-%m-%d",
             "is_eits": True,
+            "skip": True,
         },
         "CENSUS_ORDERS_MFG": {
             "dataset": "eits/mwts",
-            "variables": {"per": "time", "val": "value"},
+            "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
                 "category_code": "MNO",
                 "data_type_code": "NO",
             },
-            "time_format": "%Y-%m",
+            "time_format": "%Y-%m-%d",
             "is_eits": True,
+            "skip": True,
         },
     }
 
@@ -296,7 +303,8 @@ class CensusClient:
                 # For safety in this MVP, we might fetch all if volume isn't huge (monthly series are small).
                 # But let's try to be efficient.
                 # Actually, simply passing "time": f"from {start_ym}" works for many Census endpoints.
-                params["time"] = f"from {start_ym}"
+                if not config.get("is_eits"):
+                    params["time"] = f"from {start_ym}"
             except Exception:
                 pass  # Fallback to fetching all
 
@@ -305,9 +313,22 @@ class CensusClient:
             logger.info(f"Fetching Census series {series_id} from {url}")
 
             response = requests.get(url, params=params, timeout=30)
+
+            # Handle 204 No Content (valid request but no data)
+            if response.status_code == 204:
+                logger.info(f"No data found for Census series {series_id} (Status 204)")
+                return pd.DataFrame(columns=["observation_date", "value", "series_id"])
+
             response.raise_for_status()
 
-            data = response.json()
+            try:
+                data = response.json()
+            except ValueError:
+                # If 200 OK but empty body, or invalid JSON
+                logger.error(
+                    f"Invalid JSON response for {series_id} (Status {response.status_code}): {response.text[:100]}"
+                )
+                return pd.DataFrame(columns=["observation_date", "value", "series_id"])
 
             if not data or len(data) < 2:
                 # Expect header row + data rows
