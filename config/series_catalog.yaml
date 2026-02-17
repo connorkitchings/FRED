@@ -695,6 +695,68 @@ series:
     source: "BLS"
     description: "Unemployment rate for persons with bachelor's degree or higher. Educational attainment premium and skills-based labor market indicator."
 
+  # Phase 5: BLS Alias Expansion (6 series, coexist with FRED IDs)
+
+  - series_id: "ECIALLCIV_BLS"
+    source_series_id: "ECIALLCIV"
+    title: "Employment Cost Index: Total Compensation (BLS Source)"
+    units: "Index Dec 2005=100"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "BLS-direct alias for Employment Cost Index total compensation, coexisting with FRED-sourced ECIALLCIV."
+
+  - series_id: "ECIWAG_BLS"
+    source_series_id: "ECIWAG"
+    title: "Employment Cost Index: Wages and Salaries (BLS Source)"
+    units: "Index Dec 2005=100"
+    frequency: "Quarterly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "BLS-direct alias for Employment Cost Index wages and salaries, coexisting with FRED-sourced ECIWAG."
+
+  - series_id: "UEMPMEAN_BLS"
+    source_series_id: "UEMPMEAN"
+    title: "Average Duration of Unemployment (BLS Source)"
+    units: "Weeks"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "BLS-direct alias for average unemployment duration, coexisting with FRED-sourced UEMPMEAN."
+
+  - series_id: "EMRATIO_BLS"
+    source_series_id: "EMRATIO"
+    title: "Employment-Population Ratio (BLS Alias Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "BLS-direct alias for employment-population ratio, coexisting with FRED-sourced EMRATIO."
+
+  - series_id: "JTSQUR_BLS"
+    source_series_id: "JTSQUR"
+    title: "JOLTS Quits Rate (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "BLS-direct alias for quits rate, coexisting with FRED-sourced JTSQUR."
+
+  - series_id: "JTSHIR_BLS"
+    source_series_id: "JTSHIR"
+    title: "JOLTS Hires Rate (BLS Source)"
+    units: "Percent"
+    frequency: "Monthly"
+    seasonal_adjustment: "Seasonally Adjusted"
+    tier: 2
+    source: "BLS"
+    description: "BLS-direct alias for hires rate, coexisting with FRED-sourced JTSHIR."
+
   # --- Tier 2: Treasury Direct Integration (8 series) ---
 
   - series_id: "TREAS_AVG_BILLS"

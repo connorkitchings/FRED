@@ -162,8 +162,11 @@ For the workflow to succeed, the following **Repository Secrets** must be config
 
 ### Adding New Indicators
 1. Edit `config/series_catalog.yaml`.
-2. Run `uv run python -m src.fred_macro.seed_catalog` to update the DB.
-3. Run `uv run python -m src.fred_macro.cli ingest --mode backfill` (upsert is safe).
+2. For source-coexistence aliases (for example, `*_BLS`), set:
+   - `series_id` to the internal unique alias ID.
+   - `source_series_id` to the provider-native API ID used for fetch.
+3. Run `uv run python -m src.fred_macro.seed_catalog` to update the DB.
+4. Run `uv run python -m src.fred_macro.cli ingest --mode backfill` (upsert is safe).
 
 ### Updating DQ Rules
 - Edit `src/fred_macro/validation.py`.

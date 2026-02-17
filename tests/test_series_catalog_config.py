@@ -36,6 +36,14 @@ TIER2_BATCH5 = {
     "CPIENGSL",  # CPI Components
 }
 TIER2_BATCH6 = {"LNS14000000", "CUUR0000SA0"}
+TIER2_BATCH7_BLS_ALIAS = {
+    "ECIALLCIV_BLS",
+    "ECIWAG_BLS",
+    "UEMPMEAN_BLS",
+    "EMRATIO_BLS",
+    "JTSQUR_BLS",
+    "JTSHIR_BLS",
+}
 
 
 def _load_series() -> list[dict]:
@@ -106,3 +114,21 @@ def test_tier2_batch6_present():
     series_list = _load_series()
     tier2 = {item["series_id"] for item in series_list if item["tier"] == 2}
     assert TIER2_BATCH6.issubset(tier2)
+
+
+def test_tier2_batch7_bls_alias_present():
+    series_list = _load_series()
+    tier2 = {item["series_id"] for item in series_list if item["tier"] == 2}
+    assert TIER2_BATCH7_BLS_ALIAS.issubset(tier2)
+
+
+def test_bls_aliases_require_source_series_id():
+    series_list = _load_series()
+    for item in series_list:
+        series_id = item["series_id"]
+        source = item.get("source", "FRED")
+        source_series_id = item.get("source_series_id")
+        if source == "BLS" and series_id.endswith("_BLS"):
+            assert source_series_id, (
+                f"BLS alias {series_id} must define source_series_id."
+            )

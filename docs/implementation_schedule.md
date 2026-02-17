@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 Complete; Tier 2 Expansion Complete
-**Progress:** ✅ Tier 2 Batch 7 (Census Bureau) complete; ✅ Tier 2 Batch 6 (Treasury Direct) complete; ✅ Direct BLS integration adopted (25 series); ✅ mixed-source runtime validation succeeded.
-**Next Milestone:** Validate and merge Census EITS completion + CI health-gate hardening + documentation reconciliation
+**Progress:** ✅ Tier 2 Batch 7 (Census Bureau) complete; ✅ Tier 2 Batch 6 (Treasury Direct) complete; ✅ Direct BLS alias expansion implemented (30 series target); ✅ mixed-source runtime validation succeeded.
+**Next Milestone:** Validate and merge BLS alias coexistence expansion (30 direct BLS series)
 
 ---
 
@@ -435,6 +435,7 @@
 | 2026-02-15 | Tier 2 Batch 7 (Census Bureau) completed | Expand coverage to direct Census source | Added 15 series: International Trade (8) and Business Inventories (7). Code complete; pending API key for live verification. |
 | 2026-02-16 | Direct BLS API evaluation finalized | Resolve transition decision ambiguity | Adopted direct BLS integration as default path for implemented BLS indicators. |
 | 2026-02-17 | Census EITS + CI health-gate hardening kickoff | Close remaining multi-source readiness gaps | Implemented deterministic Census EITS slot resolution scope, explicit run-health CI gate (`status` + `critical`), and docs/state reconciliation updates. |
+| 2026-02-17 | Direct BLS alias coexistence expansion | Increase direct BLS coverage while preserving FRED overlap | Added `source_series_id` routing and six `_BLS` alias entries to reach 30 BLS series total. |
 
 ---
 
@@ -481,15 +482,15 @@
 - Multi-source integration tests added (8 new tests covering FRED+BLS scenarios)
 
 **Direct BLS API Expansion**
-- Expanded from 2 to 25 direct BLS series (23 new series added)
-- Catalog now contains 80 total series (55 FRED + 25 BLS direct)
+- Expanded from 2 to 30 direct BLS series (including alias coexistence entries)
+- Catalog now contains 109 total series (56 FRED + 30 BLS + 8 TREASURY + 15 CENSUS)
 - Added BLS setup documentation
 - All 68 tests passing with new catalog
 
 **Treasury & Census Expansion**
 - Treasury Direct: 8 series added (Rates & Auctions)
 - Census Bureau: 15 series added (Trade & Inventories)
-- Total Catalog Size: 103 series
+- Total Catalog Size: 109 series
 
 ### In Progress ▶
 
@@ -498,7 +499,7 @@ None - Ready for next phase
 ### Backlog 📦
 
 **Future Enhancements**
-- Direct BLS API feature expansion beyond current 25-series direct coverage
+- Direct BLS API feature expansion beyond current 30-series direct coverage
 - Additional mixed-source integration scenarios and operational runbook updates
 - New indicator expansion as specialized analysis needs arise
 

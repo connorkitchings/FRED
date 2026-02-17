@@ -339,6 +339,19 @@ Indicators are organized into thematic categories for easier navigation and unde
 | CUSR0000SAH1 | Prices & Inflation | Shelter is largest CPI component (~33% weight) |
 | CPIENGSL | Prices & Inflation | Energy CPI enables headline inflation decomposition |
 
+### Batch 6/7 Additions - Direct BLS and Coexistence Aliases
+
+| Series ID | Source Series ID | Source | Why it was added |
+|-----------|------------------|--------|------------------|
+| LNS14000000 | LNS14000000 | BLS | Direct-source baseline unemployment rate |
+| CUUR0000SA0 | CUUR0000SA0 | BLS | Direct-source CPI-U baseline |
+| ECIALLCIV_BLS | ECIALLCIV | BLS | Coexistence alias for compensation index (retain FRED + BLS) |
+| ECIWAG_BLS | ECIWAG | BLS | Coexistence alias for wage-cost index |
+| UEMPMEAN_BLS | UEMPMEAN | BLS | Coexistence alias for unemployment-duration signal |
+| EMRATIO_BLS | EMRATIO | BLS | Coexistence alias for employment-population ratio |
+| JTSQUR_BLS | JTSQUR | BLS | Coexistence alias for quits-rate labor-flow signal |
+| JTSHIR_BLS | JTSHIR | BLS | Coexistence alias for hires-rate labor-flow signal |
+
 ### Labor Market (Extended)
 
 | Series ID | Title | Frequency | Description |
@@ -443,7 +456,7 @@ Indicators are organized into thematic categories for easier navigation and unde
 | CENSUS_SHIP_MFG | Manufacturing Shipments | Monthly | CENSUS | Value of manufacturers' shipments. |
 | CENSUS_ORDERS_MFG | Manufacturing New Orders | Monthly | CENSUS | New orders for manufactured goods. |
 
-**Configured Total**: 75 Tier 2 series (79 total configured; 103 total including all sources)
+**Configured Total**: 109 total series (4 Tier 1 + 105 Tier 2; includes FRED, BLS, Treasury, and Census sources)
 **Estimated Observations**: ~15,000+ for 10 years
 
 ---

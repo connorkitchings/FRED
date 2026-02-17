@@ -13,8 +13,8 @@
 ### Current State
 
 - **Version**: 0.1.0 (MVP complete)
-- **Current Focus**: Census EITS inventory completion, CI health-gate hardening, and documentation reconciliation
-- **Next Milestone**: Ship full Census inventory support with deterministic `time_slot_id` resolution and enforce run-health gating (`status` + `critical`) in daily automation
+- **Current Focus**: Direct BLS alias coexistence expansion and strict validation hardening
+- **Next Milestone**: Validate and merge 30-series direct BLS coverage with `_BLS` alias routing via `source_series_id`
 - **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
@@ -221,10 +221,10 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 **Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Complete Census EITS ingestion for inventory/shipments/orders series (no skip path)
-2. Enforce explicit daily CI health-gate policy (`status != success` or `critical > 0`)
-3. Keep full test suite green while multi-source hardening lands
-4. Reconcile context/schedule/runbook docs with shipped direct BLS and Census behavior
+1. Validate and ship direct BLS alias coexistence (`source_series_id` + `_BLS` IDs)
+2. Keep full test suite green while mixed-source routing logic evolves
+3. Run incremental ingest + run-health gate on the expanded multi-source catalog
+4. Reconcile BLS setup/decision/schedule docs with 30-series direct BLS baseline
 
 **See**: `docs/implementation_schedule.md` for complete task list
 

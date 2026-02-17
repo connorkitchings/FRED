@@ -41,8 +41,9 @@ class DataFetcher:
         try:
             client = self._get_client(series.source)
             start_date = self._determine_start_date(mode)
+            request_series_id = series.source_series_id or series.series_id
 
-            df = client.get_series_data(series.series_id, start_date=start_date)
+            df = client.get_series_data(request_series_id, start_date=start_date)
 
             if df.empty:
                 logger.warning(
@@ -50,8 +51,13 @@ class DataFetcher:
                 )
                 return df
 
+            # Keep storage keyed by internal catalog id while allowing
+            # source-specific fetch ids.
+            df["series_id"] = series.series_id
+
             logger.info(
-                f"Fetched {len(df)} rows for {series.series_id} ({series.source})"
+                f"Fetched {len(df)} rows for {series.series_id} "
+                f"(request={request_series_id}, source={series.source})"
             )
             return df
 

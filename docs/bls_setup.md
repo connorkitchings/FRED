@@ -2,7 +2,7 @@
 
 ## Overview
 
-The FRED-Macro-Dashboard now supports direct BLS API integration for 25 economic series, providing same-day data access with higher rate limits than FRED-mediated sources.
+The FRED-Macro-Dashboard now supports direct BLS API integration for 30 economic series, providing same-day data access with higher rate limits than FRED-mediated sources.
 
 ## Why Use Direct BLS API?
 
@@ -40,6 +40,10 @@ uv run fred-cli verify
 
 ## BLS Series Added
 
+The catalog now supports two BLS entry patterns:
+- **Raw BLS IDs** (e.g., `LNS14000000`)
+- **BLS coexistence aliases** (e.g., `ECIALLCIV_BLS`) with `source_series_id` pointing to the raw BLS ID.
+
 ### Phase 1: Core Indicators (8 series)
 - CES0000000001: Total Nonfarm Employment
 - CES0500000003: Average Hourly Earnings
@@ -71,10 +75,18 @@ uv run fred-cli verify
 - LASST360000000000003: New York Unemployment Rate
 - LNS14027660: Unemployment Rate - Bachelor's Degree+
 
-Plus 2 existing BLS series (LNS14000000 and CUUR0000SA0) for a total of 25 direct BLS series.
+### Phase 5: BLS Coexistence Aliases (6 series)
+- ECIALLCIV_BLS → source_series_id: ECIALLCIV
+- ECIWAG_BLS → source_series_id: ECIWAG
+- UEMPMEAN_BLS → source_series_id: UEMPMEAN
+- EMRATIO_BLS → source_series_id: EMRATIO
+- JTSQUR_BLS → source_series_id: JTSQUR
+- JTSHIR_BLS → source_series_id: JTSHIR
+
+Total direct BLS coverage is now 30 series.
 
 ## Current Status
 
-- **Total Series**: 80 (55 FRED + 25 BLS direct)
-- **Test Coverage**: All 68 tests passing
+- **Total Series**: 109 (56 FRED + 30 BLS + 8 TREASURY + 15 CENSUS)
+- **Test Coverage**: See latest `uv run pytest -q` results in CI/local run log
 - **Catalog Validation**: All series have unique IDs

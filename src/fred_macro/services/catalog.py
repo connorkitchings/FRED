@@ -7,6 +7,7 @@ from pydantic import BaseModel, field_validator
 
 class SeriesConfig(BaseModel):
     series_id: str
+    source_series_id: Optional[str] = None
     title: str
     units: str
     frequency: str

@@ -243,8 +243,15 @@ class IngestionEngine:
 
                 for item in source_items:
                     series_id = item["series_id"]
+                    request_series_id = item.get("source_series_id") or series_id
                     try:
-                        df = client.get_series_data(series_id, start_date=start_date)
+                        df = client.get_series_data(
+                            request_series_id,
+                            start_date=start_date,
+                        )
+                        if not df.empty:
+                            # Persist under catalog id even when source id differs.
+                            df["series_id"] = series_id
                         run_series_stats[series_id]["rows_fetched"] = len(df)
 
                         if not df.empty:
@@ -253,7 +260,8 @@ class IngestionEngine:
                             total_fetched += len(df)
                             total_processed += count
                             logger.info(
-                                f"Processed {series_id} ({source}): {len(df)} rows"
+                                f"Processed {series_id} (request={request_series_id}, "
+                                f"source={source}): {len(df)} rows"
                             )
                         else:
                             logger.warning(f"No data found for {series_id} ({source})")

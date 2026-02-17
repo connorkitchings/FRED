@@ -195,6 +195,115 @@ class TestMultiSourceIngestion:
         assert captured["rows_fetched"] == 3
         assert set(captured["series_ingested"]) == {"FEDFUNDS", "UNRATE", "LNS14000000"}
 
+    def test_fetcher_uses_source_series_id_for_bls_alias(self, monkeypatch):
+        """Fetcher should request source_series_id and persist internal series_id."""
+        requested_ids = []
+
+        def mock_get_client(source):
+            mock_client = Mock()
+
+            def mock_fetch(series_id, start_date):
+                requested_ids.append(series_id)
+                return pd.DataFrame(
+                    {
+                        "series_id": [series_id],
+                        "observation_date": ["2025-01-01"],
+                        "value": [2.5],
+                    }
+                )
+
+            mock_client.get_series_data = mock_fetch
+            return mock_client
+
+        monkeypatch.setattr(ClientFactory, "get_client", mock_get_client)
+
+        fetcher = DataFetcher()
+        alias_series = SeriesConfig(
+            series_id="ECIALLCIV_BLS",
+            source_series_id="ECIALLCIV",
+            source="BLS",
+            title="ECI Total Comp (BLS Alias)",
+            units="Index",
+            frequency="Quarterly",
+            seasonal_adjustment="SA",
+            tier=2,
+        )
+
+        df = fetcher.fetch_series(alias_series, mode="incremental")
+
+        assert requested_ids == ["ECIALLCIV"]
+        assert not df.empty
+        assert (df["series_id"] == "ECIALLCIV_BLS").all()
+
+    def test_ingestion_engine_uses_source_series_id_for_bls_alias(self, monkeypatch):
+        """IngestionEngine should fetch alias by source_series_id and store alias id."""
+        requested_series = []
+
+        def mock_get_client(source):
+            mock_client = Mock()
+
+            def mock_fetch(series_id, start_date):
+                requested_series.append((source, series_id))
+                return pd.DataFrame(
+                    {
+                        "series_id": [series_id],
+                        "observation_date": ["2025-01-01"],
+                        "value": [4.0],
+                    }
+                )
+
+            mock_client.get_series_data = mock_fetch
+            return mock_client
+
+        monkeypatch.setattr(ClientFactory, "get_client", mock_get_client)
+
+        engine = IngestionEngine.__new__(IngestionEngine)
+        engine.config_path = "config/series_catalog.yaml"
+        engine.current_run_id = "test-run-id"
+        engine.alert_manager = None
+
+        mock_catalog = Mock()
+        mock_catalog.get_all_series.return_value = [
+            SeriesConfig(
+                series_id="ECIALLCIV_BLS",
+                source_series_id="ECIALLCIV",
+                source="BLS",
+                title="ECI Alias",
+                units="Index",
+                frequency="Quarterly",
+                seasonal_adjustment="SA",
+                tier=2,
+            ),
+        ]
+        engine.catalog_service = mock_catalog
+
+        upsert_payload = {}
+
+        def capture_upsert(df):
+            upsert_payload["series_ids"] = set(df["series_id"].tolist())
+            return len(df)
+
+        monkeypatch.setattr(engine, "_upsert_data", capture_upsert)
+        monkeypatch.setattr(
+            engine,
+            "_log_run",
+            lambda *args, **kwargs: None,
+        )
+        monkeypatch.setattr(
+            engine,
+            "_update_logged_run_status",
+            lambda run_id, status, error_message: True,
+        )
+        monkeypatch.setattr(
+            "src.fred_macro.ingest.run_data_quality_checks",
+            lambda **kwargs: [],
+        )
+
+        engine.run(mode="incremental")
+
+        assert requested_series == [("BLS", "ECIALLCIV")]
+        assert upsert_payload["series_ids"] == {"ECIALLCIV_BLS"}
+
     def test_client_factory_unknown_source_raises_error(self):
         """Test ClientFactory raises ValueError for unknown source."""
         with pytest.raises(ValueError) as exc_info:
