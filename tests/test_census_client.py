@@ -9,6 +9,14 @@ import pandas as pd
 from src.fred_macro.clients import CensusClient
 
 
+def _mock_response(status_code: int = 200, payload=None):
+    response = Mock()
+    response.status_code = status_code
+    response.json.return_value = payload if payload is not None else []
+    response.raise_for_status = Mock()
+    return response
+
+
 class TestCensusClient(unittest.TestCase):
     """Test suite for CensusClient."""
 
@@ -35,10 +43,13 @@ class TestCensusClient(unittest.TestCase):
         expected_series = [
             "CENSUS_EXP_GOODS",
             "CENSUS_IMP_GOODS",
+            "CENSUS_IMP_MEXICO",
             "CENSUS_INV_MFG",
+            "CENSUS_ORDERS_MFG",
         ]
         for series_id in expected_series:
             self.assertIn(series_id, client.SERIES_MAPPING)
+        self.assertNotIn("CENSUS_TRADE_BAL", client.SERIES_MAPPING)
 
     def test_get_series_data_unknown_series(self):
         """Test that unknown series raises ValueError."""
@@ -51,26 +62,23 @@ class TestCensusClient(unittest.TestCase):
     @patch("src.fred_macro.clients.census_client.time.sleep")
     def test_get_series_data_success_intl_trade(self, mock_sleep, mock_get):
         """Test successful data fetch for international trade."""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        # Census returns [headers, row1, row2, ...]
-        mock_response.json.return_value = [
-            ["MONTH", "GEN_VAL_MO", "COMM_LVL", "DISTRICT"],
-            ["2024-01", "1000000", "HS2", "TOTAL"],
-            ["2024-02", "1100000", "HS2", "TOTAL"],
-        ]
-        mock_get.return_value = mock_response
+        mock_get.return_value = _mock_response(
+            200,
+            [
+                ["MONTH", "ALL_VAL_MO", "COMM_LVL", "DISTRICT"],
+                ["2024-01", "1000000", "HS2", "TOTAL"],
+                ["2024-02", "1100000", "HS2", "TOTAL"],
+            ],
+        )
 
         client = CensusClient(api_key="test")
         df = client.get_series_data("CENSUS_EXP_GOODS")
 
-        # Verify API call
         mock_get.assert_called_once()
         call_args = mock_get.call_args
         self.assertIn("intltrade/exports/hs", call_args[0][0])
         self.assertEqual(call_args[1]["params"]["key"], "test")
 
-        # Verify DataFrame
         self.assertEqual(len(df), 2)
         self.assertTrue((df["series_id"] == "CENSUS_EXP_GOODS").all())
         self.assertEqual(df.iloc[0]["value"], 1000000)
@@ -78,75 +86,148 @@ class TestCensusClient(unittest.TestCase):
 
     @patch("src.fred_macro.clients.census_client.requests.get")
     @patch("src.fred_macro.clients.census_client.time.sleep")
-    def test_get_series_data_success_eits(self, mock_sleep, mock_get):
-        """Test successful data fetch for EITS (Inventories)."""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = [
-            ["per", "val", "category_code", "seasonally_adj"],
-            ["2024-01", "50000", "MNSI", "yes"],
-        ]
-        mock_get.return_value = mock_response
-
-        client = CensusClient(api_key="test")
-        df = client.get_series_data("CENSUS_INV_MFG")
-
-        # Verify DataFrame
-        self.assertEqual(len(df), 1)
-        self.assertTrue((df["series_id"] == "CENSUS_INV_MFG").all())
-        self.assertEqual(df.iloc[0]["value"], 50000)
-
-    @patch("src.fred_macro.clients.census_client.requests.get")
-    @patch("src.fred_macro.clients.census_client.time.sleep")
-    def test_get_series_data_empty_response(self, mock_sleep, mock_get):
-        """Test handling of empty response."""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = []  # Empty list
-        mock_get.return_value = mock_response
-
-        client = CensusClient(api_key="test")
-        df = client.get_series_data("CENSUS_EXP_GOODS")
-
-        self.assertTrue(df.empty)
-        self.assertListEqual(
-            list(df.columns), ["observation_date", "value", "series_id"]
+    def test_get_series_data_start_date_filter(self, mock_sleep, mock_get):
+        """Test start_date filtering for trade endpoint."""
+        mock_get.return_value = _mock_response(
+            200,
+            [
+                ["MONTH", "GEN_VAL_MO"],
+                ["2023-12", "900"],
+                ["2024-01", "1000"],
+                ["2024-02", "1100"],
+            ],
         )
 
-    @patch("src.fred_macro.clients.census_client.requests.get")
-    @patch("src.fred_macro.clients.census_client.time.sleep")
-    def test_get_series_data_start_date_filter(self, mock_sleep, mock_get):
-        """Test start_date filtering."""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = [
-            ["MONTH", "GEN_VAL_MO"],
-            ["2023-12", "900"],
-            ["2024-01", "1000"],
-            ["2024-02", "1100"],
-        ]
-        mock_get.return_value = mock_response
-
         client = CensusClient(api_key="test")
-        df = client.get_series_data("CENSUS_EXP_GOODS", start_date="2024-01-01")
+        df = client.get_series_data("CENSUS_IMP_GOODS", start_date="2024-01-01")
 
-        # Should filter out 2023-12
         self.assertEqual(len(df), 2)
         self.assertEqual(df.iloc[0]["observation_date"], pd.Timestamp("2024-01-01"))
 
-        # Verify time param was likely added (implementation detail)
         call_params = mock_get.call_args[1]["params"]
         self.assertIn("time", call_params)
         self.assertIn("from 2024-01", call_params["time"])
 
     @patch("src.fred_macro.clients.census_client.requests.get")
     @patch("src.fred_macro.clients.census_client.time.sleep")
+    def test_get_series_data_success_eits_with_slot_resolution(
+        self, mock_sleep, mock_get
+    ):
+        """Test successful EITS fetch with discovered time_slot_id."""
+        mock_get.side_effect = [
+            _mock_response(
+                200,
+                [
+                    ["time_slot_id", "time_slot_date", "cell_value"],
+                    ["slot_b", "2024-01-01", "50"],
+                    ["slot_b", "2024-02-01", "51"],
+                    ["slot_a", "2024-01-01", "5"],
+                ],
+            ),
+            _mock_response(
+                200,
+                [
+                    ["time_slot_date", "cell_value"],
+                    ["2024-01-01", "50"],
+                    ["2024-02-01", "51"],
+                ],
+            ),
+        ]
+
+        client = CensusClient(api_key="test")
+        df = client.get_series_data("CENSUS_INV_MFG", start_date="2024-01-01")
+
+        self.assertEqual(len(df), 2)
+        self.assertEqual(df.iloc[0]["value"], 50)
+        self.assertEqual(mock_get.call_count, 2)
+
+        discovery_params = mock_get.call_args_list[0][1]["params"]
+        self.assertEqual(
+            discovery_params["get"], "time_slot_id,time_slot_date,cell_value"
+        )
+
+        fetch_params = mock_get.call_args_list[1][1]["params"]
+        self.assertEqual(fetch_params["time_slot_id"], "slot_b")
+        self.assertEqual(fetch_params["get"], "time_slot_date,cell_value")
+        self.assertEqual(fetch_params["time"], "from 2024-01")
+
+    @patch("src.fred_macro.clients.census_client.requests.get")
+    @patch("src.fred_macro.clients.census_client.time.sleep")
+    def test_get_series_data_eits_slot_tie_breaks_to_smallest(
+        self, mock_sleep, mock_get
+    ):
+        """Test deterministic tie-break for EITS slot_id selection."""
+        mock_get.side_effect = [
+            _mock_response(
+                200,
+                [
+                    ["time_slot_id", "time_slot_date", "cell_value"],
+                    ["slot_b", "2024-01-01", "10"],
+                    ["slot_a", "2024-01-01", "20"],
+                ],
+            ),
+            _mock_response(
+                200,
+                [
+                    ["time_slot_date", "cell_value"],
+                    ["2024-01-01", "20"],
+                ],
+            ),
+        ]
+
+        client = CensusClient(api_key="test")
+        client.get_series_data("CENSUS_INV_MFG", start_date="2024-01-01")
+
+        fetch_params = mock_get.call_args_list[1][1]["params"]
+        self.assertEqual(fetch_params["time_slot_id"], "slot_a")
+
+    @patch("src.fred_macro.clients.census_client.requests.get")
+    @patch("src.fred_macro.clients.census_client.time.sleep")
+    def test_get_series_data_eits_no_slot_found_returns_empty(
+        self, mock_sleep, mock_get
+    ):
+        """Test EITS handling when no slot has valid rows."""
+        mock_get.return_value = _mock_response(
+            200,
+            [
+                ["time_slot_id", "time_slot_date", "cell_value"],
+                ["slot_a", "2024-01-01", "-"],
+                ["slot_b", "2024-01-01", "(NA)"],
+            ],
+        )
+
+        client = CensusClient(api_key="test")
+        df = client.get_series_data("CENSUS_INV_MFG", start_date="2024-01-01")
+
+        self.assertTrue(df.empty)
+        self.assertEqual(mock_get.call_count, 1)
+
+    @patch("src.fred_macro.clients.census_client.requests.get")
+    @patch("src.fred_macro.clients.census_client.time.sleep")
+    def test_get_series_data_eits_204_returns_empty(self, mock_sleep, mock_get):
+        """Test EITS final fetch 204 no content handling."""
+        mock_get.side_effect = [
+            _mock_response(
+                200,
+                [
+                    ["time_slot_id", "time_slot_date", "cell_value"],
+                    ["slot_a", "2024-01-01", "10"],
+                ],
+            ),
+            _mock_response(204, None),
+        ]
+
+        client = CensusClient(api_key="test")
+        df = client.get_series_data("CENSUS_INV_MFG", start_date="2024-01-01")
+
+        self.assertTrue(df.empty)
+        self.assertEqual(mock_get.call_count, 2)
+
+    @patch("src.fred_macro.clients.census_client.requests.get")
+    @patch("src.fred_macro.clients.census_client.time.sleep")
     def test_rate_limiting(self, mock_sleep, mock_get):
         """Test that rate limiting triggers sleep."""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = []
-        mock_get.return_value = mock_response
+        mock_get.return_value = _mock_response(200, [])
 
         client = CensusClient(api_key="test")
         client._last_request_time = 1000.0
@@ -156,23 +237,7 @@ class TestCensusClient(unittest.TestCase):
             "src.fred_macro.clients.census_client.time.time", return_value=1000.1
         ):
             client._enforce_rate_limit()
-            # Should sleep because only 0.1s passed (< 0.5s)
             mock_sleep.assert_called()
-
-    @patch("src.fred_macro.clients.census_client.requests.get")
-    @patch("src.fred_macro.clients.census_client.time.sleep")
-    def test_skip_marked_series(self, mock_sleep, mock_get):
-        """Test that skipped series return empty DF without calling API."""
-        client = CensusClient(api_key="test")
-        # Ensure CENSUS_TRADE_BAL is skipped as per implementation
-        # (Assuming I implemented skip logic for it)
-        if "CENSUS_TRADE_BAL" in client.SERIES_MAPPING:
-            # Force skip if not already
-            client.SERIES_MAPPING["CENSUS_TRADE_BAL"]["skip"] = True
-
-            df = client.get_series_data("CENSUS_TRADE_BAL")
-            self.assertTrue(df.empty)
-            mock_get.assert_not_called()
 
 
 if __name__ == "__main__":

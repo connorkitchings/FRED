@@ -7,14 +7,14 @@
 ## Project Snapshot
 
 **FRED-Macro-Dashboard**: Personal macroeconomic data infrastructure
-**Stack**: Python 3.10+ · DuckDB/MotherDuck · FRED API · UV
+**Stack**: Python 3.10+ · DuckDB/MotherDuck · Multi-Source APIs (FRED, BLS, Treasury, Census) · UV
 **Status**: 🟢 Phase 5 Expansion Complete; Multi-Source Readiness In Progress
 
 ### Current State
 
 - **Version**: 0.1.0 (MVP complete)
-- **Current Focus**: Multi-source ingestion readiness hardening (FRED + BLS client routing, reliability, and validation)
-- **Next Milestone**: Finalize and merge the multi-source ingestion baseline, then evaluate direct BLS API scope against specialized data needs
+- **Current Focus**: Census EITS inventory completion, CI health-gate hardening, and documentation reconciliation
+- **Next Milestone**: Ship full Census inventory support with deterministic `time_slot_id` resolution and enforce run-health gating (`status` + `critical`) in daily automation
 - **Previous**: Project initiated from Vibe-Coding template; Phase 1-4 delivered
 
 ## Recent Activity
@@ -80,11 +80,11 @@
 
 **System Overview**:
 ```
-FRED API → Python Ingestion Engine → MotherDuck (Cloud DuckDB)
+FRED/BLS/Treasury/Census APIs → Python Ingestion Engine → MotherDuck (Cloud DuckDB)
 ```
 
 **Key Components**:
-- **Data Source**: FRED API (Federal Reserve Economic Data)
+- **Data Sources**: FRED, BLS, Treasury Direct, and U.S. Census APIs
 - **Ingestion**: Python-based ETL with backfill and incremental modes
 - **Storage**: MotherDuck cloud database (free tier)
 - **Data Model**: 3 tables (series_catalog, observations, ingestion_log)
@@ -103,7 +103,7 @@ FRED API → Python Ingestion Engine → MotherDuck (Cloud DuckDB)
 2. **Scope Discipline**. Keep Tier 1 as the baseline and stabilize quality before Tier 2 expansion.
 3. **Documentation-Driven**. All documentation exists — read before implementing.
 4. **Learning Project**. Document insights about DuckDB, ETL patterns, and API integration.
-5. **No secrets in code**. Use environment variables (MOTHERDUCK_TOKEN, FRED_API_KEY).
+5. **No secrets in code**. Use environment variables (`MOTHERDUCK_TOKEN`, `FRED_API_KEY`, `BLS_API_KEY`, `CENSUS_API_KEY`).
 
 ### Project-Specific Rules
 
@@ -221,10 +221,10 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 **Status**: ▶ In Progress
 
 **Next Tasks**:
-1. Validate and merge feature-branch multi-source ingestion routing changes
-2. Expand multi-source integration tests across mixed catalogs and error paths
-3. Keep full test suite green while transition work lands
-4. Decide whether direct BLS API scope is required beyond current FRED-mediated BLS coverage
+1. Complete Census EITS ingestion for inventory/shipments/orders series (no skip path)
+2. Enforce explicit daily CI health-gate policy (`status != success` or `critical > 0`)
+3. Keep full test suite green while multi-source hardening lands
+4. Reconcile context/schedule/runbook docs with shipped direct BLS and Census behavior
 
 **See**: `docs/implementation_schedule.md` for complete task list
 
@@ -236,8 +236,8 @@ uv run python -m src.fred_macro.cli ingest --mode incremental
 |----------|------------|---------|
 | Language | Python 3.10+ | Primary programming language |
 | Database | DuckDB/MotherDuck | Cloud analytics database |
-| Data Source | FRED API | Federal Reserve Economic Data |
-| API Client | fredapi | Python wrapper for FRED |
+| Data Sources | FRED API, BLS API, Treasury FiscalData API, Census API | Macroeconomic indicator ingestion |
+| API Clients | `fredapi`, direct REST clients | Source-specific authentication and fetch logic |
 | Config | PyYAML | Series catalog parsing |
 | Package Mgmt | uv | Fast Python package manager |
 | Testing | pytest | Unit and integration tests |
@@ -290,6 +290,8 @@ FRED/
 # Required for operation
 MOTHERDUCK_TOKEN="your_motherduck_token_here"
 FRED_API_KEY="your_fred_api_key_here"
+BLS_API_KEY="your_bls_api_key_here"       # optional but recommended
+CENSUS_API_KEY="your_census_api_key_here" # required for Census source
 
 # Optional
 LOG_LEVEL="INFO"  # DEBUG, INFO, WARNING, ERROR

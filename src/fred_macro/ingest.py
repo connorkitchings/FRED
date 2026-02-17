@@ -332,7 +332,8 @@ class IngestionEngine:
                 )
 
             # Evaluate alerting rules
-            if self.alert_manager:
+            alert_manager = getattr(self, "alert_manager", None)
+            if alert_manager:
                 alert_context = {
                     "run_id": self.current_run_id,
                     "run_status": status,
@@ -341,7 +342,7 @@ class IngestionEngine:
                     "failed_series": len(series_list) - len(series_ingested),
                     "series_ingested": series_ingested,
                 }
-                self.alert_manager.check_and_alert(alert_context)
+                alert_manager.check_and_alert(alert_context)
 
         return self.current_run_id
 

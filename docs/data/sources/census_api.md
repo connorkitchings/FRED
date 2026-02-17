@@ -72,10 +72,19 @@ print(df.head())
 - **Protocol**: Implements `DataSourceClient`.
 - **Logic**:
     - Maps internal series IDs to API endpoints and parameters.
-    - Handles pagination (though mostly not needed for time series).
+    - Resolves EITS `time_slot_id` dynamically using a discovery query and deterministic ranking.
+    - Caches resolved `time_slot_id` values per `(dataset, category_code, data_type_code, seasonally_adj)` key.
     - Transforms API JSON response (list of lists) into a pandas DataFrame.
     - Standardizes date format to `YYYY-MM-DD`.
+    - Handles `204 No Content` responses as valid empty results.
     - Handles missing values or suppression codes (e.g., `(X)`, `-`).
+
+### EITS Slot Resolution
+- EITS series in `eits/mwts` require a valid `time_slot_id`.
+- The client first requests `time_slot_id,time_slot_date,cell_value` for the configured category/data-type parameters.
+- Candidate slot IDs are ranked by valid-row coverage in the requested date window.
+- Tie-break rule is deterministic: highest valid-row count, then lexicographically smallest slot ID.
+- If no usable slot is found, the client returns an empty DataFrame and logs a warning instead of failing the full ingestion run.
 
 ### Testing
 - Unit tests cover initialization, series mapping, and data fetching (mocked).
@@ -86,3 +95,4 @@ print(df.head())
 - **Missing Data**: Ensure `start_date` is within available range. Census data availability varies by series.
 - **Connection Errors**: Check internet connection and `CENSUS_API_KEY`.
 - **Column Errors**: If "API response missing expected columns", valid variable names might have changed on the Census side. Check `SERIES_MAPPING`.
+- **EITS Empty Results**: If inventory/shipments/orders series return empty data, inspect slot-resolution logs and verify Census endpoint responses for the configured category/data-type combination.

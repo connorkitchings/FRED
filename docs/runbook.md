@@ -117,7 +117,10 @@ The project is configured to run daily data ingestion via **GitHub Actions**.
 - **Health Gate**: `run-health` runs after ingestion and fails the workflow when:
   - ingestion status is not `success`
   - critical DQ findings are present
-- **Artifacts**: Every run uploads `artifacts/run-health.json` for triage context.
+- **Warnings**: warning-level findings are surfaced in output/artifacts but do not fail the workflow.
+- **Artifacts**:
+  - `artifacts/run-id.txt` for deterministic run targeting in CI
+  - `artifacts/run-health.json` for triage context
 - **Catalog Sync**: Workflow seeds `series_catalog` from `config/series_catalog.yaml` before ingestion to prevent FK drift.
 
 #### Local Reproduction of Automation Health Check
@@ -125,6 +128,9 @@ The project is configured to run daily data ingestion via **GitHub Actions**.
 ```bash
 # Health summary for latest run
 uv run python -m src.fred_macro.cli run-health --run-id latest
+
+# Health summary for a specific run id captured by automation
+uv run python -m src.fred_macro.cli run-health --run-id "$(cat artifacts/run-id.txt)"
 
 # Fail locally if run status is not success or critical findings exist
 uv run python -m src.fred_macro.cli run-health \
@@ -145,6 +151,8 @@ For the workflow to succeed, the following **Repository Secrets** must be config
 |-------------|-------|---------|
 | `MOTHERDUCK_TOKEN` | (Your Token) | Authentication for MotherDuck database |
 | `FRED_API_KEY` | (Your Key) | Authentication for Federal Reserve API |
+| `BLS_API_KEY` | (Optional Key) | Higher-throughput access for direct BLS ingestion |
+| `CENSUS_API_KEY` | (Your Key) | Authentication for Census Bureau API ingestion |
 
 **Note**: If these secrets are missing or invalid, the `daily_ingest` job will fail.
 

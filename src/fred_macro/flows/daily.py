@@ -28,12 +28,16 @@ def daily_ingest_flow(mode: str = "incremental"):
     # 2. Ingest
     run_id = task_ingest_batch(mode=mode)
 
+    # Persist run id for CI health-gate usage, even if validation fails.
+    Path("artifacts").mkdir(exist_ok=True)
+    run_id_file = Path("artifacts/run-id.txt")
+    run_id_file.write_text(f"{run_id}\n")
+    logger.info(f"Wrote run id to {run_id_file}")
+
     # 3. Validate
     health = task_validate_run(run_id)
 
     # 4. Persist Artifacts (Local JSON for CI)
-    # Ensure artifacts dir exists
-    Path("artifacts").mkdir(exist_ok=True)
     health_file = Path("artifacts/run-health.json")
     health_file.write_text(json.dumps(health, indent=2))
     logger.info(f"Wrote health summary to {health_file}")

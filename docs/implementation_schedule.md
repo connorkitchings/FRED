@@ -19,8 +19,8 @@
 ## Current Status
 
 **Phase:** 5 Complete; Tier 2 Expansion Complete
-**Progress:** ✅ Tier 2 Batch 7 (Census Bureau) complete; ✅ Tier 2 Batch 6 (Treasury Direct) complete; ✅ Tier 2 Batch 5 (BLS Expansion via FRED) complete; ✅ mixed-source runtime validation succeeded.
-**Next Milestone:** Multi-source verification and Direct BLS evaluation
+**Progress:** ✅ Tier 2 Batch 7 (Census Bureau) complete; ✅ Tier 2 Batch 6 (Treasury Direct) complete; ✅ Direct BLS integration adopted (25 series); ✅ mixed-source runtime validation succeeded.
+**Next Milestone:** Validate and merge Census EITS completion + CI health-gate hardening + documentation reconciliation
 
 ---
 
@@ -433,6 +433,8 @@
 | 2026-02-14 | Multi-source integration tests added | Expand test coverage for FRED+BLS scenarios | Added 8 new integration tests covering mixed catalog processing, error paths, client routing, and singleton patterns |
 | 2026-02-15 | Tier 2 Batch 6 (Treasury Direct) completed | Expand coverage to direct Treasury source | Added 8 series: Average rates and Auction results. Validated with live API verification. |
 | 2026-02-15 | Tier 2 Batch 7 (Census Bureau) completed | Expand coverage to direct Census source | Added 15 series: International Trade (8) and Business Inventories (7). Code complete; pending API key for live verification. |
+| 2026-02-16 | Direct BLS API evaluation finalized | Resolve transition decision ambiguity | Adopted direct BLS integration as default path for implemented BLS indicators. |
+| 2026-02-17 | Census EITS + CI health-gate hardening kickoff | Close remaining multi-source readiness gaps | Implemented deterministic Census EITS slot resolution scope, explicit run-health CI gate (`status` + `critical`), and docs/state reconciliation updates. |
 
 ---
 
@@ -496,7 +498,7 @@ None - Ready for next phase
 ### Backlog 📦
 
 **Future Enhancements**
-- Direct BLS API feature expansion beyond current FRED-mediated BLS coverage
+- Direct BLS API feature expansion beyond current 25-series direct coverage
 - Additional mixed-source integration scenarios and operational runbook updates
 - New indicator expansion as specialized analysis needs arise
 

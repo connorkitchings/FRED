@@ -1,4 +1,4 @@
-name: Daily FRED Ingestion
+name: Daily Macro Ingestion
 
 on:
   schedule:
@@ -27,18 +27,45 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Run Daily Ingest Flow
+        continue-on-error: true
         env:
           MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
           PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
         run: uv run python -m src.fred_macro.flows.daily
+
+      - name: Enforce Ingestion Health Gate
+        if: always()
+        env:
+          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          if [ ! -f artifacts/run-id.txt ]; then
+            echo "artifacts/run-id.txt not found; ingestion run id unavailable"
+            exit 1
+          fi
+          RUN_ID="$(cat artifacts/run-id.txt | tr -d '\n' | tr -d '\r')"
+          if [ -z "$RUN_ID" ]; then
+            echo "Run id artifact is empty"
+            exit 1
+          fi
+          uv run python -m src.fred_macro.cli run-health \
+            --run-id "$RUN_ID" \
+            --fail-on-status \
+            --fail-on-critical \
+            --output-json artifacts/run-health.json
 
       - name: Upload Ingestion Health Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ingestion-health-${{ github.run_id }}
-          path: artifacts/run-health.json
+          path: |
+            artifacts/run-id.txt
+            artifacts/run-health.json
           if-no-files-found: warn
