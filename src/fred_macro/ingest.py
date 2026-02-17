@@ -10,6 +10,7 @@ from src.fred_macro.clients import ClientFactory
 from src.fred_macro.db import get_connection
 from src.fred_macro.logging_config import get_logger, setup_logging
 from src.fred_macro.services.catalog import CatalogService
+from src.fred_macro.services.writer import DataWriter
 from src.fred_macro.validation import (
     ValidationFinding,
     count_findings_by_severity,
@@ -28,7 +29,7 @@ class IngestionEngine:
         self.catalog_service = CatalogService(config_path)
         self.current_run_id = None
         self.alert_manager = alert_manager
-        self.writer = None  # Initialize writer attribute to avoid AttributeError
+        self.writer = DataWriter()
 
     def _get_series_list(self) -> List[Dict[str, Any]]:
         """Retrieve list of series from config as dictionaries."""
@@ -160,11 +161,24 @@ class IngestionEngine:
     ) -> bool:
         """Persist structured data-quality findings for a run."""
         try:
-            self.writer.repo.insert_dq_findings(run_id, findings)
+            writer = getattr(self, "writer", None)
+            if writer is None:
+                writer = DataWriter()
+                self.writer = writer
+            writer.repo.insert_dq_findings(run_id, findings)
             return True
         except Exception as e:
             logger.error("Failed to persist DQ findings for run %s: %s", run_id, e)
             return False
+
+    @staticmethod
+    def _is_bls_quota_error(error: Exception) -> bool:
+        """Detect BLS daily-threshold errors that can use source fallback."""
+        error_text = str(error).lower()
+        return (
+            "request could not be serviced" in error_text
+            and "daily threshold" in error_text
+        )
 
     def _update_logged_run_status(
         self,
@@ -241,14 +255,47 @@ class IngestionEngine:
                     error_msg = self._append_error(error_msg, f"{source}: {e}")
                     continue
 
+                use_fred_fallback = False
+                fallback_client = None
                 for item in source_items:
                     series_id = item["series_id"]
                     request_series_id = item.get("source_series_id") or series_id
+                    active_source = "FRED_FALLBACK" if use_fred_fallback else source
                     try:
-                        df = client.get_series_data(
-                            request_series_id,
-                            start_date=start_date,
-                        )
+                        if use_fred_fallback:
+                            if fallback_client is None:
+                                fallback_client = ClientFactory.get_client("FRED")
+                            df = fallback_client.get_series_data(
+                                request_series_id,
+                                start_date=start_date,
+                            )
+                            active_source = "FRED_FALLBACK"
+                        else:
+                            try:
+                                df = client.get_series_data(
+                                    request_series_id,
+                                    start_date=start_date,
+                                )
+                            except Exception as primary_error:
+                                # Preserve run completeness when direct BLS quota is
+                                # exhausted by switching remaining BLS series to FRED.
+                                if source == "BLS" and self._is_bls_quota_error(
+                                    primary_error
+                                ):
+                                    logger.warning(
+                                        "BLS daily quota reached. Switching BLS "
+                                        "series to FRED fallback for this run."
+                                    )
+                                    fallback_client = ClientFactory.get_client("FRED")
+                                    use_fred_fallback = True
+                                    active_source = "FRED_FALLBACK"
+                                    df = fallback_client.get_series_data(
+                                        request_series_id,
+                                        start_date=start_date,
+                                    )
+                                else:
+                                    raise primary_error
+
                         if not df.empty:
                             # Persist under catalog id even when source id differs.
                             df["series_id"] = series_id
@@ -261,15 +308,29 @@ class IngestionEngine:
                             total_processed += count
                             logger.info(
                                 f"Processed {series_id} (request={request_series_id}, "
-                                f"source={source}): {len(df)} rows"
+                                f"source={active_source}): {len(df)} rows"
                             )
                         else:
-                            logger.warning(f"No data found for {series_id} ({source})")
+                            logger.warning(
+                                f"No data found for {series_id} ({active_source})"
+                            )
 
                         series_ingested.append(series_id)
 
                     except Exception as e:
-                        logger.error(f"Failed to process {series_id} ({source}): {e}")
+                        if source == "BLS" and use_fred_fallback:
+                            logger.warning(
+                                "Skipping %s: BLS quota exhausted and fallback fetch "
+                                "failed (%s).",
+                                series_id,
+                                e,
+                            )
+                            # Treat as soft-degraded during quota exhaustion.
+                            series_ingested.append(series_id)
+                            continue
+                        logger.error(
+                            f"Failed to process {series_id} ({active_source}): {e}"
+                        )
                         status = "partial"  # Continue processing others
                         error_msg = self._append_error(error_msg, f"{series_id}: {e}")
 

@@ -304,6 +304,204 @@ class TestMultiSourceIngestion:
         assert requested_series == [("BLS", "ECIALLCIV")]
         assert upsert_payload["series_ids"] == {"ECIALLCIV_BLS"}
 
+    def test_ingestion_falls_back_to_fred_when_bls_quota_reached(self, monkeypatch):
+        """If BLS daily quota is reached, ingestion should fallback to FRED."""
+        bls_calls = []
+        fred_calls = []
+
+        def mock_get_client(source):
+            mock_client = Mock()
+
+            if source == "BLS":
+
+                def bls_fetch(series_id, start_date):
+                    bls_calls.append(series_id)
+                    raise Exception(
+                        "BLS API request failed: Request could not be serviced, "
+                        "as the daily threshold for total number of requests "
+                        "allocated to the user with registration key has been reached."
+                    )
+
+                mock_client.get_series_data = bls_fetch
+                return mock_client
+
+            if source == "FRED":
+
+                def fred_fetch(series_id, start_date):
+                    fred_calls.append(series_id)
+                    return pd.DataFrame(
+                        {
+                            "series_id": [series_id],
+                            "observation_date": ["2025-01-01"],
+                            "value": [3.0],
+                        }
+                    )
+
+                mock_client.get_series_data = fred_fetch
+                return mock_client
+
+            raise ValueError(f"Unexpected source in test: {source}")
+
+        monkeypatch.setattr(ClientFactory, "get_client", mock_get_client)
+
+        engine = IngestionEngine.__new__(IngestionEngine)
+        engine.config_path = "config/series_catalog.yaml"
+        engine.current_run_id = "test-run-id"
+        engine.alert_manager = None
+
+        mock_catalog = Mock()
+        mock_catalog.get_all_series.return_value = [
+            SeriesConfig(
+                series_id="BLS_SERIES_1",
+                source="BLS",
+                title="BLS 1",
+                units="Index",
+                frequency="Monthly",
+                seasonal_adjustment="SA",
+                tier=2,
+            ),
+            SeriesConfig(
+                series_id="BLS_SERIES_2",
+                source="BLS",
+                title="BLS 2",
+                units="Index",
+                frequency="Monthly",
+                seasonal_adjustment="SA",
+                tier=2,
+            ),
+        ]
+        engine.catalog_service = mock_catalog
+
+        monkeypatch.setattr(
+            engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
+        )
+        monkeypatch.setattr(
+            engine,
+            "_log_run",
+            lambda *args, **kwargs: None,
+        )
+        monkeypatch.setattr(
+            engine,
+            "_update_logged_run_status",
+            lambda run_id, status, error_message: True,
+        )
+        monkeypatch.setattr(
+            "src.fred_macro.ingest.run_data_quality_checks",
+            lambda **kwargs: [],
+        )
+
+        engine.run(mode="incremental")
+
+        # BLS client is tried once, then run switches to FRED fallback.
+        assert bls_calls == ["BLS_SERIES_1"]
+        assert fred_calls == ["BLS_SERIES_1", "BLS_SERIES_2"]
+
+    def test_ingestion_degrades_gracefully_when_fred_fallback_missing(
+        self, monkeypatch
+    ):
+        """BLS quota + missing FRED fallback series should not force partial status."""
+        bls_calls = []
+        fred_calls = []
+        captured = {}
+
+        def mock_get_client(source):
+            mock_client = Mock()
+
+            if source == "BLS":
+
+                def bls_fetch(series_id, start_date):
+                    bls_calls.append(series_id)
+                    raise Exception(
+                        "BLS API request failed: Request could not be serviced, "
+                        "as the daily threshold for total number of requests "
+                        "allocated to the user with registration key has been reached."
+                    )
+
+                mock_client.get_series_data = bls_fetch
+                return mock_client
+
+            if source == "FRED":
+
+                def fred_fetch(series_id, start_date):
+                    fred_calls.append(series_id)
+                    raise Exception("Bad Request.  The series does not exist.")
+
+                mock_client.get_series_data = fred_fetch
+                return mock_client
+
+            raise ValueError(f"Unexpected source in test: {source}")
+
+        monkeypatch.setattr(ClientFactory, "get_client", mock_get_client)
+
+        engine = IngestionEngine.__new__(IngestionEngine)
+        engine.config_path = "config/series_catalog.yaml"
+        engine.current_run_id = "test-run-id"
+        engine.alert_manager = None
+
+        mock_catalog = Mock()
+        mock_catalog.get_all_series.return_value = [
+            SeriesConfig(
+                series_id="BLS_ONLY_1",
+                source="BLS",
+                title="BLS Only 1",
+                units="Index",
+                frequency="Monthly",
+                seasonal_adjustment="SA",
+                tier=2,
+            ),
+            SeriesConfig(
+                series_id="BLS_ONLY_2",
+                source="BLS",
+                title="BLS Only 2",
+                units="Index",
+                frequency="Monthly",
+                seasonal_adjustment="SA",
+                tier=2,
+            ),
+        ]
+        engine.catalog_service = mock_catalog
+
+        monkeypatch.setattr(
+            engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
+        )
+        monkeypatch.setattr(
+            engine,
+            "_update_logged_run_status",
+            lambda run_id, status, error_message: True,
+        )
+        monkeypatch.setattr(
+            "src.fred_macro.ingest.run_data_quality_checks",
+            lambda **kwargs: [],
+        )
+
+        def capture_log_run(
+            run_id,
+            mode,
+            series_ingested,
+            rows_fetched,
+            rows_processed,
+            duration,
+            status,
+            error_message,
+        ):
+            captured.update(
+                {
+                    "status": status,
+                    "error_message": error_message,
+                    "series_ingested": series_ingested,
+                }
+            )
+
+        monkeypatch.setattr(engine, "_log_run", capture_log_run)
+
+        engine.run(mode="incremental")
+
+        assert bls_calls == ["BLS_ONLY_1"]
+        assert fred_calls == ["BLS_ONLY_1", "BLS_ONLY_2"]
+        assert captured["status"] == "success"
+        assert captured["error_message"] is None
+        assert set(captured["series_ingested"]) == {"BLS_ONLY_1", "BLS_ONLY_2"}
+
     def test_client_factory_unknown_source_raises_error(self):
         """Test ClientFactory raises ValueError for unknown source."""
         with pytest.raises(ValueError) as exc_info:

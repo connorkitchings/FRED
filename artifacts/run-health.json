@@ -1,7 +1,16 @@
 {
-  "run_id": "f9a7bacf-7e15-4c21-98e6-aec7800e44e1",
+  "run_id": "ba508c4e-908d-4026-bee7-d8b65f2ec76f",
+  "run_timestamp": "2026-02-17T10:32:31.600683",
+  "mode": "incremental",
   "status": "success",
-  "error": null,
-  "dq_critical": 0,
-  "dq_warning": 0
+  "rows_fetched": 638,
+  "rows_inserted": 638,
+  "duration_seconds": 115.00994205474854,
+  "error_message": null,
+  "dq_counts": {
+    "info": 0,
+    "warning": 34,
+    "critical": 0
+  },
+  "dq_total": 34
 }

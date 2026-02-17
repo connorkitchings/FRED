@@ -179,6 +179,38 @@ def test_ingest_marks_partial_if_dq_report_persistence_fails(monkeypatch):
     assert "dq_report_logging_failed" in captured["patched_error_message"]
 
 
+def test_log_dq_findings_lazy_initializes_writer(monkeypatch):
+    captured = {}
+
+    class _DummyRepo:
+        def insert_dq_findings(self, run_id, findings):
+            captured["run_id"] = run_id
+            captured["count"] = len(findings)
+
+    class _DummyWriter:
+        def __init__(self):
+            self.repo = _DummyRepo()
+
+    monkeypatch.setattr("src.fred_macro.ingest.DataWriter", _DummyWriter)
+
+    engine = IngestionEngine.__new__(IngestionEngine)
+    findings = [
+        ValidationFinding(
+            severity="warning",
+            code="stale_series_data",
+            message="Series is stale.",
+            series_id="FEDFUNDS",
+        )
+    ]
+
+    ok = engine._log_dq_findings("run-xyz", findings)
+
+    assert ok is True
+    assert captured["run_id"] == "run-xyz"
+    assert captured["count"] == 1
+    assert hasattr(engine, "writer")
+
+
 def test_group_series_by_source_defaults_to_fred():
     engine = IngestionEngine.__new__(IngestionEngine)
     grouped = engine._group_series_by_source(
