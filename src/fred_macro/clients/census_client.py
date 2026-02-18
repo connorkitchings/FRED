@@ -40,14 +40,14 @@ class CensusClient:
         "CENSUS_EXP_GOODS": {
             "dataset": "intltrade/exports/hs",
             "variables": {"MONTH": "time", "ALL_VAL_MO": "value"},
-            "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL"},
+            "params": {"E_COMMODITY": "-", "DISTRICT": "TOTAL"},
             "time_format": "%Y-%m",
             "is_eits": False,
         },
         "CENSUS_IMP_GOODS": {
             "dataset": "intltrade/imports/hs",
             "variables": {"MONTH": "time", "GEN_VAL_MO": "value"},
-            "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL"},
+            "params": {"I_COMMODITY": "-", "DISTRICT": "TOTAL"},
             "time_format": "%Y-%m",
             "is_eits": False,
         },
@@ -55,28 +55,28 @@ class CensusClient:
         "CENSUS_EXP_CHINA": {
             "dataset": "intltrade/exports/hs",
             "variables": {"MONTH": "time", "ALL_VAL_MO": "value"},
-            "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL", "CTY_CODE": "5700"},
+            "params": {"E_COMMODITY": "-", "DISTRICT": "TOTAL", "CTY_CODE": "5700"},
             "time_format": "%Y-%m",
             "is_eits": False,
         },
         "CENSUS_IMP_CHINA": {
             "dataset": "intltrade/imports/hs",
             "variables": {"MONTH": "time", "GEN_VAL_MO": "value"},
-            "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL", "CTY_CODE": "5700"},
+            "params": {"I_COMMODITY": "-", "DISTRICT": "TOTAL", "CTY_CODE": "5700"},
             "time_format": "%Y-%m",
             "is_eits": False,
         },
         "CENSUS_EXP_CANADA": {
             "dataset": "intltrade/exports/hs",
             "variables": {"MONTH": "time", "ALL_VAL_MO": "value"},
-            "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL", "CTY_CODE": "1220"},
+            "params": {"E_COMMODITY": "-", "DISTRICT": "TOTAL", "CTY_CODE": "1220"},
             "time_format": "%Y-%m",
             "is_eits": False,
         },
         "CENSUS_IMP_CANADA": {
             "dataset": "intltrade/imports/hs",
             "variables": {"MONTH": "time", "GEN_VAL_MO": "value"},
-            "params": {"COMM_LVL": "HS2", "DISTRICT": "TOTAL", "CTY_CODE": "1220"},
+            "params": {"I_COMMODITY": "-", "DISTRICT": "TOTAL", "CTY_CODE": "1220"},
             "time_format": "%Y-%m",
             "is_eits": False,
         },
@@ -87,7 +87,7 @@ class CensusClient:
                 "ALL_VAL_MO": "value",
             },
             "params": {
-                "COMM_LVL": "HS2",
+                "E_COMMODITY": "-",
                 "DISTRICT": "TOTAL",
                 "CTY_CODE": "2010",
             },
@@ -101,7 +101,7 @@ class CensusClient:
                 "GEN_VAL_MO": "value",
             },
             "params": {
-                "COMM_LVL": "HS2",
+                "I_COMMODITY": "-",
                 "DISTRICT": "TOTAL",
                 "CTY_CODE": "2010",
             },
@@ -110,12 +110,13 @@ class CensusClient:
         },
         # Business Inventories (EITS)
         "CENSUS_INV_MFG": {
-            "dataset": "eits/mwts",
+            "dataset": "eits/m3",
             "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
-                "category_code": "MNSI",
-                "data_type_code": "INV",
+                "category_code": "MTM",
+                "data_type_code": "TI",
+                "for": "us:1",
             },
             "time_format": "%Y-%m-%d",
             "is_eits": True,
@@ -125,63 +126,69 @@ class CensusClient:
             "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
-                "category_code": "MWSI",
+                "category_code": "42",
                 "data_type_code": "INV",
+                "for": "us:1",
             },
             "time_format": "%Y-%m-%d",
             "is_eits": True,
         },
         "CENSUS_INV_RETAIL": {
-            "dataset": "eits/mwts",
+            "dataset": "eits/mrts",
             "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
-                "category_code": "MRSI",
+                "category_code": "44000",
                 "data_type_code": "INV",
+                "for": "us:1",
             },
             "time_format": "%Y-%m-%d",
             "is_eits": True,
         },
         "CENSUS_INV_SALES_RATIO": {
-            "dataset": "eits/mwts",
+            "dataset": "eits/mtis",
             "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
-                "category_code": "MTIR",
+                "category_code": "TOTAL",
                 "data_type_code": "RATIO",
+                "for": "us:1",
             },
             "time_format": "%Y-%m-%d",
             "is_eits": True,
         },
         "CENSUS_INV_MFG_RATIO": {
-            "dataset": "eits/mwts",
+            "dataset": "eits/m3",
             "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
-                "category_code": "MNIR",
-                "data_type_code": "RATIO",
+                "category_code": "MTM",
+                "data_type_code": "IR",
+                "for": "us:1",
             },
             "time_format": "%Y-%m-%d",
             "is_eits": True,
         },
         "CENSUS_SHIP_MFG": {
-            "dataset": "eits/mwts",
+            "dataset": "eits/m3",
             "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
-                "category_code": "MNS",
-                "data_type_code": "SM",
+                "category_code": "MTM",
+                "data_type_code": "VS",
+                "for": "us:1",
             },
             "time_format": "%Y-%m-%d",
             "is_eits": True,
         },
         "CENSUS_ORDERS_MFG": {
-            "dataset": "eits/mwts",
+            "dataset": "eits/m3",
             "variables": {"time_slot_date": "time", "cell_value": "value"},
             "params": {
                 "seasonally_adj": "yes",
-                "category_code": "MNO",
+                "category_code": "MTM",
                 "data_type_code": "NO",
+                "for": "us:1",
             },
             "time_format": "%Y-%m-%d",
             "is_eits": True,
@@ -320,8 +327,8 @@ class CensusClient:
             **params,
         }
         # Use broad windows to get enough data for deterministic ranking.
-        if start_ym:
-            discovery_params["time"] = f"from {start_ym}"
+        # start_ym may be too recent (e.g. last 60 days) and data lagging.
+        discovery_params["time"] = "from 2024-01"
         if self.api_key:
             discovery_params["key"] = self.api_key
 
