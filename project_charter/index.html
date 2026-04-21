@@ -1,0 +1,1968 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A template for Vibe Coding data science projects.">
+      
+      
+      
+      
+        <link rel="prev" href="../project_brief/">
+      
+      
+        <link rel="next" href="../implementation_schedule/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Project Charter - Vibe Coding Template</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#project-charter" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Vibe Coding Template" class="md-header__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vibe Coding Template
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Project Charter
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting_started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../project_brief/" class="md-tabs__link">
+          
+  
+  
+  Project Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../development_standards/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../architecture/system_overview/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../runbook/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tools/cli_tool_template/" class="md-tabs__link">
+          
+  
+  
+  Tools & Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ai_guide/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Vibe Coding Template" class="md-nav__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vibe Coding Template
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Overview
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Project Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Brief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Project Charter
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Charter
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#project-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users-user-stories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Users &amp; User Stories
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Users &amp; User Stories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-persona" class="md-nav__link">
+    <span class="md-ellipsis">
+      Primary Persona
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-user-stories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Features &amp; Scope
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Features &amp; Scope">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-have-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Must-Have (MVP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#should-have-post-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Should-Have (Post-MVP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Out of Scope
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-level-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      High-Level Summary
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Diagram
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technology Stack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risks-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Risks &amp; Assumptions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Risks &amp; Assumptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Assumptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Risks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decision Log
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Success Metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Success Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mvp-success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      MVP Success Criteria
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term-success-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Long-Term Success Indicators
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Phases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Project Phases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-documentation-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Documentation (Current)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-foundation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Foundation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-core-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Core Pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-testing-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Testing &amp; Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-expansion-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 5: Expansion (Future)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementation_schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Schedule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Checklists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/adr/adr-0001-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runbook
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security & Privacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knowledge_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools & Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Tools & Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/cli_tool_template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Tool Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/cli_agent_coding_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Agent Coding Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/mcp_tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MCP Tooling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/pre_commit_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-commit Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_session_templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Session Templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="project-charter">Project Charter</h1>
+<blockquote>
+<p><strong>Single source of truth for project goals, scope, and technical context.</strong></p>
+<p>This document should be updated as the project evolves, especially the <strong>DECISION LOG</strong>.</p>
+</blockquote>
+<hr />
+<h2 id="project-overview">Project Overview</h2>
+<p><strong>Project Name:</strong> FRED-Macro-Dashboard</p>
+<p><strong>Project Vision:</strong> Build personal infrastructure for tracking macroeconomic indicators from the Federal Reserve Economic Data (FRED) API, creating a reliable pipeline from data source to cloud storage for analysis and learning.</p>
+<p><strong>Technical Goal:</strong> Deliver a working MVP by end of February 2026 with automated FRED → MotherDuck ingestion for the "Big Four" indicators, supporting both historical backfill and incremental updates.</p>
+<p><strong>Repository:</strong> https://github.com/connorkitchings/FRED</p>
+<hr />
+<h2 id="users-user-stories">Users &amp; User Stories</h2>
+<h3 id="primary-persona">Primary Persona</h3>
+<p><strong>Target User:</strong> Personal use (Connor Kitchings)</p>
+<ul>
+<li><strong>Name:</strong> Connor (Me)</li>
+<li><strong>Role:</strong> Developer / Data Enthusiast / Learner</li>
+<li><strong>Pain Points:</strong></li>
+<li>Economic data is scattered and requires manual tracking</li>
+<li>No historical context for current economic conditions</li>
+<li>Data revisions (especially GDP) make tracking complex</li>
+<li>Want to learn cloud data infrastructure patterns</li>
+<li><strong>Goals:</strong></li>
+<li>Track key macro indicators in one place</li>
+<li>Query historical data easily</li>
+<li>Learn DuckDB, MotherDuck, and ETL patterns</li>
+<li>Build extensible infrastructure for future expansion</li>
+</ul>
+<hr />
+<h3 id="core-user-stories">Core User Stories</h3>
+<p><strong>Story 1:</strong> As a user, I want to run a single command to update my macro data so that I don't have to manually download CSVs.</p>
+<ul>
+<li>Priority: Must-have</li>
+<li>Acceptance: <code>uv run python -m src.fred_macro.ingest</code> fetches latest data</li>
+</ul>
+<p><strong>Story 2:</strong> As a user, I want to query 10 years of economic history so that I can analyze trends and patterns.</p>
+<ul>
+<li>Priority: Must-have</li>
+<li>Acceptance: SQL queries return complete historical data for Big Four indicators</li>
+</ul>
+<p><strong>Story 3:</strong> As a user, I want to easily add new indicators without writing code so that I can expand tracking over time.</p>
+<ul>
+<li>Priority: Should-have</li>
+<li>Acceptance: Adding a series to YAML config file automatically includes it in next ingestion</li>
+</ul>
+<p><strong>Story 4:</strong> As a developer, I want clear documentation so that I can understand the system after time away from the project.</p>
+<ul>
+<li>Priority: Must-have (learning project!)</li>
+<li>Acceptance: README and docs/ provide clear entry points and explanations</li>
+</ul>
+<hr />
+<h2 id="features-scope">Features &amp; Scope</h2>
+<h3 id="must-have-mvp">Must-Have (MVP)</h3>
+<p><strong>Feature A:</strong> MotherDuck database connection and schema setup</p>
+<ul>
+<li>User Story: Story 2</li>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 2</li>
+<li>User Impact: High — Foundation for everything else</li>
+<li>Details: Token-based auth, automated schema creation</li>
+</ul>
+<p><strong>Feature B:</strong> FRED API integration for Tier 1 indicators</p>
+<ul>
+<li>User Story: Story 1, Story 2</li>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 3</li>
+<li>User Impact: High — Core data fetching</li>
+<li>Details: Fetch FEDFUNDS, UNRATE, CPIAUCSL, GDPC1 with rate limiting</li>
+</ul>
+<p><strong>Feature C:</strong> Backfill mode (10 years historical data)</p>
+<ul>
+<li>User Story: Story 2</li>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 3</li>
+<li>User Impact: High — Historical context</li>
+<li>Details: Fetch start_date = 2016-01-01 to present</li>
+</ul>
+<p><strong>Feature D:</strong> Incremental mode (last 60 days)</p>
+<ul>
+<li>User Story: Story 1</li>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 3</li>
+<li>User Impact: High — Daily updates</li>
+<li>Details: Efficient updates without re-fetching all data</li>
+</ul>
+<p><strong>Feature E:</strong> Upsert logic for data revisions</p>
+<ul>
+<li>User Story: Story 1</li>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 3</li>
+<li>User Impact: High — Handle GDP revisions</li>
+<li>Details: MERGE INTO on (series_id, observation_date)</li>
+</ul>
+<p><strong>Feature F:</strong> Ingestion logging</p>
+<ul>
+<li>User Story: Story 4</li>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 3</li>
+<li>User Impact: Medium — Observability</li>
+<li>Details: Track run_id, timestamp, series, row counts</li>
+</ul>
+<hr />
+<h3 id="should-have-post-mvp">Should-Have (Post-MVP)</h3>
+<p><strong>Feature G:</strong> Tier 2 indicator expansion (20-30 series)</p>
+<ul>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 5</li>
+<li>Details: Housing, consumption, manufacturing, trade indicators</li>
+</ul>
+<p><strong>Feature H:</strong> Data quality checks</p>
+<ul>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 5</li>
+<li>Details: Missing value detection, anomaly alerts, range validation</li>
+</ul>
+<p><strong>Feature I:</strong> Query views for common analyses</p>
+<ul>
+<li>Implementation: <code>docs/implementation_schedule.md</code> Phase 5</li>
+<li>Details: YoY change, rolling averages, trend analysis views</li>
+</ul>
+<hr />
+<h3 id="out-of-scope">Out of Scope</h3>
+<p>These are explicitly <strong>NOT</strong> part of this project:</p>
+<ul>
+<li>Real-time streaming data updates</li>
+<li>Web dashboard or user interface</li>
+<li>Multi-user access and permissions</li>
+<li>Historical vintages tracking (point-in-time data)</li>
+<li>Forecasting or predictive models</li>
+<li>Data export to other formats (handled by SQL queries)</li>
+<li>Integration with trading or financial systems</li>
+</ul>
+<hr />
+<h2 id="architecture">Architecture</h2>
+<h3 id="high-level-summary">High-Level Summary</h3>
+<p>The system is a straightforward ETL pipeline: FRED API → Python ingestion script → MotherDuck database. The ingestion engine reads a YAML configuration file defining which series to track, fetches data via the FRED API, and upserts it into MotherDuck using DuckDB's SQL dialect. All ingestion runs are logged for observability.</p>
+<h3 id="system-diagram">System Diagram</h3>
+<pre><code class="language-mermaid">graph TB
+    subgraph &quot;Data Source&quot;
+        A[FRED API&lt;br/&gt;Federal Reserve Data]
+    end
+
+    subgraph &quot;Ingestion Layer&quot;
+        B[FRED API Client&lt;br/&gt;fredapi library]
+        C[Ingestion Engine&lt;br/&gt;Python]
+        D[Series Catalog&lt;br/&gt;YAML Config]
+    end
+
+    subgraph &quot;Storage Layer&quot;
+        E[MotherDuck&lt;br/&gt;fred_macro DB]
+        F1[series_catalog table]
+        F2[observations table]
+        F3[ingestion_log table]
+    end
+
+    subgraph &quot;Access Layer&quot;
+        G[SQL Queries&lt;br/&gt;Analysis]
+    end
+
+    A --&gt;|HTTP GET| B
+    B --&gt;|fetch data| C
+    D --&gt;|read config| C
+    C --&gt;|MERGE INTO| E
+    E --- F1
+    E --- F2
+    E --- F3
+    G --&gt;|SELECT| E
+</code></pre>
+<h3 id="key-components">Key Components</h3>
+<ol>
+<li><strong>FRED API Client</strong>: Wrapper around <code>fredapi</code> library with rate limiting</li>
+<li><strong>Series Catalog</strong>: YAML file defining series_id, category, tier, etc.</li>
+<li><strong>Ingestion Engine</strong>: Orchestrates fetching and upserting data</li>
+<li><strong>MotherDuck Database</strong>: Cloud DuckDB instance (fred_macro)</li>
+<li><strong>Schema</strong>: Three tables (series_catalog, observations, ingestion_log)</li>
+</ol>
+<h3 id="data-flow">Data Flow</h3>
+<ol>
+<li><strong>Configuration Load</strong>: Read <code>config/series_catalog.yaml</code></li>
+<li><strong>Mode Selection</strong>: Backfill (10 years) or incremental (60 days)</li>
+<li><strong>API Fetch</strong>: Request data from FRED for each series</li>
+<li><strong>Transform</strong>: Convert API response to DataFrame</li>
+<li><strong>Upsert</strong>: MERGE INTO observations table (no duplicates)</li>
+<li><strong>Logging</strong>: Record run details in ingestion_log</li>
+</ol>
+<hr />
+<h2 id="technology-stack">Technology Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Technology</th>
+<th>Version</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language</td>
+<td>Python</td>
+<td>3.10+</td>
+<td>Type hints, dataclasses</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>DuckDB</td>
+<td>0.10+</td>
+<td>Embedded analytics database</td>
+</tr>
+<tr>
+<td>Cloud Storage</td>
+<td>MotherDuck</td>
+<td>N/A</td>
+<td>Cloud DuckDB (free tier)</td>
+</tr>
+<tr>
+<td>Data Source</td>
+<td>FRED API</td>
+<td>v2</td>
+<td>Federal Reserve Economic Data</td>
+</tr>
+<tr>
+<td>API Client</td>
+<td>fredapi</td>
+<td>latest</td>
+<td>Python wrapper for FRED</td>
+</tr>
+<tr>
+<td>Config Management</td>
+<td>PyYAML</td>
+<td>latest</td>
+<td>Series catalog configuration</td>
+</tr>
+<tr>
+<td>Package Management</td>
+<td>uv</td>
+<td>0.4+</td>
+<td>Fast Python package manager</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>pytest</td>
+<td>8.x</td>
+<td>Unit and integration tests</td>
+</tr>
+<tr>
+<td>Linting</td>
+<td>Ruff</td>
+<td>0.5+</td>
+<td>Fast Python linter and formatter</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>MkDocs</td>
+<td>1.6+</td>
+<td>Static site documentation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="risks-assumptions">Risks &amp; Assumptions</h2>
+<h3 id="key-assumptions">Key Assumptions</h3>
+<p><strong>Data Availability:</strong> FRED API is reliable and free tier supports our usage pattern (120 requests/minute is more than sufficient for 50 series).</p>
+<ul>
+<li>Validation: Monitor API response times and error rates during MVP testing</li>
+</ul>
+<p><strong>Cloud Storage:</strong> MotherDuck free tier (10GB storage, 10GB compute) is adequate for this project size.</p>
+<ul>
+<li>Validation: Monitor storage usage; expected data size is &lt;100MB for 10 years × 50 series</li>
+</ul>
+<p><strong>Data Revisions:</strong> GDP and other indicators get revised; upsert strategy handles this gracefully.</p>
+<ul>
+<li>Validation: Test with manually modified data to verify upsert overwrites correctly</li>
+</ul>
+<p><strong>Learning Curve:</strong> DuckDB and MotherDuck are learnable within project timeline.</p>
+<ul>
+<li>Validation: Complete MVP within 2-3 weeks as proof of concept</li>
+</ul>
+<hr />
+<h3 id="technical-risks">Technical Risks</h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Probability</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FRED API rate limits hit during bulk backfill</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Implement exponential backoff, throttle requests to 1/sec</td>
+</tr>
+<tr>
+<td>MotherDuck connection issues</td>
+<td>Low</td>
+<td>High</td>
+<td>Local DuckDB fallback option, retry logic with timeout</td>
+</tr>
+<tr>
+<td>Data schema changes in FRED</td>
+<td>Low</td>
+<td>Medium</td>
+<td>Validate API responses, log unexpected fields</td>
+</tr>
+<tr>
+<td>Storage costs exceed free tier</td>
+<td>Low</td>
+<td>Low</td>
+<td>Monitor usage, optimize schema if needed</td>
+</tr>
+<tr>
+<td>Missing data for certain series</td>
+<td>Medium</td>
+<td>Low</td>
+<td>Log warnings, continue with other series</td>
+</tr>
+<tr>
+<td>Complex data revisions pattern</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Start simple; iterate if real-world issues found</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="decision-log">Decision Log</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Decision</th>
+<th>Context / Drivers</th>
+<th>Impact / Follow-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-02-12</td>
+<td>Use MotherDuck instead of local DuckDB</td>
+<td>Need cloud-accessible storage for querying from multiple machines; MotherDuck offers cloud DuckDB with free tier</td>
+<td>Requires token auth; see ADR-0002</td>
+</tr>
+<tr>
+<td>2026-02-12</td>
+<td>Implement upsert strategy for observations</td>
+<td>FRED data gets revised (esp. GDP); need to handle updates without duplicates</td>
+<td>Use MERGE INTO SQL; see ADR-0003</td>
+</tr>
+<tr>
+<td>2026-02-12</td>
+<td>Organize indicators into 3 tiers</td>
+<td>Want extensibility without overwhelming initial MVP; clear expansion path</td>
+<td>Tier 1 for MVP (4 series), Tier 2/3 for future; see ADR-0004</td>
+</tr>
+<tr>
+<td>2026-02-12</td>
+<td>Use YAML for series catalog</td>
+<td>Need human-readable config that's easy to extend without code changes</td>
+<td>All series metadata in <code>config/series_catalog.yaml</code></td>
+</tr>
+<tr>
+<td>2026-02-12</td>
+<td>Support backfill and incremental modes</td>
+<td>Backfill for initial load, incremental for daily updates</td>
+<td>Two modes: --mode backfill (10 years), --mode incremental (60 days)</td>
+</tr>
+<tr>
+<td>2026-02-12</td>
+<td>Track ingestion runs in dedicated table</td>
+<td>Need observability and audit trail</td>
+<td>ingestion_log table with run_id, timestamp, row_counts</td>
+</tr>
+<tr>
+<td>2026-02-12</td>
+<td>Python 3.10+ as minimum version</td>
+<td>Need modern Python features (type hints, dataclasses, pattern matching)</td>
+<td>No Python 3.9 support; CI enforces 3.10+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="success-metrics">Success Metrics</h2>
+<h3 id="mvp-success-criteria">MVP Success Criteria</h3>
+<p>See <a href="../mvp_definition/"><code>docs/mvp_definition.md</code></a> for detailed acceptance criteria.</p>
+<p><strong>Key Metrics:</strong>
+- ✅ Big Four indicators ingested successfully
+- ✅ 10 years historical data (400+ observations)
+- ✅ Zero duplicates in database
+- ✅ Ingestion logs created for every run
+- ✅ Re-runs are idempotent (safe to repeat)</p>
+<hr />
+<h3 id="long-term-success-indicators">Long-Term Success Indicators</h3>
+<ul>
+<li><strong>Data Coverage</strong>: 50+ indicators tracked (Tier 1 + Tier 2)</li>
+<li><strong>Data Quality</strong>: &lt;1% missing observations</li>
+<li><strong>Reliability</strong>: 99%+ ingestion success rate</li>
+<li><strong>Usability</strong>: Can add new series without code changes</li>
+<li><strong>Learning</strong>: Clear understanding of DuckDB, ETL patterns, API integration</li>
+</ul>
+<hr />
+<h2 id="project-phases">Project Phases</h2>
+<h3 id="phase-1-documentation-current">Phase 1: Documentation (Current)</h3>
+<p><strong>Status</strong>: 🟡 In Progress
+<strong>Duration</strong>: Week 1
+<strong>Deliverables</strong>: Project charter, MVP definition, technical requirements, data dictionary</p>
+<h3 id="phase-2-foundation">Phase 2: Foundation</h3>
+<p><strong>Status</strong>: ☐ Not Started
+<strong>Duration</strong>: Week 1-2
+<strong>Deliverables</strong>: Environment setup, database connection, schema creation</p>
+<h3 id="phase-3-core-pipeline">Phase 3: Core Pipeline</h3>
+<p><strong>Status</strong>: ☐ Not Started
+<strong>Duration</strong>: Week 2-3
+<strong>Deliverables</strong>: FRED API client, ingestion engine, backfill/incremental modes</p>
+<h3 id="phase-4-testing-validation">Phase 4: Testing &amp; Validation</h3>
+<p><strong>Status</strong>: ☐ Not Started
+<strong>Duration</strong>: Week 3
+<strong>Deliverables</strong>: Unit tests, integration tests, data validation, MVP sign-off</p>
+<h3 id="phase-5-expansion-future">Phase 5: Expansion (Future)</h3>
+<p><strong>Status</strong>: ☐ Not Started
+<strong>Deliverables</strong>: Tier 2 indicators, data quality checks, query views</p>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li><strong>FRED API Documentation</strong>: https://fred.stlouisfed.org/docs/api/fred/</li>
+<li><strong>MotherDuck Documentation</strong>: https://motherduck.com/docs/</li>
+<li><strong>DuckDB Documentation</strong>: https://duckdb.org/docs/</li>
+<li><strong>fredapi Library</strong>: https://github.com/mortada/fredapi</li>
+</ul>
+<hr />
+<p><strong>Last Updated</strong>: 2026-02-12
+<strong>Document Status</strong>: Active — MVP planning phase
+<strong>Next Review</strong>: After MVP completion</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1566 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A template for Vibe Coding data science projects.">
+      
+      
+      
+      
+        <link rel="prev" href="../tools/pre_commit_hooks/">
+      
+      
+        <link rel="next" href="../ai_session_templates/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>AI Guide - Vibe Coding Template</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ai_guide-front-door-for-agents-humans" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Vibe Coding Template" class="md-header__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vibe Coding Template
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AI Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting_started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../project_brief/" class="md-tabs__link">
+          
+  
+  
+  Project Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../development_standards/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../architecture/system_overview/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../runbook/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tools/cli_tool_template/" class="md-tabs__link">
+          
+  
+  
+  Tools & Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Vibe Coding Template" class="md-nav__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vibe Coding Template
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Overview
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Project Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Brief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project_charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Charter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementation_schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Schedule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Checklists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/adr/adr-0001-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runbook
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security & Privacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knowledge_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools & Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Tools & Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/cli_tool_template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Tool Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/cli_agent_coding_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Agent Coding Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/mcp_tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MCP Tooling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/pre_commit_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-commit Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    AI Guide
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Guide
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-work-here-quick-playbooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Work Here (Quick Playbooks)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Work Here (Quick Playbooks)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-a-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add a Feature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fix-a-bug-investigate-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fix a Bug / Investigate Failure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-things-fail" class="md-nav__link">
+    <span class="md-ellipsis">
+      When Things Fail
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#for-ai-agents-claudegptetc" class="md-nav__link">
+    <span class="md-ellipsis">
+      For AI Agents (Claude/GPT/etc.)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repo-map-10-line-tour" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repo Map (10-line tour)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-context-lookup-for-mid-conversation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Context Lookup (for mid-conversation)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-here-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start-Here Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-guardrails-and-non-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Safety, Guardrails, and Non-Goals
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety, Guardrails, and Non-Goals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dont-touch-without-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Don't Touch Without Review
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-bars" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality Bars
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escalation-triggers-stop-ask" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escalation Triggers (stop &amp; ask)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-goals-for-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Goals for AI Agents
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Pitfalls
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contributing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contributing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#branch-pr-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Branch &amp; PR Conventions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_session_templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Session Templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ai_guide-front-door-for-agents-humans">AI_GUIDE — Front Door for Agents &amp; Humans</h1>
+<p><strong>Purpose.</strong> This is the shortest path to doing real work in this repo. Read this page first, then jump via the links below. Keep changes small, testable, and linked to the schedule.</p>
+<p>Read-first order: <a href="./README.md">README</a> → <a href="./docs/template_starting_guide.md">Template Kickoff Guide</a> → <a href="./docs/project_brief.md">Project Brief</a> → <a href="./docs/project_charter.md">Project Charter</a> → <a href="./docs/implementation_schedule.md">Implementation Schedule</a> → <a href="./docs/development_standards.md">Development Standards</a> → <a href="./docs/runbook.md">Runbook</a> → <a href="./CHANGELOG.md">Changelog</a>.</p>
+<p><strong>Status Legend:</strong> ☐ Not Started · ▶ In Progress · ✅ Done · ⚠ Risk/Blocked</p>
+<p><strong>Last Updated:</strong> 2025-11-04</p>
+<hr />
+<h2 id="how-to-work-here-quick-playbooks">How to Work Here (Quick Playbooks)</h2>
+<h3 id="add-a-feature">Add a Feature</h3>
+<ol>
+<li>Scan the <strong>Implementation Schedule</strong> and pick a Week/Task. Link it in your session log.</li>
+<li>Create a feature branch: <code>git checkout -b feature/&lt;slug&gt;</code>.</li>
+<li>Write tests and code in <code>src/…</code>. <strong>No secrets or env literals in code</strong>—use config/env files per standards.</li>
+<li>Run checks: <code>uv run ruff format . &amp;&amp; uv run ruff check . &amp;&amp; uv run pytest</code>.</li>
+<li>Update docs if behavior changes (Charter/KB/architecture as needed).</li>
+<li><strong>Close loop</strong> with the Session End template; commit &amp; open PR.</li>
+</ol>
+<h3 id="fix-a-bug-investigate-failure">Fix a Bug / Investigate Failure</h3>
+<ol>
+<li>Reproduce locally; capture the failing command and logs.</li>
+<li>Write a minimal failing test if possible.</li>
+<li>Patch, then <code>uv run pytest -k &lt;scope&gt;</code> and re-run linters.</li>
+<li>Update <strong>Checklists</strong>/KB if you learned a reusable fix.</li>
+<li><strong>Close loop</strong> with a session log; PR with clear summary.</li>
+</ol>
+<h3 id="when-things-fail">When Things Fail</h3>
+<ol>
+<li><strong>Test failures:</strong> <code>uv run pytest -vv -k &lt;test_name&gt;</code> for detailed output</li>
+<li><strong>Linter errors:</strong> <code>uv run ruff check . --fix</code> to auto-fix where safe</li>
+<li><strong>Import errors:</strong> Check <code>pyproject.toml</code> dependencies; may need <code>uv sync</code></li>
+<li><strong>Unknown patterns:</strong> Search <code>docs/knowledge_base.md</code> or recent session logs</li>
+<li><strong>Still stuck:</strong> Document in session log; flag for human review</li>
+<li><strong>CI-only failures:</strong> Open the failed job → read failing step logs → reproduce locally with the same command shown in CI</li>
+<li><strong>Pre-commit fails locally:</strong> <code>pre-commit run --all-files</code> (install hooks with <code>pre-commit install</code> if missing), then re-run checks</li>
+</ol>
+<blockquote>
+<p>Session templates: see <code>docs/ai_session_templates.md</code>.</p>
+</blockquote>
+<hr />
+<h2 id="for-ai-agents-claudegptetc">For AI Agents (Claude/GPT/etc.)</h2>
+<ul>
+<li><strong>Always start a session:</strong> Copy template from <code>docs/ai_session_templates.md</code> → new file in <code>session_logs/</code></li>
+<li><strong>Always end a session:</strong> Fill exit template even if incomplete</li>
+<li><strong>Link your work:</strong> Reference schedule task, related PRs, or previous sessions</li>
+<li><strong>Request review early:</strong> If touching Safety zones or uncertain about approach</li>
+<li><strong>Prefer small PRs:</strong> 1 task from schedule = 1 PR; easier to review and merge</li>
+<li><strong>Design outputs as "next steps":</strong> Each script/CLI should print what to do next on success/failure</li>
+<li><strong>Context hygiene:</strong> If chat history gets noisy, <strong>summarize work-in-progress in the session log</strong>, then <strong>clear context</strong> and resume from the log + current docs. This prevents stale instructions.</li>
+</ul>
+<hr />
+<h2 id="repo-map-10-line-tour">Repo Map (10-line tour)</h2>
+<ul>
+<li><code>src/</code> — Source code (modules, flows, utils).</li>
+<li><code>docs/</code> — This guide + standards, checklists, schedule, charter, KB.</li>
+<li><code>session_logs/</code> — Daily work logs (start/end templates).</li>
+<li><code>scripts/</code> — One-off helpers and automation.</li>
+<li><code>.github/</code> — CI workflows and PR templates.</li>
+<li><code>notebooks/</code> — Exploratory analysis (clear outputs before commit).</li>
+<li><code>models/</code> &amp; <code>reports/</code> — Generated artifacts (usually git-ignored).</li>
+<li><code>pyproject.toml</code> — Dependencies and tooling config.</li>
+<li><code>mkdocs.yml</code> — Docs site nav.</li>
+</ul>
+<p>For full docs: <code>docs/index.md</code>.</p>
+<hr />
+<h2 id="quick-context-lookup-for-mid-conversation">Quick Context Lookup (for mid-conversation)</h2>
+<ul>
+<li><strong>What are we building?</strong> → <code>docs/project_charter.md</code> (Problem, Goals, Success Metrics)</li>
+<li><strong>What's the current priority?</strong> → <code>docs/implementation_schedule.md</code> (current week/sprint)</li>
+<li><strong>What failed last time?</strong> → Latest entry in <code>session_logs/YYYY-MM-DD_*.md</code></li>
+<li><strong>Known issues/gotchas?</strong> → <code>docs/knowledge_base.md</code></li>
+<li><strong>Code standards?</strong> → <code>docs/development_standards.md</code></li>
+<li><strong>Why is CI red?</strong> → Open the failing workflow in <code>.github/workflows/*</code>, read the failed step logs, and reproduce locally</li>
+</ul>
+<hr />
+<h2 id="start-here-commands">Start-Here Commands</h2>
+<pre><code class="language-bash"># Install/Sync Dependencies
+uv sync
+
+# Install pre-commit hooks (first time)
+pre-commit install
+
+# Format &amp; Lint
+uv run ruff format . &amp;&amp; uv run ruff check .
+
+# Run Tests
+uv run pytest
+
+# Run Tests with Details
+uv run pytest -vv
+
+# Serve Docs Locally
+mkdocs serve  # → http://127.0.0.1:8000
+</code></pre>
+<hr />
+<h2 id="safety-guardrails-and-non-goals">Safety, Guardrails, and Non-Goals</h2>
+<h3 id="dont-touch-without-review">Don't Touch Without Review</h3>
+<ul>
+<li>Secrets handling and credential management</li>
+<li>Security configurations and authentication logic</li>
+<li>Data contracts, schemas, and API interfaces</li>
+<li>Database migrations and schema changes</li>
+<li>Deployment configurations and infrastructure code</li>
+</ul>
+<h3 id="quality-bars">Quality Bars</h3>
+<p>Follow these checklists from <code>docs/development_standards.md</code>:</p>
+<ul>
+<li><strong>Pre-Commit:</strong> Linting, formatting, type checks</li>
+<li><strong>Pre-Merge:</strong> Test coverage, documentation updates</li>
+<li><strong>Security Review:</strong> Credentials, data exposure, dependencies</li>
+</ul>
+<h3 id="escalation-triggers-stop-ask">Escalation Triggers (stop &amp; ask)</h3>
+<ul>
+<li>Schema/API change detected or required</li>
+<li>Touching secrets, auth, or infra configs</li>
+<li>Test rewrite that alters public behavior</li>
+<li>Dependency upgrades beyond patch version</li>
+<li>Unclear acceptance criteria for a task</li>
+</ul>
+<h3 id="non-goals-for-ai-agents">Non-Goals for AI Agents</h3>
+<ul>
+<li><strong>Architectural decisions</strong> without human review</li>
+<li><strong>Changing data schemas</strong> or API contracts</li>
+<li><strong>Deployment configuration</strong> changes</li>
+<li><strong>Dependency upgrades</strong> beyond patch versions</li>
+<li><strong>Refactoring</strong> entire modules without explicit instruction</li>
+<li><strong>Adding new external dependencies</strong> without discussion</li>
+</ul>
+<hr />
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+<ol>
+<li><strong>Committing secrets or credentials</strong> — Always use environment variables; never hardcode</li>
+<li><strong>Skipping tests</strong> — Every feature needs tests; every bug needs a regression test</li>
+<li><strong>Unclear commit messages</strong> — Link to schedule task or issue; explain <em>why</em>, not just <em>what</em></li>
+<li><strong>Breaking changes without docs</strong> — Update Charter/KB/README if behavior changes</li>
+<li><strong>Working without a session log</strong> — Logs create continuity and catch abandoned work</li>
+</ol>
+<hr />
+<h2 id="contributing">Contributing</h2>
+<p>All contributions must:</p>
+<ul>
+<li>Be submitted via pull request</li>
+<li>Follow the <a href="./.github/pull_request_template.md">pull request template</a></li>
+<li>Reference a task from the Implementation Schedule</li>
+<li>Include tests and updated documentation</li>
+<li>Pass all pre-commit and CI checks</li>
+</ul>
+<h3 id="branch-pr-conventions">Branch &amp; PR Conventions</h3>
+<ul>
+<li><strong>Branch:</strong> <code>feature/&lt;slug&gt;</code> or <code>fix/&lt;slug&gt;</code></li>
+<li><strong>PR title:</strong> <code>feat: &lt;scope&gt; [schedule:weekX-taskY]</code> (or <code>fix:</code>/<code>docs:</code>/<code>chore:</code>)</li>
+<li><strong>Labels:</strong> <code>size:XS/S/M/L</code>, <code>risk:low/med/high</code>, <code>area:&lt;module&gt;</code></li>
+<li><strong>PR body:</strong> link to session log + checklist items ticked</li>
+</ul>
+<p>For detailed guidelines, see <a href="./docs/development_standards.md">Development Standards &amp; Workflow</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

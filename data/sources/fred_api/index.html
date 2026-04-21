@@ -1,0 +1,1714 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A template for Vibe Coding data science projects.">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>FRED API Data Source - Vibe Coding Template</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fred-api-data-source" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Vibe Coding Template" class="md-header__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vibe Coding Template
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              FRED API Data Source
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../getting_started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../project_brief/" class="md-tabs__link">
+          
+  
+  
+  Project Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../development_standards/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../architecture/system_overview/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../runbook/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tools/cli_tool_template/" class="md-tabs__link">
+          
+  
+  
+  Tools & Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ai_guide/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Vibe Coding Template" class="md-nav__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vibe Coding Template
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Overview
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Project Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Brief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project_charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Charter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation_schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Schedule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../development_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../checklists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Checklists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/adr/adr-0001-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runbook
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security & Privacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../knowledge_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools & Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Tools & Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/cli_tool_template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Tool Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/cli_agent_coding_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Agent Coding Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/mcp_tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MCP Tooling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/pre_commit_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-commit Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai_session_templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Session Templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fred-api-data-source">FRED API Data Source</h1>
+<blockquote>
+<p><strong>Federal Reserve Economic Data (FRED) API documentation and usage guide.</strong></p>
+</blockquote>
+<hr />
+<h2 id="overview">Overview</h2>
+<p><strong>FRED</strong> (Federal Reserve Economic Data) is a comprehensive database of economic time series maintained by the Federal Reserve Bank of St. Louis. It provides free access to over 800,000 economic data series from 100+ sources.</p>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li><strong>Coverage</strong>: U.S. economic indicators plus international data</li>
+<li><strong>Sources</strong>: Federal Reserve, Bureau of Labor Statistics, Bureau of Economic Analysis, Census Bureau, and many more</li>
+<li><strong>Historical Data</strong>: Most series go back decades (some to the 1940s)</li>
+<li><strong>Free Access</strong>: No cost for API usage</li>
+<li><strong>Reliability</strong>: Authoritative source for U.S. economic data</li>
+<li><strong>Timeliness</strong>: Data updated within hours of official releases</li>
+</ul>
+<hr />
+<h2 id="access-authentication">Access &amp; Authentication</h2>
+<h3 id="getting-started">Getting Started</h3>
+<ol>
+<li><strong>Create Account</strong>: Visit <a href="https://fred.stlouisfed.org">https://fred.stlouisfed.org</a></li>
+<li><strong>Request API Key</strong>: <a href="https://fred.stlouisfed.org/docs/api/api_key.html">https://fred.stlouisfed.org/docs/api/api_key.html</a></li>
+<li><strong>Save Key</strong>: Store in environment variable <code>FRED_API_KEY</code></li>
+</ol>
+<h3 id="api-key-usage">API Key Usage</h3>
+<pre><code class="language-bash"># Set environment variable
+export FRED_API_KEY=&quot;your_api_key_here&quot;
+</code></pre>
+<pre><code class="language-python"># Use in Python
+import os
+from fredapi import Fred
+
+fred = Fred(api_key=os.getenv('FRED_API_KEY'))
+</code></pre>
+<blockquote>
+<p><strong>Security Note</strong>: Never hardcode API keys in source code. Always use environment variables.</p>
+</blockquote>
+<hr />
+<h2 id="rate-limits">Rate Limits</h2>
+<h3 id="api-quotas">API Quotas</h3>
+<table>
+<thead>
+<tr>
+<th>Limit Type</th>
+<th>Quota</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Requests per minute</strong></td>
+<td>120</td>
+<td>Hard limit enforced by FRED</td>
+</tr>
+<tr>
+<td><strong>Requests per day</strong></td>
+<td>Unlimited</td>
+<td>No daily cap</td>
+</tr>
+<tr>
+<td><strong>Concurrent requests</strong></td>
+<td>Not specified</td>
+<td>Recommend sequential for simplicity</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recommended-strategy">Recommended Strategy</h3>
+<p>For this project (50-100 series):
+- <strong>Throttling</strong>: 1 request per second (conservative)
+- <strong>Backfill</strong>: ~100 requests = 100 seconds (&lt;2 minutes)
+- <strong>Incremental</strong>: ~50 requests = 50 seconds (&lt;1 minute)</p>
+<h3 id="handling-rate-limits">Handling Rate Limits</h3>
+<p>If you exceed the rate limit (HTTP 429), implement exponential backoff:</p>
+<pre><code class="language-python">import time
+from requests.exceptions import HTTPError
+
+def fetch_with_backoff(series_id, max_retries=3):
+    retries = 0
+    while retries &lt; max_retries:
+        try:
+            return fred.get_series(series_id)
+        except HTTPError as e:
+            if e.response.status_code == 429:
+                wait_time = 2 ** retries  # 1s, 2s, 4s
+                time.sleep(wait_time)
+                retries += 1
+            else:
+                raise
+    raise Exception(f&quot;Max retries exceeded for {series_id}&quot;)
+</code></pre>
+<hr />
+<h2 id="key-endpoints">Key Endpoints</h2>
+<h3 id="1-seriesobservations-primary">1. series/observations (Primary)</h3>
+<p><strong>Purpose</strong>: Retrieve time series data points.</p>
+<p><strong>URL</strong>: <code>https://api.stlouisfed.org/fred/series/observations</code></p>
+<p><strong>Parameters</strong>:
+- <code>series_id</code> (required): FRED series identifier (e.g., 'UNRATE')
+- <code>api_key</code> (required): Your API key
+- <code>observation_start</code> (optional): Start date (YYYY-MM-DD)
+- <code>observation_end</code> (optional): End date (YYYY-MM-DD)
+- <code>file_type</code> (optional): 'json' (default) or 'xml'</p>
+<p><strong>Example Request</strong>:</p>
+<pre><code>GET https://api.stlouisfed.org/fred/series/observations?series_id=UNRATE&amp;api_key=YOUR_KEY&amp;observation_start=2020-01-01
+</code></pre>
+<p><strong>Response Format</strong>:</p>
+<pre><code class="language-json">{
+  &quot;realtime_start&quot;: &quot;2026-02-12&quot;,
+  &quot;realtime_end&quot;: &quot;2026-02-12&quot;,
+  &quot;observation_start&quot;: &quot;2020-01-01&quot;,
+  &quot;observation_end&quot;: &quot;9999-12-31&quot;,
+  &quot;units&quot;: &quot;lin&quot;,
+  &quot;output_type&quot;: 1,
+  &quot;file_type&quot;: &quot;json&quot;,
+  &quot;order_by&quot;: &quot;observation_date&quot;,
+  &quot;sort_order&quot;: &quot;asc&quot;,
+  &quot;count&quot;: 73,
+  &quot;offset&quot;: 0,
+  &quot;limit&quot;: 100000,
+  &quot;observations&quot;: [
+    {
+      &quot;realtime_start&quot;: &quot;2026-02-12&quot;,
+      &quot;realtime_end&quot;: &quot;2026-02-12&quot;,
+      &quot;date&quot;: &quot;2020-01-01&quot;,
+      &quot;value&quot;: &quot;3.6&quot;
+    },
+    {
+      &quot;realtime_start&quot;: &quot;2026-02-12&quot;,
+      &quot;realtime_end&quot;: &quot;2026-02-12&quot;,
+      &quot;date&quot;: &quot;2020-02-01&quot;,
+      &quot;value&quot;: &quot;3.5&quot;
+    }
+    // ... more observations
+  ]
+}
+</code></pre>
+<hr />
+<h3 id="2-series-metadata">2. series (Metadata)</h3>
+<p><strong>Purpose</strong>: Retrieve metadata about a time series.</p>
+<p><strong>URL</strong>: <code>https://api.stlouisfed.org/fred/series</code></p>
+<p><strong>Parameters</strong>:
+- <code>series_id</code> (required): FRED series identifier
+- <code>api_key</code> (required): Your API key</p>
+<p><strong>Example Request</strong>:</p>
+<pre><code>GET https://api.stlouisfed.org/fred/series?series_id=UNRATE&amp;api_key=YOUR_KEY
+</code></pre>
+<p><strong>Response Format</strong>:</p>
+<pre><code class="language-json">{
+  &quot;seriess&quot;: [
+    {
+      &quot;id&quot;: &quot;UNRATE&quot;,
+      &quot;realtime_start&quot;: &quot;2026-02-12&quot;,
+      &quot;realtime_end&quot;: &quot;2026-02-12&quot;,
+      &quot;title&quot;: &quot;Unemployment Rate&quot;,
+      &quot;observation_start&quot;: &quot;1948-01-01&quot;,
+      &quot;observation_end&quot;: &quot;2026-01-01&quot;,
+      &quot;frequency&quot;: &quot;Monthly&quot;,
+      &quot;frequency_short&quot;: &quot;M&quot;,
+      &quot;units&quot;: &quot;Percent&quot;,
+      &quot;units_short&quot;: &quot;Percent&quot;,
+      &quot;seasonal_adjustment&quot;: &quot;Seasonally Adjusted&quot;,
+      &quot;seasonal_adjustment_short&quot;: &quot;SA&quot;,
+      &quot;last_updated&quot;: &quot;2026-02-07 07:44:03-06&quot;,
+      &quot;popularity&quot;: 93,
+      &quot;notes&quot;: &quot;The unemployment rate represents the number of unemployed...&quot;
+    }
+  ]
+}
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: For this project, we use a static series catalog (YAML config) instead of fetching metadata, reducing API calls.</p>
+</blockquote>
+<hr />
+<h2 id="using-fredapi-library">Using fredapi Library</h2>
+<h3 id="installation">Installation</h3>
+<pre><code class="language-bash">uv add fredapi
+</code></pre>
+<h3 id="basic-usage">Basic Usage</h3>
+<pre><code class="language-python">from fredapi import Fred
+import os
+
+# Initialize client
+fred = Fred(api_key=os.getenv('FRED_API_KEY'))
+
+# Fetch series data
+data = fred.get_series('UNRATE')
+print(data)  # Returns pandas Series
+
+# Fetch with date range
+data = fred.get_series(
+    'UNRATE',
+    observation_start='2020-01-01',
+    observation_end='2026-02-12'
+)
+
+# Get metadata
+info = fred.get_series_info('UNRATE')
+print(info['title'])  # &quot;Unemployment Rate&quot;
+print(info['units'])  # &quot;Percent&quot;
+</code></pre>
+<h3 id="batch-fetching">Batch Fetching</h3>
+<pre><code class="language-python">series_list = ['FEDFUNDS', 'UNRATE', 'CPIAUCSL', 'GDPC1']
+
+for series_id in series_list:
+    print(f&quot;Fetching {series_id}...&quot;)
+    data = fred.get_series(series_id, observation_start='2016-01-01')
+    print(f&quot;  Rows: {len(data)}&quot;)
+    time.sleep(1)  # Throttle to avoid rate limits
+</code></pre>
+<hr />
+<h2 id="data-characteristics">Data Characteristics</h2>
+<h3 id="update-frequency-by-series-type">Update Frequency by Series Type</h3>
+<table>
+<thead>
+<tr>
+<th>Indicator Type</th>
+<th>Release Schedule</th>
+<th>Example Series</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Daily</strong></td>
+<td>Every business day</td>
+<td>FEDFUNDS, DGS10, DEXUSEU</td>
+</tr>
+<tr>
+<td><strong>Weekly</strong></td>
+<td>Every Thursday</td>
+<td>ICSA (Initial Claims)</td>
+</tr>
+<tr>
+<td><strong>Monthly</strong></td>
+<td>10-15 days after month end</td>
+<td>UNRATE, CPIAUCSL, HOUST</td>
+</tr>
+<tr>
+<td><strong>Quarterly</strong></td>
+<td>30-90 days after quarter end</td>
+<td>GDPC1 (3 releases per quarter)</td>
+</tr>
+<tr>
+<td><strong>Annual</strong></td>
+<td>Varies</td>
+<td>Less common in our catalog</td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-revisions">Data Revisions</h3>
+<p>Many economic indicators are subject to revisions:</p>
+<p><strong>GDP (GDPC1)</strong>: Three releases per quarter
+1. <strong>Advance</strong> (~30 days after quarter end): First estimate
+2. <strong>Revised</strong> (~60 days): Incorporates more complete data
+3. <strong>Final</strong> (~90 days): Most complete picture</p>
+<p><strong>Employment (PAYEMS)</strong>: Revised for prior two months with each release</p>
+<p><strong>Other</strong>: CPI, PCE, and many others occasionally revised</p>
+<blockquote>
+<p><strong>Learning Note</strong>: Our upsert strategy (MERGE INTO) automatically handles revisions by updating existing observations with the latest value.</p>
+</blockquote>
+<hr />
+<h3 id="missing-data">Missing Data</h3>
+<p>Some series have missing values, represented as <code>"."</code> in the API response:</p>
+<pre><code class="language-json">{
+  &quot;date&quot;: &quot;2020-03-01&quot;,
+  &quot;value&quot;: &quot;.&quot;
+}
+</code></pre>
+<p><strong>Handling Strategy</strong>:
+- Store as NULL in database
+- Log warning but don't fail ingestion
+- Document known gaps in series notes</p>
+<hr />
+<h3 id="special-cases">Special Cases</h3>
+<h4 id="non-standard-frequencies">Non-Standard Frequencies</h4>
+<p>Some series have irregular frequencies:
+- <strong>NBER Recession Indicators</strong>: Binary indicators (0 or 1) that change state
+- <strong>Quarterly series</strong>: Dates shown as first day of quarter (e.g., 2025-10-01 for Q4)</p>
+<h4 id="transformed-data">Transformed Data</h4>
+<p>FRED offers data transformations (not used in this project):
+- Percent change
+- Percent change from year ago
+- Compounded annual rate of change
+- Natural log</p>
+<p>We store <strong>original (level) data</strong> and perform transformations in queries.</p>
+<hr />
+<h2 id="api-error-handling">API Error Handling</h2>
+<h3 id="common-error-codes">Common Error Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Status Code</th>
+<th>Meaning</th>
+<th>Handling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>400</strong></td>
+<td>Bad Request (invalid series_id)</td>
+<td>Log warning, skip series, continue</td>
+</tr>
+<tr>
+<td><strong>401</strong></td>
+<td>Unauthorized (invalid API key)</td>
+<td>Fail immediately with clear error</td>
+</tr>
+<tr>
+<td><strong>404</strong></td>
+<td>Series not found</td>
+<td>Log warning, skip series</td>
+</tr>
+<tr>
+<td><strong>429</strong></td>
+<td>Rate limit exceeded</td>
+<td>Exponential backoff, retry</td>
+</tr>
+<tr>
+<td><strong>500</strong></td>
+<td>Server error</td>
+<td>Retry with backoff, fail after 3 attempts</td>
+</tr>
+<tr>
+<td><strong>503</strong></td>
+<td>Service unavailable</td>
+<td>Retry with backoff, fail after 3 attempts</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recommended-error-handling">Recommended Error Handling</h3>
+<pre><code class="language-python">import time
+import logging
+from requests.exceptions import HTTPError, RequestException
+
+def fetch_series_with_error_handling(series_id):
+    max_retries = 3
+    retry_delay = 1  # seconds
+
+    for attempt in range(max_retries):
+        try:
+            data = fred.get_series(series_id, observation_start='2016-01-01')
+            return data
+
+        except HTTPError as e:
+            if e.response.status_code == 400:
+                logging.warning(f&quot;Invalid series: {series_id}&quot;)
+                return None
+            elif e.response.status_code == 429:
+                wait = retry_delay * (2 ** attempt)
+                logging.warning(f&quot;Rate limit hit, waiting {wait}s&quot;)
+                time.sleep(wait)
+            elif e.response.status_code in [500, 503]:
+                wait = retry_delay * (2 ** attempt)
+                logging.warning(f&quot;Server error, retrying in {wait}s&quot;)
+                time.sleep(wait)
+            else:
+                logging.error(f&quot;HTTP error {e.response.status_code}: {series_id}&quot;)
+                raise
+
+        except RequestException as e:
+            logging.error(f&quot;Network error: {e}&quot;)
+            if attempt &lt; max_retries - 1:
+                time.sleep(retry_delay)
+            else:
+                raise
+
+    logging.error(f&quot;Max retries exceeded for {series_id}&quot;)
+    return None
+</code></pre>
+<hr />
+<h2 id="performance-considerations">Performance Considerations</h2>
+<h3 id="optimization-strategies">Optimization Strategies</h3>
+<ol>
+<li><strong>Batch Processing</strong>: Group series by frequency to minimize total API calls</li>
+<li><strong>Incremental Updates</strong>: Fetch only recent data (last 60 days) for updates</li>
+<li><strong>Caching</strong>: Store fetched data in database; don't re-fetch historical data</li>
+<li><strong>Parallel Requests</strong>: Use threading for independent series (respect rate limits)</li>
+</ol>
+<h3 id="typical-fetch-times">Typical Fetch Times</h3>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Series Count</th>
+<th>Expected Time</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backfill (Tier 1)</td>
+<td>4</td>
+<td>~10 seconds</td>
+<td>4 API calls at 1/sec</td>
+</tr>
+<tr>
+<td>Backfill (Tier 2)</td>
+<td>30</td>
+<td>~60 seconds</td>
+<td>30 API calls at 1/sec</td>
+</tr>
+<tr>
+<td>Incremental (Tier 1)</td>
+<td>4</td>
+<td>~10 seconds</td>
+<td>Same as backfill for now</td>
+</tr>
+<tr>
+<td>Incremental (Tier 2)</td>
+<td>30</td>
+<td>~60 seconds</td>
+<td>Future optimization: check freshness first</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="example-workflows">Example Workflows</h2>
+<h3 id="1-backfill-historical-data">1. Backfill Historical Data</h3>
+<pre><code class="language-python">import pandas as pd
+from fredapi import Fred
+import time
+
+fred = Fred(api_key=os.getenv('FRED_API_KEY'))
+series_list = ['FEDFUNDS', 'UNRATE', 'CPIAUCSL', 'GDPC1']
+
+start_date = '2016-01-01'
+results = {}
+
+for series_id in series_list:
+    print(f&quot;Fetching {series_id}...&quot;)
+    data = fred.get_series(series_id, observation_start=start_date)
+    results[series_id] = data
+    print(f&quot;  Retrieved {len(data)} observations&quot;)
+    time.sleep(1)  # Rate limit throttle
+
+# Convert to DataFrame
+df = pd.DataFrame(results)
+print(df.head())
+</code></pre>
+<hr />
+<h3 id="2-incremental-update-last-60-days">2. Incremental Update (Last 60 Days)</h3>
+<pre><code class="language-python">from datetime import datetime, timedelta
+
+end_date = datetime.now().strftime('%Y-%m-%d')
+start_date = (datetime.now() - timedelta(days=60)).strftime('%Y-%m-%d')
+
+for series_id in series_list:
+    print(f&quot;Updating {series_id} from {start_date} to {end_date}...&quot;)
+    data = fred.get_series(
+        series_id,
+        observation_start=start_date,
+        observation_end=end_date
+    )
+    print(f&quot;  Retrieved {len(data)} observations&quot;)
+    time.sleep(1)
+</code></pre>
+<hr />
+<h3 id="3-check-data-freshness">3. Check Data Freshness</h3>
+<pre><code class="language-python">def check_freshness(series_id):
+    &quot;&quot;&quot;Check when a series was last updated.&quot;&quot;&quot;
+    info = fred.get_series_info(series_id)
+    last_updated = info['last_updated']
+    observation_end = info['observation_end']
+
+    print(f&quot;{series_id}:&quot;)
+    print(f&quot;  Last updated: {last_updated}&quot;)
+    print(f&quot;  Latest data: {observation_end}&quot;)
+    return observation_end
+
+for series_id in series_list:
+    check_freshness(series_id)
+    time.sleep(0.5)
+</code></pre>
+<hr />
+<h2 id="api-documentation-links">API Documentation Links</h2>
+<h3 id="official-resources">Official Resources</h3>
+<ul>
+<li><strong>FRED Website</strong>: <a href="https://fred.stlouisfed.org">https://fred.stlouisfed.org</a></li>
+<li><strong>API Documentation</strong>: <a href="https://fred.stlouisfed.org/docs/api/fred/">https://fred.stlouisfed.org/docs/api/fred/</a></li>
+<li><strong>API Key Request</strong>: <a href="https://fred.stlouisfed.org/docs/api/api_key.html">https://fred.stlouisfed.org/docs/api/api_key.html</a></li>
+<li><strong>fredapi Library</strong>: <a href="https://github.com/mortada/fredapi">https://github.com/mortada/fredapi</a></li>
+</ul>
+<h3 id="useful-pages">Useful Pages</h3>
+<ul>
+<li><strong>Search FRED Series</strong>: <a href="https://fred.stlouisfed.org/search">https://fred.stlouisfed.org/search</a></li>
+<li><strong>Release Calendars</strong>: <a href="https://fred.stlouisfed.org/releases/calendar">https://fred.stlouisfed.org/releases/calendar</a></li>
+<li><strong>Tags</strong>: <a href="https://fred.stlouisfed.org/tags">https://fred.stlouisfed.org/tags</a></li>
+</ul>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>Problem</strong>: <code>APIKeyNotFound</code> error</p>
+<p><strong>Solution</strong>: Set environment variable <code>FRED_API_KEY</code></p>
+<pre><code class="language-bash">export FRED_API_KEY=&quot;your_key_here&quot;
+</code></pre>
+<hr />
+<p><strong>Problem</strong>: Rate limit exceeded (HTTP 429)</p>
+<p><strong>Solution</strong>: Add throttling between requests</p>
+<pre><code class="language-python">import time
+time.sleep(1)  # Wait 1 second between requests
+</code></pre>
+<hr />
+<p><strong>Problem</strong>: Series returns no data</p>
+<p><strong>Possible causes</strong>:
+- Series ID is misspelled (check FRED website)
+- Date range is outside series availability
+- Series has been discontinued</p>
+<p><strong>Solution</strong>: Verify series exists and check date range</p>
+<hr />
+<p><strong>Problem</strong>: Data doesn't match FRED website</p>
+<p><strong>Possible causes</strong>:
+- Data has been revised since last fetch
+- Using transformed units (percent change vs. level)
+- Vintage data mismatch</p>
+<p><strong>Solution</strong>: Re-run incremental update to fetch latest revisions</p>
+<hr />
+<p><strong>Last Updated</strong>: 2026-02-12
+<strong>API Version</strong>: FRED API v2</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

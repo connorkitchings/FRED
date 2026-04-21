@@ -1,0 +1,1617 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A template for Vibe Coding data science projects.">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>ADR-0004: Three-Tier Indicator Organization - Vibe Coding Template</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#adr-0004-three-tier-indicator-organization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Vibe Coding Template" class="md-header__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vibe Coding Template
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ADR-0004: Three-Tier Indicator Organization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../getting_started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../project_brief/" class="md-tabs__link">
+          
+  
+  
+  Project Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../development_standards/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../system_overview/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../runbook/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tools/cli_tool_template/" class="md-tabs__link">
+          
+  
+  
+  Tools & Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ai_guide/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Vibe Coding Template" class="md-nav__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vibe Coding Template
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Overview
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Project Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Brief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project_charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Charter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation_schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Schedule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../development_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../checklists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Checklists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adr-0001-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runbook
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security & Privacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../knowledge_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools & Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Tools & Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/cli_tool_template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Tool Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/cli_agent_coding_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Agent Coding Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/mcp_tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MCP Tooling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/pre_commit_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-commit Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai_session_templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Session Templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="adr-0004-three-tier-indicator-organization">ADR-0004: Three-Tier Indicator Organization</h1>
+<p><strong>Status</strong>: Accepted</p>
+<p><strong>Date</strong>: 2026-02-12</p>
+<p><strong>Deciders</strong>: Connor Kitchings</p>
+<p><strong>Context</strong>: System needs extensible organization of economic indicators without overwhelming initial implementation.</p>
+<hr />
+<h2 id="context-and-problem-statement">Context and Problem Statement</h2>
+<p>FRED provides access to 800,000+ economic time series. For a personal macro tracking dashboard, we need to:</p>
+<ol>
+<li><strong>Start focused</strong>: Build MVP with essential indicators</li>
+<li><strong>Enable expansion</strong>: Add more indicators over time without restructuring</li>
+<li><strong>Maintain clarity</strong>: Organize indicators logically as the catalog grows</li>
+<li><strong>Avoid complexity</strong>: Don't over-engineer for hypothetical future needs</li>
+</ol>
+<h3 id="options-considered">Options Considered</h3>
+<ol>
+<li><strong>Flat list</strong> (no organization)</li>
+<li><strong>Two tiers</strong> (Core and Extended)</li>
+<li><strong>Three tiers</strong> (Core, Extended, Deep Dive)</li>
+<li><strong>Category-based only</strong> (group by economic category)</li>
+<li><strong>Priority levels</strong> (P0, P1, P2, P3)</li>
+</ol>
+<hr />
+<h2 id="decision">Decision</h2>
+<p><strong>Chosen Option</strong>: Three-tier organization (Tier 1, Tier 2, Tier 3) combined with category tags.</p>
+<h3 id="tier-definitions">Tier Definitions</h3>
+<p><strong>Tier 1: Core Indicators</strong>
+- The "Big Four" essential macro indicators
+- Always tracked, always displayed
+- MVP scope
+- Count: 4 series</p>
+<p><strong>Tier 2: Extended Indicators</strong>
+- Commonly referenced indicators for broader coverage
+- Post-MVP expansion
+- Count: 20-30 series</p>
+<p><strong>Tier 3: Deep Dive Indicators</strong>
+- Specialized, sector-specific, or less common indicators
+- Future exploration and research
+- Count: 40+ series</p>
+<hr />
+<h2 id="decision-drivers">Decision Drivers</h2>
+<h3 id="positive-factors">✅ Positive Factors</h3>
+<ol>
+<li><strong>Clear MVP Scope</strong></li>
+<li>Tier 1 defines exactly what MVP includes</li>
+<li>"Build Tier 1 first" is unambiguous</li>
+<li>
+<p>Avoids scope creep during initial development</p>
+</li>
+<li>
+<p><strong>Natural Expansion Path</strong></p>
+</li>
+<li>After MVP: Add Tier 2</li>
+<li>Later: Add Tier 3 as needed</li>
+<li>
+<p>No restructuring required</p>
+</li>
+<li>
+<p><strong>Config-Driven</strong></p>
+</li>
+<li>Tier is just a field in YAML config</li>
+<li>Easy to promote/demote indicators between tiers</li>
+<li>
+<p>No code changes needed</p>
+</li>
+<li>
+<p><strong>User-Friendly</strong></p>
+</li>
+<li>"Core indicators" is intuitive</li>
+<li>Three levels are easy to remember</li>
+<li>
+<p>Not too few (flat) or too many (overwhelming)</p>
+</li>
+<li>
+<p><strong>Filtering Support</strong></p>
+</li>
+<li>Can query "show me Tier 1 only"</li>
+<li>Can ingest "Tier 1 and 2 only"</li>
+<li>Enables progressive feature rollout</li>
+</ol>
+<h3 id="trade-offs">⚠️ Trade-offs</h3>
+<ol>
+<li><strong>Subjective Boundaries</strong></li>
+<li>What's "core" vs. "extended" is somewhat arbitrary</li>
+<li>
+<p>Mitigation: Document tier criteria clearly</p>
+</li>
+<li>
+<p><strong>Maintenance Overhead</strong></p>
+</li>
+<li>Need to assign tier to each series</li>
+<li>Mitigation: Only ~50-100 series total, manageable</li>
+</ol>
+<hr />
+<h2 id="comparison-with-alternatives">Comparison with Alternatives</h2>
+<h3 id="option-1-flat-list-no-organization">Option 1: Flat List (No Organization)</h3>
+<p><strong>Approach</strong>: All indicators in single list, no tiers</p>
+<p><strong>Pros</strong>:
+- Simplest implementation
+- No tier assignment needed</p>
+<p><strong>Cons</strong>:
+- ❌ No clear MVP scope
+- ❌ Hard to prioritize
+- ❌ Catalog becomes overwhelming as it grows</p>
+<p><strong>Verdict</strong>: Rejected — lacks structure for expansion</p>
+<hr />
+<h3 id="option-2-two-tiers-core-and-extended">Option 2: Two Tiers (Core and Extended)</h3>
+<p><strong>Approach</strong>: Tier 1 (essential) and Tier 2 (everything else)</p>
+<p><strong>Pros</strong>:
+- Simple binary classification
+- Clear MVP (Tier 1)</p>
+<p><strong>Cons</strong>:
+- ❌ "Extended" becomes a catch-all
+- ❌ No distinction between "commonly useful" and "niche"
+- ❌ Hard to prioritize post-MVP expansion</p>
+<p><strong>Verdict</strong>: Rejected — not enough granularity</p>
+<hr />
+<h3 id="option-3-three-tiers-chosen">Option 3: Three Tiers (Chosen)</h3>
+<p><strong>Approach</strong>: Tier 1 (Core), Tier 2 (Extended), Tier 3 (Deep Dive)</p>
+<p><strong>Pros</strong>:
+- ✅ Clear MVP scope (Tier 1)
+- ✅ Natural post-MVP expansion (Tier 2)
+- ✅ Room for future growth (Tier 3)
+- ✅ Not too many levels</p>
+<p><strong>Cons</strong>:
+- ⚠️ Need to define tier boundaries</p>
+<p><strong>Verdict</strong>: Chosen — best balance of structure and simplicity</p>
+<hr />
+<h3 id="option-4-category-based-only">Option 4: Category-Based Only</h3>
+<p><strong>Approach</strong>: Organize by economic category (labor, housing, etc.), no tiers</p>
+<p><strong>Pros</strong>:
+- Thematic organization
+- Natural grouping</p>
+<p><strong>Cons</strong>:
+- ❌ Doesn't define MVP scope
+- ❌ All categories equally important (not true)
+- ❌ Hard to prioritize implementation</p>
+<p><strong>Verdict</strong>: Rejected — use categories AND tiers</p>
+<hr />
+<h3 id="option-5-priority-levels-p0-p1-p2-p3">Option 5: Priority Levels (P0, P1, P2, P3)</h3>
+<p><strong>Approach</strong>: Software engineering style priority levels</p>
+<p><strong>Pros</strong>:
+- Familiar to engineers
+- Fine-grained prioritization</p>
+<p><strong>Cons</strong>:
+- ❌ Too technical for user-facing documentation
+- ❌ Four levels may be too many
+- ❌ P0/P1/P2/P3 not intuitive</p>
+<p><strong>Verdict</strong>: Rejected — tiers are more user-friendly</p>
+<hr />
+<h2 id="technical-details">Technical Details</h2>
+<h3 id="tier-field-in-series-catalog">Tier Field in Series Catalog</h3>
+<pre><code class="language-yaml"># config/series_catalog.yaml
+series:
+  - series_id: FEDFUNDS
+    title: Federal Funds Effective Rate
+    category: financial_markets
+    tier: 1  # ← Tier assignment
+
+  - series_id: HOUST
+    title: Housing Starts
+    category: housing
+    tier: 2
+
+  - series_id: PERMIT1MSA
+    title: Building Permits in Metro Area X
+    category: housing
+    tier: 3
+</code></pre>
+<h3 id="database-schema">Database Schema</h3>
+<pre><code class="language-sql">CREATE TABLE series_catalog (
+    series_id VARCHAR PRIMARY KEY,
+    title VARCHAR NOT NULL,
+    category VARCHAR NOT NULL,
+    tier INTEGER NOT NULL,  -- 1, 2, or 3
+    ...
+);
+</code></pre>
+<hr />
+<h2 id="tier-criteria">Tier Criteria</h2>
+<h3 id="tier-1-core-indicators-the-big-four">Tier 1: Core Indicators (The "Big Four")</h3>
+<p><strong>Criteria</strong>:
+- ✅ Universally recognized macro indicator
+- ✅ Frequently cited in economic news
+- ✅ Covers a distinct aspect of the economy (output, labor, prices, policy)
+- ✅ High-quality data with regular releases</p>
+<p><strong>Indicators</strong>:
+1. <strong>FEDFUNDS</strong> — Federal Funds Rate (monetary policy)
+2. <strong>UNRATE</strong> — Unemployment Rate (labor market)
+3. <strong>CPIAUCSL</strong> — Consumer Price Index (inflation)
+4. <strong>GDPC1</strong> — Real GDP (economic output)</p>
+<p><strong>Philosophy</strong>: These are the first indicators you'd check to understand the economy's state.</p>
+<hr />
+<h3 id="tier-2-extended-indicators">Tier 2: Extended Indicators</h3>
+<p><strong>Criteria</strong>:
+- ✅ Commonly referenced in economic analysis
+- ✅ Complements Tier 1 with additional detail
+- ✅ Helps answer specific questions (housing, consumption, manufacturing)
+- ✅ Regularly updated and reliable</p>
+<p><strong>Examples</strong>:</p>
+<p><strong>Labor Market</strong>:
+- PAYEMS (Nonfarm Payrolls)
+- AHETPI (Average Hourly Earnings)
+- CIVPART (Labor Force Participation)</p>
+<p><strong>Housing</strong>:
+- HOUST (Housing Starts)
+- PERMIT (Building Permits)
+- CSUSHPISA (Case-Shiller Home Price Index)</p>
+<p><strong>Financial Markets</strong>:
+- DGS10 (10-Year Treasury Yield)
+- SP500 (S&amp;P 500 Index)
+- DEXUSEU (USD/EUR Exchange Rate)</p>
+<p><strong>Consumption</strong>:
+- RSXFS (Retail Sales)
+- PCE (Personal Consumption Expenditures)
+- UMCSENT (Consumer Sentiment)</p>
+<p><strong>Manufacturing</strong>:
+- INDPRO (Industrial Production)
+- TCU (Capacity Utilization)</p>
+<p><strong>Philosophy</strong>: These indicators provide broader coverage and answer "what about X?" questions.</p>
+<hr />
+<h3 id="tier-3-deep-dive-indicators">Tier 3: Deep Dive Indicators</h3>
+<p><strong>Criteria</strong>:
+- ✅ Specialized or sector-specific
+- ✅ Less commonly referenced but valuable for research
+- ✅ May be regional, niche, or experimental</p>
+<p><strong>Examples</strong> (to be defined):
+- Regional unemployment rates (state-level)
+- Detailed CPI components (food, energy subindices)
+- Sector-specific capacity utilization (manufacturing subsectors)
+- Alternative inflation measures (Trimmed Mean PCE)
+- Financial market microstructure (bid-ask spreads)</p>
+<p><strong>Philosophy</strong>: These indicators support deep research or specific hypotheses.</p>
+<hr />
+<h2 id="consequences">Consequences</h2>
+<h3 id="positive-consequences">Positive Consequences</h3>
+<ol>
+<li><strong>Clear MVP Scope</strong></li>
+<li>Tier 1 = MVP (4 series)</li>
+<li>Unambiguous starting point</li>
+<li>
+<p>Fast iteration to working system</p>
+</li>
+<li>
+<p><strong>Guided Expansion</strong></p>
+</li>
+<li>Post-MVP: Add Tier 2 (~25 series)</li>
+<li>Future: Add Tier 3 as needed</li>
+<li>
+<p>No rework required</p>
+</li>
+<li>
+<p><strong>User Experience</strong></p>
+</li>
+<li>Can filter UI/dashboard by tier</li>
+<li>"Show me core indicators" is intuitive</li>
+<li>
+<p>Progressive disclosure for complexity</p>
+</li>
+<li>
+<p><strong>Config-Driven</strong></p>
+</li>
+<li>Tiers defined in YAML</li>
+<li>No code changes to add series</li>
+<li>
+<p>Easy to rebalance tiers</p>
+</li>
+<li>
+<p><strong>Ingestion Optimization</strong></p>
+</li>
+<li>Can ingest Tier 1 only (MVP)</li>
+<li>Can ingest Tier 1+2 (Post-MVP)</li>
+<li>Incremental expansion of API usage</li>
+</ol>
+<h3 id="negative-consequences">Negative Consequences</h3>
+<ol>
+<li><strong>Subjective Classification</strong></li>
+<li>Some indicators could reasonably be Tier 2 or 3</li>
+<li>
+<p>Mitigation: Document rationale, accept imperfection</p>
+</li>
+<li>
+<p><strong>Maintenance</strong></p>
+</li>
+<li>Need to assign tier when adding new series</li>
+<li>
+<p>Mitigation: Only ~50-100 series, not burdensome</p>
+</li>
+<li>
+<p><strong>Tier Inflation Risk</strong></p>
+</li>
+<li>Temptation to add more Tier 1 indicators</li>
+<li>Mitigation: Keep Tier 1 to 4-6 series max</li>
+</ol>
+<hr />
+<h2 id="usage-examples">Usage Examples</h2>
+<h3 id="querying-by-tier">Querying by Tier</h3>
+<pre><code class="language-sql">-- Get all Tier 1 (core) indicators
+SELECT series_id, title
+FROM series_catalog
+WHERE tier = 1;
+
+-- Get latest values for Tier 1 only
+SELECT s.series_id, s.title, o.observation_date, o.value
+FROM observations o
+JOIN series_catalog s ON o.series_id = s.series_id
+WHERE s.tier = 1
+  AND o.observation_date = (
+    SELECT MAX(observation_date)
+    FROM observations o2
+    WHERE o2.series_id = o.series_id
+  );
+</code></pre>
+<hr />
+<h3 id="ingestion-by-tier">Ingestion by Tier</h3>
+<pre><code class="language-python">def ingest_by_tier(tier: int, mode: str):
+    &quot;&quot;&quot;Ingest indicators for a specific tier.&quot;&quot;&quot;
+    # Load series catalog
+    with open('config/series_catalog.yaml') as f:
+        catalog = yaml.safe_load(f)
+
+    # Filter by tier
+    series_list = [
+        s['series_id'] for s in catalog['series']
+        if s['tier'] == tier
+    ]
+
+    # Ingest
+    for series_id in series_list:
+        if mode == 'backfill':
+            fetch_and_upsert(series_id, start_date='2016-01-01')
+        else:  # incremental
+            fetch_and_upsert(series_id, start_date=get_date_60_days_ago())
+</code></pre>
+<hr />
+<h3 id="dashboard-display">Dashboard Display</h3>
+<pre><code class="language-python">def display_dashboard():
+    &quot;&quot;&quot;Display indicators organized by tier.&quot;&quot;&quot;
+    print(&quot;=== Core Indicators (Tier 1) ===&quot;)
+    display_tier(tier=1)
+
+    print(&quot;\n=== Extended Indicators (Tier 2) ===&quot;)
+    display_tier(tier=2)
+
+    print(&quot;\n=== Deep Dive Indicators (Tier 3) ===&quot;)
+    display_tier(tier=3)
+</code></pre>
+<hr />
+<h2 id="implementation-guidelines">Implementation Guidelines</h2>
+<h3 id="adding-new-indicators">Adding New Indicators</h3>
+<p>When adding a new indicator, ask:</p>
+<ol>
+<li><strong>Is this a universally recognized macro indicator?</strong></li>
+<li>Yes → Consider Tier 1 (but keep Tier 1 small!)</li>
+<li>
+<p>No → Continue to question 2</p>
+</li>
+<li>
+<p><strong>Would I reference this in broad economic analysis?</strong></p>
+</li>
+<li>Yes → Tier 2</li>
+<li>
+<p>No → Continue to question 3</p>
+</li>
+<li>
+<p><strong>Is this specialized, niche, or exploratory?</strong></p>
+</li>
+<li>Yes → Tier 3</li>
+</ol>
+<p><strong>Default</strong>: When uncertain, start with Tier 3 and promote if it proves valuable.</p>
+<hr />
+<h3 id="promotingdemoting-indicators">Promoting/Demoting Indicators</h3>
+<p>It's okay to change tiers over time:</p>
+<pre><code class="language-yaml"># Example: Promote housing starts from Tier 3 → Tier 2
+- series_id: HOUST
+  title: Housing Starts
+  tier: 2  # Changed from 3 to 2 (more important than originally thought)
+  notes: &quot;Promoted to Tier 2 on 2026-03-15 after frequent use&quot;
+</code></pre>
+<hr />
+<h2 id="monitoring">Monitoring</h2>
+<p>Track tier distribution in series catalog:</p>
+<pre><code class="language-sql">SELECT tier, COUNT(*) as series_count
+FROM series_catalog
+GROUP BY tier
+ORDER BY tier;
+</code></pre>
+<p>Expected distribution:
+- Tier 1: 4-6 series (keep small!)
+- Tier 2: 20-30 series
+- Tier 3: 40+ series (open-ended)</p>
+<hr />
+<h2 id="future-considerations">Future Considerations</h2>
+<h3 id="tier-0-critical-alerts">Tier 0: Critical Alerts?</h3>
+<p>If we later add alerting, consider Tier 0 for "critical watch indicators" that trigger notifications.</p>
+<p>For now, Tier 1 serves this purpose.</p>
+<hr />
+<h3 id="combining-with-categories">Combining with Categories</h3>
+<p>Tiers and categories are orthogonal:
+- <strong>Tiers</strong>: Priority/importance
+- <strong>Categories</strong>: Thematic grouping (labor, housing, prices, etc.)</p>
+<p>Both are useful for different purposes:
+- Tiers: "What should I build next?"
+- Categories: "Show me all labor market indicators"</p>
+<hr />
+<h2 id="related-decisions">Related Decisions</h2>
+<ul>
+<li><a href="../adr-0002-motherduck/">ADR-0002: MotherDuck</a> — Database storage</li>
+<li><a href="../../../data/dictionary/">Data Dictionary</a> — Full indicator catalog</li>
+</ul>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li><strong>FRED Website</strong>: https://fred.stlouisfed.org</li>
+<li><strong>Indicator Categories</strong>: https://fred.stlouisfed.org/categories</li>
+</ul>
+<hr />
+<p><strong>Last Updated</strong>: 2026-02-12
+<strong>Review Date</strong>: After Tier 2 implementation (reassess tier boundaries)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

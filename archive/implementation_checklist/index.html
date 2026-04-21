@@ -1,0 +1,1575 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A template for Vibe Coding data science projects.">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>MADE Orchestrator - Complete Implementation Checklist - Vibe Coding Template</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#made-orchestrator-complete-implementation-checklist" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Vibe Coding Template" class="md-header__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vibe Coding Template
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MADE Orchestrator - Complete Implementation Checklist
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting_started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../project_brief/" class="md-tabs__link">
+          
+  
+  
+  Project Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development_standards/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/system_overview/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../runbook/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tools/cli_tool_template/" class="md-tabs__link">
+          
+  
+  
+  Tools & Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai_guide/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Vibe Coding Template" class="md-nav__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vibe Coding Template
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Overview
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Project Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Brief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Charter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation_schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Schedule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Checklists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/adr/adr-0001-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runbook
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security & Privacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../knowledge_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools & Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Tools & Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/cli_tool_template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Tool Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/cli_agent_coding_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Agent Coding Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/mcp_tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MCP Tooling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/pre_commit_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-commit Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai_session_templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Session Templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="made-orchestrator-complete-implementation-checklist">MADE Orchestrator - Complete Implementation Checklist</h1>
+<h2 id="phase-1-foundation-original">✅ Phase 1: Foundation (Original)</h2>
+<ul>
+<li>[x] Directory structure (<code>scripts/vibe/</code>, <code>scripts/vibe/agents/</code>, <code>scripts/vibe/workflows/</code>)</li>
+<li>[x] State management (<code>state.py</code> with JSON persistence)</li>
+<li>[x] CLI skeleton (<code>made.py</code> with Typer)</li>
+<li>[x] Shell aliases (<code>aliases.sh</code>)</li>
+<li>[x] Orchestrator integration</li>
+</ul>
+<h2 id="phase-2-agent-adapters-original">✅ Phase 2: Agent Adapters (Original)</h2>
+<ul>
+<li>[x] BaseAgent protocol (<code>agents/base.py</code>)</li>
+<li>[x] Gemini CLI adapter with auto-invocation</li>
+<li>[x] Claude Code adapter with manual prompt</li>
+<li>[x] Codex CLI adapter with auto-invocation</li>
+<li>[x] Agent prompt templates (3 files in <code>.agents/prompts/</code>)</li>
+</ul>
+<h2 id="phase-3-workflows-original">✅ Phase 3: Workflows (Original)</h2>
+<ul>
+<li>[x] 3-phase sprint workflow (context → plan → execute)</li>
+<li>[x] Handoff packet generation</li>
+<li>[x] Session log creation/update</li>
+<li>[x] Task parsing from PLAN.md</li>
+</ul>
+<h2 id="phase-4-integration-polish-original">✅ Phase 4: Integration &amp; Polish (Original)</h2>
+<ul>
+<li>[x] Complete CLI with all commands</li>
+<li>[x] Session log template</li>
+<li>[x] Error handling and graceful degradation</li>
+<li>[x] Comprehensive documentation</li>
+<li>[x] Test suite (<code>test_made.sh</code>)</li>
+</ul>
+<h2 id="enhancement-1-blackboard-system">✅ Enhancement 1: Blackboard System</h2>
+<h3 id="implementation">Implementation</h3>
+<ul>
+<li>[x] State schema extended with <code>blackboard</code> section</li>
+<li>[x] <code>post_message()</code> method (4 parameters)</li>
+<li>[x] <code>post_blocker()</code> method (4 parameters)</li>
+<li>[x] <code>post_insight()</code> method (2 parameters)</li>
+<li>[x] <code>post_question()</code> method (3 parameters)</li>
+<li>[x] <code>get_unresolved_blockers()</code> method</li>
+<li>[x] <code>get_unanswered_questions()</code> method</li>
+<li>[x] <code>resolve_blocker()</code> method (2 parameters)</li>
+</ul>
+<h3 id="cli">CLI</h3>
+<ul>
+<li>[x] <code>vibe blackboard</code> command</li>
+<li>[x] <code>--type</code> filter option (all, blockers, questions, insights, messages)</li>
+<li>[x] Rich formatting with colors</li>
+<li>[x] Summary stats (unresolved/unanswered counts)</li>
+</ul>
+<h3 id="integration">Integration</h3>
+<ul>
+<li>[x] Sprint workflow posts blockers on failure</li>
+<li>[x] Executor posts insights on success</li>
+<li>[x] Planning phase checks for blockers</li>
+<li>[x] Status command shows blocker/question counts</li>
+</ul>
+<h3 id="testing">Testing</h3>
+<ul>
+<li>[x] Post/retrieve messages</li>
+<li>[x] Post/retrieve blockers</li>
+<li>[x] Post/retrieve insights</li>
+<li>[x] Post/retrieve questions</li>
+<li>[x] Unresolved blocker filtering</li>
+<li>[x] Unanswered question filtering</li>
+</ul>
+<h2 id="enhancement-2-observability-metrics">✅ Enhancement 2: Observability Metrics</h2>
+<h3 id="implementation_1">Implementation</h3>
+<ul>
+<li>[x] State schema extended with <code>metrics</code> section</li>
+<li>[x] <code>record_token_usage()</code> method</li>
+<li>[x] <code>record_agent_invocation()</code> method</li>
+<li>[x] <code>record_phase_time()</code> method</li>
+<li>[x] <code>update_task_stats()</code> method</li>
+<li>[x] <code>get_sprint_metrics()</code> method</li>
+<li>[x] <code>_calculate_success_rate()</code> helper</li>
+</ul>
+<h3 id="telemetry-module">Telemetry Module</h3>
+<ul>
+<li>[x] <code>TelemetryTracker</code> class (250 lines)</li>
+<li>[x] <code>save_sprint_report()</code> method (JSON output)</li>
+<li>[x] <code>generate_markdown_report()</code> method</li>
+<li>[x] <code>compare_sprints()</code> method</li>
+<li>[x] Efficiency calculations (cost, tokens/task, etc.)</li>
+<li>[x] <code>session_logs/telemetry/</code> directory</li>
+</ul>
+<h3 id="cli_1">CLI</h3>
+<ul>
+<li>[x] <code>vibe metrics</code> command</li>
+<li>[x] Markdown report display</li>
+<li>[x] Optional save to JSON</li>
+<li>[x] Rich formatting</li>
+</ul>
+<h3 id="integration_1">Integration</h3>
+<ul>
+<li>[x] Context phase tracks timing &amp; tokens</li>
+<li>[x] Planning phase tracks timing &amp; tokens</li>
+<li>[x] Execution tracks timing &amp; tokens per task</li>
+<li>[x] Agent invocations recorded automatically</li>
+<li>[x] Task stats updated after each task</li>
+</ul>
+<h3 id="testing_1">Testing</h3>
+<ul>
+<li>[x] Token usage recording</li>
+<li>[x] Agent invocation tracking</li>
+<li>[x] Phase timing recording</li>
+<li>[x] Metrics retrieval</li>
+<li>[x] Task statistics</li>
+<li>[x] Report generation</li>
+<li>[x] Markdown generation</li>
+</ul>
+<h2 id="enhancement-3-verification-phase">✅ Enhancement 3: Verification Phase</h2>
+<h3 id="implementation_2">Implementation</h3>
+<ul>
+<li>[x] <code>vibe verify</code> command</li>
+<li>[x] Verification prompt generation</li>
+<li>[x] Integration with Claude adapter</li>
+<li>[x] Git diff analysis prompt</li>
+<li>[x] Architectural review checklist</li>
+</ul>
+<h3 id="prompt-template">Prompt Template</h3>
+<ul>
+<li>[x] Checklist items (4 verification points)</li>
+<li>[x] Issues section</li>
+<li>[x] Recommendations section</li>
+<li>[x] Plan comparison logic</li>
+</ul>
+<h3 id="integration_2">Integration</h3>
+<ul>
+<li>[x] Reads PLAN.md for comparison</li>
+<li>[x] Generates diff review prompt</li>
+<li>[x] Displays prompt for manual execution</li>
+<li>[x] 4-phase workflow support</li>
+</ul>
+<h3 id="testing_2">Testing</h3>
+<ul>
+<li>[x] Command availability</li>
+<li>[x] Prompt generation</li>
+<li>[x] Plan file reading</li>
+</ul>
+<h2 id="enhancement-4-stop-ask-trigger">✅ Enhancement 4: Stop &amp; Ask Trigger</h2>
+<h3 id="implementation_3">Implementation</h3>
+<ul>
+<li>[x] Enhanced executor prompt</li>
+<li>[x] 4 explicit stop conditions</li>
+<li>[x] Blackboard posting instructions</li>
+<li>[x] JSON update examples</li>
+<li>[x] Clear triggering criteria</li>
+</ul>
+<h3 id="stop-conditions">Stop Conditions</h3>
+<ul>
+<li>[x] Test Failure Loop (3 failures)</li>
+<li>[x] Dependency Issues (2 attempts)</li>
+<li>[x] Unclear Requirements</li>
+<li>[x] Architectural Conflict</li>
+</ul>
+<h3 id="integration_3">Integration</h3>
+<ul>
+<li>[x] Automatic blocker posting on task failure</li>
+<li>[x] Error context preservation</li>
+<li>[x] Graceful exit behavior</li>
+<li>[x] Resume capability</li>
+</ul>
+<h3 id="documentation">Documentation</h3>
+<ul>
+<li>[x] Clear examples in prompt</li>
+<li>[x] JSON update format</li>
+<li>[x] When to trigger guidance</li>
+<li>[x] Recovery procedure</li>
+</ul>
+<h2 id="documentation_1">✅ Documentation</h2>
+<h3 id="user-documentation">User Documentation</h3>
+<ul>
+<li>[x] <code>docs/made-orchestrator.md</code> (original, 400+ lines)</li>
+<li>[x] <code>docs/made-enhancements.md</code> (new, 600+ lines)</li>
+<li>[x] <code>scripts/vibe/README.md</code> (quick start)</li>
+<li>[x] <code>scripts/vibe/EXAMPLE_USAGE.md</code> (examples)</li>
+<li>[x] <code>MADE_IMPLEMENTATION_SUMMARY.md</code> (original)</li>
+<li>[x] <code>MADE_ENHANCEMENTS_SUMMARY.md</code> (new)</li>
+</ul>
+<h3 id="technical-documentation">Technical Documentation</h3>
+<ul>
+<li>[x] API reference for blackboard methods</li>
+<li>[x] API reference for metrics methods</li>
+<li>[x] TelemetryTracker API</li>
+<li>[x] CLI command reference</li>
+<li>[x] State schema documentation</li>
+</ul>
+<h3 id="examples">Examples</h3>
+<ul>
+<li>[x] Complete sprint workflow</li>
+<li>[x] Blocker handling scenario</li>
+<li>[x] Metrics analysis example</li>
+<li>[x] Verification workflow</li>
+<li>[x] Stop &amp; Ask scenario</li>
+</ul>
+<h2 id="testing_3">✅ Testing</h2>
+<h3 id="original-tests">Original Tests</h3>
+<ul>
+<li>[x] Version command</li>
+<li>[x] Status command (no sprint)</li>
+<li>[x] Help system</li>
+<li>[x] Sprint subcommands</li>
+<li>[x] State management</li>
+<li>[x] All tests pass</li>
+</ul>
+<h3 id="enhancement-tests">Enhancement Tests</h3>
+<ul>
+<li>[x] Blackboard posting (4 types)</li>
+<li>[x] Blackboard retrieval (2 filters)</li>
+<li>[x] Metrics recording (3 types)</li>
+<li>[x] Metrics retrieval</li>
+<li>[x] Task statistics</li>
+<li>[x] Telemetry report generation</li>
+<li>[x] Markdown generation</li>
+<li>[x] CLI commands (3 new)</li>
+<li>[x] Orchestrator integration (3 commands)</li>
+<li>[x] All 19 tests pass</li>
+</ul>
+<h3 id="integration-tests">Integration Tests</h3>
+<ul>
+<li>[x] Backward compatibility maintained</li>
+<li>[x] Original functionality preserved</li>
+<li>[x] No breaking changes</li>
+<li>[x] State file migration works</li>
+</ul>
+<h2 id="shell-integration">✅ Shell Integration</h2>
+<h3 id="aliases">Aliases</h3>
+<ul>
+<li>[x] <code>vibe</code> (main command)</li>
+<li>[x] <code>vibe-status</code></li>
+<li>[x] <code>vibe-context</code></li>
+<li>[x] <code>vibe-plan</code></li>
+<li>[x] <code>vibe-exec</code></li>
+<li>[x] <code>vibe-verify</code> (new)</li>
+<li>[x] <code>vibe-blackboard</code> (new)</li>
+<li>[x] <code>vibe-metrics</code> (new)</li>
+<li>[x] <code>vibe-reset</code></li>
+<li>[x] <code>vibe-sprint</code></li>
+</ul>
+<h3 id="functions">Functions</h3>
+<ul>
+<li>[x] <code>vibe-full-sprint</code></li>
+<li>[x] <code>vibe-quick</code></li>
+<li>[x] <code>vibe-task</code></li>
+</ul>
+<h3 id="help">Help</h3>
+<ul>
+<li>[x] Updated alias help text</li>
+<li>[x] New commands documented</li>
+<li>[x] Examples provided</li>
+</ul>
+<h2 id="orchestrator-integration">✅ Orchestrator Integration</h2>
+<h3 id="commands-added">Commands Added</h3>
+<ul>
+<li>[x] <code>vibe</code></li>
+<li>[x] <code>vibe-status</code></li>
+<li>[x] <code>vibe-reset</code></li>
+<li>[x] <code>vibe-context</code></li>
+<li>[x] <code>vibe-plan</code></li>
+<li>[x] <code>vibe-exec</code></li>
+<li>[x] <code>vibe-verify</code> (new)</li>
+<li>[x] <code>vibe-sprint</code></li>
+<li>[x] <code>vibe-blackboard</code> (new)</li>
+<li>[x] <code>vibe-metrics</code> (new)</li>
+</ul>
+<h3 id="testing_4">Testing</h3>
+<ul>
+<li>[x] Commands listed in <code>orchestrator.py list</code></li>
+<li>[x] Commands executable via orchestrator</li>
+<li>[x] No conflicts with existing commands</li>
+</ul>
+<h2 id="code-quality">✅ Code Quality</h2>
+<h3 id="structure">Structure</h3>
+<ul>
+<li>[x] Modular design</li>
+<li>[x] Clear separation of concerns</li>
+<li>[x] Consistent naming conventions</li>
+<li>[x] Type hints where appropriate</li>
+<li>[x] Docstrings for all methods</li>
+</ul>
+<h3 id="error-handling">Error Handling</h3>
+<ul>
+<li>[x] Graceful fallbacks</li>
+<li>[x] Clear error messages</li>
+<li>[x] State consistency on failure</li>
+<li>[x] Backup state before save</li>
+</ul>
+<h3 id="performance">Performance</h3>
+<ul>
+<li>[x] Minimal overhead</li>
+<li>[x] Efficient JSON operations</li>
+<li>[x] No unnecessary state reloads</li>
+<li>[x] Lazy loading where possible</li>
+</ul>
+<h2 id="statistics">📊 Statistics</h2>
+<h3 id="code-written">Code Written</h3>
+<ul>
+<li><strong>Original Implementation:</strong> ~1,500 lines</li>
+<li><strong>Enhancements:</strong> ~1,350 lines</li>
+<li><strong>Total:</strong> ~2,850 lines of Python + documentation</li>
+</ul>
+<h3 id="files-created-original">Files Created (Original)</h3>
+<ul>
+<li>12 Python files</li>
+<li>3 prompt templates</li>
+<li>5 documentation files</li>
+<li>2 test scripts</li>
+<li>1 aliases file</li>
+</ul>
+<h3 id="files-created-enhancements">Files Created (Enhancements)</h3>
+<ul>
+<li>1 new module (<code>telemetry.py</code>)</li>
+<li>2 documentation files</li>
+<li>1 test script</li>
+</ul>
+<h3 id="files-modified-enhancements">Files Modified (Enhancements)</h3>
+<ul>
+<li><code>state.py</code> (+150 lines)</li>
+<li><code>made.py</code> (+120 lines)</li>
+<li><code>sprint.py</code> (+60 lines)</li>
+<li><code>made_executor.md</code> (+40 lines)</li>
+<li><code>aliases.sh</code> (+10 lines)</li>
+<li><code>orchestrator.py</code> (+3 lines)</li>
+</ul>
+<h3 id="test-coverage">Test Coverage</h3>
+<ul>
+<li><strong>Original:</strong> 5 core tests</li>
+<li><strong>Enhancements:</strong> 19 feature tests</li>
+<li><strong>Total:</strong> 24 tests (all passing)</li>
+</ul>
+<h2 id="goals-achieved">🎯 Goals Achieved</h2>
+<h3 id="original-goals">Original Goals</h3>
+<ul>
+<li>[x] Automate multi-agent coordination</li>
+<li>[x] Manage shared state across agents</li>
+<li>[x] Generate handoff packets</li>
+<li>[x] Track progress in session logs</li>
+<li>[x] Support hybrid automation (auto + manual)</li>
+</ul>
+<h3 id="enhancement-goals">Enhancement Goals</h3>
+<ul>
+<li>[x] Inter-agent communication (Blackboard)</li>
+<li>[x] Observability and metrics (Vibe Score)</li>
+<li>[x] Quality control (Verification)</li>
+<li>[x] Reliability (Stop &amp; Ask)</li>
+</ul>
+<h3 id="production-readiness">Production Readiness</h3>
+<ul>
+<li>[x] Comprehensive error handling</li>
+<li>[x] Full test coverage</li>
+<li>[x] Complete documentation</li>
+<li>[x] Clear troubleshooting guides</li>
+<li>[x] Performance optimization</li>
+<li>[x] Cost tracking</li>
+<li>[x] Quality gates</li>
+</ul>
+<h2 id="ready-for-use">🚀 Ready for Use</h2>
+<p>The MADE orchestrator is now:</p>
+<p>✅ <strong>Fully Implemented</strong> - All features complete
+✅ <strong>Thoroughly Tested</strong> - 24 tests passing
+✅ <strong>Well Documented</strong> - 1,200+ lines of docs
+✅ <strong>Production Ready</strong> - Error handling, observability, quality controls</p>
+<p><strong>Next Step:</strong> Start using it!</p>
+<pre><code class="language-bash"># Setup
+uv sync
+source scripts/vibe/aliases.sh
+
+# Run a sprint
+vibe sprint start &quot;Your objective&quot;
+vibe context
+vibe plan
+vibe exec
+vibe verify
+vibe metrics
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

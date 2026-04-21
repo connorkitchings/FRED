@@ -1,0 +1,2652 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A template for Vibe Coding data science projects.">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Data Dictionary - Vibe Coding Template</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-dictionary" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Vibe Coding Template" class="md-header__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vibe Coding Template
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Data Dictionary
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting_started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../project_brief/" class="md-tabs__link">
+          
+  
+  
+  Project Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development_standards/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/system_overview/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../runbook/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tools/cli_tool_template/" class="md-tabs__link">
+          
+  
+  
+  Tools & Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai_guide/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Vibe Coding Template" class="md-nav__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vibe Coding Template
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Overview
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Project Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Brief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Charter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation_schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Schedule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Checklists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/adr/adr-0001-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runbook
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security & Privacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../knowledge_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools & Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Tools & Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/cli_tool_template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Tool Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/cli_agent_coding_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Agent Coding Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/mcp_tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MCP Tooling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/pre_commit_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-commit Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai_session_templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Session Templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="data-dictionary">Data Dictionary</h1>
+<blockquote>
+<p><strong>Comprehensive reference for all data elements, database schema, and indicator catalog.</strong></p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#database-schema">Database Schema</a></li>
+<li><a href="#series_catalog">series_catalog</a></li>
+<li><a href="#observations">observations</a></li>
+<li><a href="#ingestion_log">ingestion_log</a></li>
+<li><a href="#dq_report">dq_report</a></li>
+<li><a href="#indicator-categories">Indicator Categories</a></li>
+<li><a href="#tier-1-indicators-core">Tier 1 Indicators (Core)</a></li>
+<li><a href="#tier-2-indicators-extended">Tier 2 Indicators (Extended)</a></li>
+<li><a href="#tier-3-indicators-deep-dive">Tier 3 Indicators (Deep Dive)</a></li>
+</ul>
+<hr />
+<h2 id="database-schema">Database Schema</h2>
+<h3 id="series_catalog">series_catalog</h3>
+<p><strong>Purpose</strong>: Metadata about each time series tracked in the system.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Nullable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>series_id</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>FRED series identifier (e.g., 'UNRATE'). Primary key.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Human-readable indicator name</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Indicator category (see categories below)</td>
+</tr>
+<tr>
+<td><code>frequency</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Data frequency: 'D' (daily), 'W' (weekly), 'M' (monthly), 'Q' (quarterly), 'A' (annual)</td>
+</tr>
+<tr>
+<td><code>units</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Measurement units (e.g., 'Percent', 'Index', 'Billions of Dollars')</td>
+</tr>
+<tr>
+<td><code>seasonal_adjustment</code></td>
+<td>VARCHAR</td>
+<td>NULL</td>
+<td>'SA' (seasonally adjusted), 'NSA' (not seasonally adjusted), NULL</td>
+</tr>
+<tr>
+<td><code>tier</code></td>
+<td>INTEGER</td>
+<td>NOT NULL</td>
+<td>Indicator tier: 1 (core), 2 (extended), 3 (deep dive)</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>VARCHAR</td>
+<td>NULL</td>
+<td>Original data source (e.g., 'Bureau of Labor Statistics')</td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td>TEXT</td>
+<td>NULL</td>
+<td>Additional context or interpretation guidance</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>TIMESTAMP</td>
+<td>NOT NULL</td>
+<td>When series was added to catalog</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Indexes</strong>:
+- Primary key on <code>series_id</code>
+- Index on <code>tier</code> for filtering
+- Index on <code>category</code> for grouping</p>
+<p><strong>Example Row</strong>:</p>
+<pre><code class="language-sql">INSERT INTO series_catalog VALUES (
+    'UNRATE',
+    'Unemployment Rate',
+    'labor_market',
+    'M',
+    'Percent',
+    'SA',
+    1,
+    'Bureau of Labor Statistics',
+    'U-3 unemployment rate, most widely cited measure',
+    '2026-02-12 10:00:00'
+);
+</code></pre>
+<hr />
+<h3 id="observations">observations</h3>
+<p><strong>Purpose</strong>: Time series data points for all tracked indicators.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Nullable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>series_id</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Foreign key to series_catalog.series_id</td>
+</tr>
+<tr>
+<td><code>observation_date</code></td>
+<td>DATE</td>
+<td>NOT NULL</td>
+<td>Date of the observation</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td>DOUBLE</td>
+<td>NULL</td>
+<td>Numeric value (NULL for missing data)</td>
+</tr>
+<tr>
+<td><code>load_timestamp</code></td>
+<td>TIMESTAMP</td>
+<td>NOT NULL</td>
+<td>When this observation was last loaded/updated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Composite Primary Key</strong>: (<code>series_id</code>, <code>observation_date</code>)</p>
+<p><strong>Indexes</strong>:
+- Composite primary key on (<code>series_id</code>, <code>observation_date</code>)
+- Foreign key to <code>series_catalog(series_id)</code></p>
+<p><strong>Example Rows</strong>:</p>
+<pre><code class="language-sql">INSERT INTO observations VALUES
+    ('UNRATE', '2026-01-01', 3.7, '2026-02-12 14:23:00'),
+    ('UNRATE', '2025-12-01', 3.8, '2026-02-12 14:23:00'),
+    ('GDPC1', '2025-Q4', 22500.5, '2026-02-12 14:23:05');
+</code></pre>
+<blockquote>
+<p><strong>Learning Note</strong>: The composite primary key ensures no duplicate observations for the same series and date. This is critical for our upsert strategy.</p>
+</blockquote>
+<hr />
+<h3 id="ingestion_log">ingestion_log</h3>
+<p><strong>Purpose</strong>: Audit trail of all ingestion runs for observability and debugging.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Nullable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run_id</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Unique run identifier (UUID). Primary key.</td>
+</tr>
+<tr>
+<td><code>run_timestamp</code></td>
+<td>TIMESTAMP</td>
+<td>NOT NULL</td>
+<td>When ingestion started</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>'backfill' or 'incremental'</td>
+</tr>
+<tr>
+<td><code>series_ingested</code></td>
+<td>JSON</td>
+<td>NOT NULL</td>
+<td>Array of series_id values processed</td>
+</tr>
+<tr>
+<td><code>total_rows_fetched</code></td>
+<td>INTEGER</td>
+<td>NOT NULL</td>
+<td>Total observations retrieved from FRED</td>
+</tr>
+<tr>
+<td><code>total_rows_inserted</code></td>
+<td>INTEGER</td>
+<td>NOT NULL</td>
+<td>New observations added to database</td>
+</tr>
+<tr>
+<td><code>total_rows_updated</code></td>
+<td>INTEGER</td>
+<td>NOT NULL</td>
+<td>Existing observations updated (revisions)</td>
+</tr>
+<tr>
+<td><code>duration_seconds</code></td>
+<td>DOUBLE</td>
+<td>NOT NULL</td>
+<td>Total runtime in seconds</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>'success', 'partial', 'failed'</td>
+</tr>
+<tr>
+<td><code>error_message</code></td>
+<td>TEXT</td>
+<td>NULL</td>
+<td>Error details if status != 'success'</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Indexes</strong>:
+- Primary key on <code>run_id</code>
+- Index on <code>run_timestamp</code> for time-based queries</p>
+<p><strong>Example Row</strong>:</p>
+<pre><code class="language-sql">INSERT INTO ingestion_log VALUES (
+    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    '2026-02-12 14:23:00',
+    'incremental',
+    '[&quot;FEDFUNDS&quot;, &quot;UNRATE&quot;, &quot;CPIAUCSL&quot;, &quot;GDPC1&quot;]',
+    8,
+    2,
+    6,
+    45.2,
+    'success',
+    NULL
+);
+</code></pre>
+<hr />
+<h3 id="dq_report">dq_report</h3>
+<p><strong>Purpose</strong>: Structured data-quality findings emitted per ingestion run.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Nullable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>report_id</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Unique finding identifier (UUID). Primary key.</td>
+</tr>
+<tr>
+<td><code>run_id</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Foreign key to <code>ingestion_log.run_id</code>.</td>
+</tr>
+<tr>
+<td><code>finding_timestamp</code></td>
+<td>TIMESTAMP</td>
+<td>NOT NULL</td>
+<td>When finding was recorded.</td>
+</tr>
+<tr>
+<td><code>severity</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td><code>info</code>, <code>warning</code>, or <code>critical</code>.</td>
+</tr>
+<tr>
+<td><code>code</code></td>
+<td>VARCHAR</td>
+<td>NOT NULL</td>
+<td>Stable finding code (for filtering/alerts).</td>
+</tr>
+<tr>
+<td><code>series_id</code></td>
+<td>VARCHAR</td>
+<td>NULL</td>
+<td>Related series when finding is series-specific.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>TEXT</td>
+<td>NOT NULL</td>
+<td>Human-readable diagnostic text.</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td>JSON</td>
+<td>NULL</td>
+<td>Structured context (thresholds, ages, percent changes, etc.).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Indexes</strong>:
+- Primary key on <code>report_id</code>
+- Index on <code>run_id</code> for run-level lookups
+- Index on <code>severity</code> for operational filtering
+- Index on <code>finding_timestamp</code> for trend analysis</p>
+<p><strong>Operational View</strong>:
+- <code>dq_report_latest_runs</code>: Joins <code>ingestion_log</code> and <code>dq_report</code> for quick per-run reporting queries.</p>
+<p><strong>Example Row</strong>:</p>
+<pre><code class="language-sql">INSERT INTO dq_report VALUES (
+    'f1b2c3d4-0000-1111-2222-abcdefabcdef',
+    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    '2026-02-12 14:23:05',
+    'warning',
+    'stale_series_data',
+    'GDPC1',
+    'Latest observation is 215 days old (threshold 200).',
+    '{&quot;age_days&quot;: 215, &quot;threshold_days&quot;: 200, &quot;frequency&quot;: &quot;Quarterly&quot;}'
+);
+</code></pre>
+<hr />
+<h2 id="indicator-categories">Indicator Categories</h2>
+<p>Indicators are organized into thematic categories for easier navigation and understanding.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Description</th>
+<th>Example Series</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>output_income</code></td>
+<td>Measures of economic output and income</td>
+<td>GDP, GDI, GNP</td>
+</tr>
+<tr>
+<td><code>labor_market</code></td>
+<td>Employment, unemployment, wages</td>
+<td>UNRATE, PAYEMS, AHETPI</td>
+</tr>
+<tr>
+<td><code>prices_inflation</code></td>
+<td>Price levels and inflation measures</td>
+<td>CPI, PPI, PCE</td>
+</tr>
+<tr>
+<td><code>financial_markets</code></td>
+<td>Interest rates, yields, asset prices</td>
+<td>FEDFUNDS, DGS10, SP500</td>
+</tr>
+<tr>
+<td><code>housing</code></td>
+<td>Housing market indicators</td>
+<td>HOUST, PERMIT, CSUSHPISA</td>
+</tr>
+<tr>
+<td><code>consumption_retail</code></td>
+<td>Consumer spending and retail sales</td>
+<td>RSXFS, PCE, PCEC96</td>
+</tr>
+<tr>
+<td><code>money_credit</code></td>
+<td>Money supply and credit measures</td>
+<td>M2SL, TOTCI, CONSUMER</td>
+</tr>
+<tr>
+<td><code>trade_international</code></td>
+<td>Trade balance, exports, imports</td>
+<td>NETEXP, EXPGS, IMPGS</td>
+</tr>
+<tr>
+<td><code>manufacturing</code></td>
+<td>Industrial production, capacity</td>
+<td>INDPRO, TCU, CAPUTLG2211A1S</td>
+</tr>
+<tr>
+<td><code>confidence_sentiment</code></td>
+<td>Consumer and business confidence</td>
+<td>UMCSENT, BSCICP02USM665S</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="tier-1-indicators-core">Tier 1 Indicators (Core)</h2>
+<p><strong>Purpose</strong>: The "Big Four" essential macroeconomic indicators for MVP.</p>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Category</th>
+<th>Units</th>
+<th>Seasonal Adj</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FEDFUNDS</strong></td>
+<td>Federal Funds Effective Rate</td>
+<td>Monthly</td>
+<td>financial_markets</td>
+<td>Percent</td>
+<td>NSA</td>
+<td>Federal Reserve</td>
+</tr>
+<tr>
+<td><strong>UNRATE</strong></td>
+<td>Unemployment Rate</td>
+<td>Monthly</td>
+<td>labor_market</td>
+<td>Percent</td>
+<td>SA</td>
+<td>Bureau of Labor Statistics</td>
+</tr>
+<tr>
+<td><strong>CPIAUCSL</strong></td>
+<td>Consumer Price Index for All Urban Consumers: All Items</td>
+<td>Monthly</td>
+<td>prices_inflation</td>
+<td>Index (1982-84=100)</td>
+<td>SA</td>
+<td>Bureau of Labor Statistics</td>
+</tr>
+<tr>
+<td><strong>GDPC1</strong></td>
+<td>Real Gross Domestic Product</td>
+<td>Quarterly</td>
+<td>output_income</td>
+<td>Billions of Chained 2017 Dollars</td>
+<td>SA</td>
+<td>Bureau of Economic Analysis</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fedfunds-federal-funds-rate">FEDFUNDS — Federal Funds Rate</h3>
+<p><strong>Description</strong>: The interest rate at which depository institutions lend reserve balances to other depository institutions overnight. The primary tool of U.S. monetary policy.</p>
+<p><strong>Interpretation</strong>:
+- <strong>Higher rates</strong>: Fed is tightening to control inflation
+- <strong>Lower rates</strong>: Fed is easing to stimulate economy
+- <strong>Target range</strong>: Set by Federal Open Market Committee (FOMC)</p>
+<p><strong>Typical Range</strong>: 0% to 6% (historically)</p>
+<p><strong>Release</strong>: Monthly average, published ~1 week after month end</p>
+<hr />
+<h3 id="unrate-unemployment-rate">UNRATE — Unemployment Rate</h3>
+<p><strong>Description</strong>: The percentage of the labor force that is unemployed and actively seeking employment (U-3 measure).</p>
+<p><strong>Interpretation</strong>:
+- <strong>Rising</strong>: Economic weakness, labor market deterioration
+- <strong>Falling</strong>: Economic strength, job growth
+- <strong>Natural rate</strong>: ~4-5% (NAIRU concept)</p>
+<p><strong>Typical Range</strong>: 3% to 10% (normal conditions)</p>
+<p><strong>Release</strong>: Monthly, first Friday after month end (~8:30 AM ET)</p>
+<blockquote>
+<p><strong>Learning Note</strong>: This is the U-3 unemployment rate, the most commonly cited measure. Other measures (U-1 through U-6) provide alternative views of labor underutilization.</p>
+</blockquote>
+<hr />
+<h3 id="cpiaucsl-consumer-price-index">CPIAUCSL — Consumer Price Index</h3>
+<p><strong>Description</strong>: Measures the average change in prices paid by urban consumers for a basket of goods and services. Primary inflation gauge.</p>
+<p><strong>Interpretation</strong>:
+- <strong>YoY % change</strong>: Inflation rate (e.g., 3.2% = prices up 3.2% from a year ago)
+- <strong>Fed target</strong>: 2% annual inflation
+- <strong>High inflation</strong>: Erosion of purchasing power</p>
+<p><strong>Typical Range</strong>: -2% to +10% (YoY change)</p>
+<p><strong>Release</strong>: Monthly, ~mid-month for prior month (~8:30 AM ET)</p>
+<hr />
+<h3 id="gdpc1-real-gdp">GDPC1 — Real GDP</h3>
+<p><strong>Description</strong>: The total market value of all finished goods and services produced in the U.S., adjusted for inflation (real dollars).</p>
+<p><strong>Interpretation</strong>:
+- <strong>Positive growth</strong>: Economic expansion
+- <strong>Negative growth</strong>: Economic contraction (recession if 2+ consecutive quarters)
+- <strong>Strong growth</strong>: &gt;3% annualized
+- <strong>Weak growth</strong>: &lt;1% annualized</p>
+<p><strong>Typical Range</strong>: -5% to +5% (quarterly change, annualized)</p>
+<p><strong>Release</strong>: Quarterly, three estimates:
+1. Advance (~1 month after quarter end)
+2. Revised (~2 months after quarter end)
+3. Final (~3 months after quarter end)</p>
+<blockquote>
+<p><strong>Learning Note</strong>: GDP is subject to significant revisions. Our upsert strategy automatically captures the latest estimate.</p>
+</blockquote>
+<hr />
+<h2 id="tier-2-indicators-extended">Tier 2 Indicators (Extended)</h2>
+<p><strong>Purpose</strong>: Additional indicators for broader economic coverage (Post-MVP).</p>
+<p><strong>Status</strong>: Tier 2 rollout is active. Kickoff + Batch 2 + Batch 3 + Batch 4 + Batch 5 are in <code>config/series_catalog.yaml</code> (52 Tier 2 series; 56 total including Tier 1).</p>
+<h3 id="kickoff-bundle-in-catalog-now">Kickoff Bundle (In Catalog Now)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Category</th>
+<th>Why it was selected first</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HOUST</td>
+<td>Housing</td>
+<td>Leading signal of construction demand and macro cycle turning points</td>
+</tr>
+<tr>
+<td>PERMIT</td>
+<td>Housing</td>
+<td>Forward-looking complement to starts (pipeline visibility)</td>
+</tr>
+<tr>
+<td>CSUSHPISA</td>
+<td>Housing</td>
+<td>National home price trend and housing valuation signal</td>
+</tr>
+<tr>
+<td>RSXFS</td>
+<td>Consumption &amp; Retail</td>
+<td>High-frequency read on household demand</td>
+</tr>
+<tr>
+<td>INDPRO</td>
+<td>Manufacturing</td>
+<td>Broad real-activity signal across production sectors</td>
+</tr>
+<tr>
+<td>DGS10</td>
+<td>Financial Markets</td>
+<td>Key benchmark for interest rates and economic sentiment</td>
+</tr>
+<tr>
+<td>T10Y2Y</td>
+<td>Financial Markets</td>
+<td>Yield curve indicator; inversion often precedes recessions</td>
+</tr>
+<tr>
+<td>M2SL</td>
+<td>Money &amp; Credit</td>
+<td>Measure of money supply and liquidity</td>
+</tr>
+<tr>
+<td>PCEPI</td>
+<td>Prices &amp; Inflation</td>
+<td>Fed's preferred inflation measure</td>
+</tr>
+<tr>
+<td>PAYEMS</td>
+<td>Labor Market</td>
+<td>Primary measure of employment health</td>
+</tr>
+<tr>
+<td>CIVPART</td>
+<td>Labor Market</td>
+<td>Labor force participation measure</td>
+</tr>
+<tr>
+<td>VIXCLS</td>
+<td>Financial Markets</td>
+<td>Market volatility and sentiment index</td>
+</tr>
+</tbody>
+</table>
+<h3 id="batch-3-additions-2026-02-13">Batch 3 Additions (2026-02-13)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Category</th>
+<th>Why it was added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AHETPI</td>
+<td>Labor Market</td>
+<td>Adds wage growth pressure to complement payroll/unemployment coverage</td>
+</tr>
+<tr>
+<td>U6RATE</td>
+<td>Labor Market</td>
+<td>Tracks broader labor underutilization beyond headline unemployment</td>
+</tr>
+<tr>
+<td>CPILFESL</td>
+<td>Prices &amp; Inflation</td>
+<td>Core inflation signal for persistent price dynamics</td>
+</tr>
+<tr>
+<td>SP500</td>
+<td>Financial Markets</td>
+<td>High-frequency equity market risk sentiment proxy</td>
+</tr>
+<tr>
+<td>DEXUSEU</td>
+<td>Financial Markets / FX</td>
+<td>Dollar strength signal versus euro benchmark</td>
+</tr>
+<tr>
+<td>BUSLOANS</td>
+<td>Money &amp; Credit</td>
+<td>Business lending indicator for credit-cycle monitoring</td>
+</tr>
+</tbody>
+</table>
+<h3 id="batch-4-additions-2026-02-13">Batch 4 Additions (2026-02-13)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Category</th>
+<th>Why it was added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T5YIE</td>
+<td>Prices &amp; Inflation Expectations</td>
+<td>Market-implied 5-year inflation expectations</td>
+</tr>
+<tr>
+<td>DCOILWTICO</td>
+<td>Commodities &amp; Inflation</td>
+<td>Energy input-cost and headline inflation pressure signal</td>
+</tr>
+<tr>
+<td>DTWEXBGS</td>
+<td>Financial Markets / FX</td>
+<td>Broad trade-weighted dollar strength measure</td>
+</tr>
+<tr>
+<td>NFCI</td>
+<td>Financial Conditions</td>
+<td>Composite credit/risk/leverage conditions gauge</td>
+</tr>
+<tr>
+<td>WALCL</td>
+<td>Monetary Policy &amp; Liquidity</td>
+<td>Federal Reserve balance-sheet size signal</td>
+</tr>
+<tr>
+<td>SOFR</td>
+<td>Rates &amp; Funding</td>
+<td>Core overnight secured funding benchmark</td>
+</tr>
+</tbody>
+</table>
+<h3 id="batch-5-additions-2026-02-14-bls-expansion-via-fred">Batch 5 Additions (2026-02-14) - BLS Expansion via FRED</h3>
+<p><strong>Focus</strong>: Comprehensive Bureau of Labor Statistics coverage via FRED API</p>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Category</th>
+<th>Why it was added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>JOLTS Flow Data</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>JTSQUR</td>
+<td>Labor Market</td>
+<td>Quits rate signals labor market confidence and worker mobility</td>
+</tr>
+<tr>
+<td>JTSHIR</td>
+<td>Labor Market</td>
+<td>Hires rate tracks forward-looking labor demand flows</td>
+</tr>
+<tr>
+<td>JTSLDR</td>
+<td>Labor Market</td>
+<td>Layoffs/discharges rate indicates labor market stress</td>
+</tr>
+<tr>
+<td><strong>Sectoral Employment</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MANEMP</td>
+<td>Manufacturing</td>
+<td>Manufacturing employment is a leading cyclical indicator</td>
+</tr>
+<tr>
+<td>USCONS</td>
+<td>Construction</td>
+<td>Construction employment is highly cycle-sensitive</td>
+</tr>
+<tr>
+<td>USGOVT</td>
+<td>Government</td>
+<td>Government employment serves as fiscal policy proxy</td>
+</tr>
+<tr>
+<td><strong>Wage/Compensation</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ECIWAG</td>
+<td>Labor Costs</td>
+<td>Fed's preferred wage measure without composition bias</td>
+</tr>
+<tr>
+<td>ECIALLCIV</td>
+<td>Labor Costs</td>
+<td>Total compensation including wages and benefits</td>
+</tr>
+<tr>
+<td>ULCNFB</td>
+<td>Labor Costs</td>
+<td>Unit labor costs signal inflation pressure from labor</td>
+</tr>
+<tr>
+<td><strong>Unemployment Detail</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UEMPMEAN</td>
+<td>Labor Market</td>
+<td>Average unemployment duration signals job-finding difficulty</td>
+</tr>
+<tr>
+<td>EMRATIO</td>
+<td>Labor Market</td>
+<td>Employment-population ratio provides broader employment measure</td>
+</tr>
+<tr>
+<td><strong>Producer Prices</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PPIACO</td>
+<td>Prices &amp; Inflation</td>
+<td>PPI All Commodities tracks input-cost inflation</td>
+</tr>
+<tr>
+<td>WPSFD49207</td>
+<td>Prices &amp; Inflation</td>
+<td>Core PPI reveals underlying producer inflation trends</td>
+</tr>
+<tr>
+<td><strong>CPI Components</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CUSR0000SAH1</td>
+<td>Prices &amp; Inflation</td>
+<td>Shelter is largest CPI component (~33% weight)</td>
+</tr>
+<tr>
+<td>CPIENGSL</td>
+<td>Prices &amp; Inflation</td>
+<td>Energy CPI enables headline inflation decomposition</td>
+</tr>
+</tbody>
+</table>
+<h3 id="batch-67-additions-direct-bls-and-coexistence-aliases">Batch 6/7 Additions - Direct BLS and Coexistence Aliases</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Source Series ID</th>
+<th>Source</th>
+<th>Why it was added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LNS14000000</td>
+<td>LNS14000000</td>
+<td>BLS</td>
+<td>Direct-source baseline unemployment rate</td>
+</tr>
+<tr>
+<td>CUUR0000SA0</td>
+<td>CUUR0000SA0</td>
+<td>BLS</td>
+<td>Direct-source CPI-U baseline</td>
+</tr>
+<tr>
+<td>ECIALLCIV_BLS</td>
+<td>ECIALLCIV</td>
+<td>BLS</td>
+<td>Coexistence alias for compensation index (retain FRED + BLS)</td>
+</tr>
+<tr>
+<td>ECIWAG_BLS</td>
+<td>ECIWAG</td>
+<td>BLS</td>
+<td>Coexistence alias for wage-cost index</td>
+</tr>
+<tr>
+<td>UEMPMEAN_BLS</td>
+<td>UEMPMEAN</td>
+<td>BLS</td>
+<td>Coexistence alias for unemployment-duration signal</td>
+</tr>
+<tr>
+<td>EMRATIO_BLS</td>
+<td>EMRATIO</td>
+<td>BLS</td>
+<td>Coexistence alias for employment-population ratio</td>
+</tr>
+<tr>
+<td>JTSQUR_BLS</td>
+<td>JTSQUR</td>
+<td>BLS</td>
+<td>Coexistence alias for quits-rate labor-flow signal</td>
+</tr>
+<tr>
+<td>JTSHIR_BLS</td>
+<td>JTSHIR</td>
+<td>BLS</td>
+<td>Coexistence alias for hires-rate labor-flow signal</td>
+</tr>
+</tbody>
+</table>
+<h3 id="labor-market-extended">Labor Market (Extended)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PAYEMS</td>
+<td>All Employees: Total Nonfarm</td>
+<td>Monthly</td>
+<td>Total nonfarm payroll employment (jobs report)</td>
+</tr>
+<tr>
+<td>AHETPI</td>
+<td>Average Hourly Earnings</td>
+<td>Monthly</td>
+<td>Wage growth indicator</td>
+</tr>
+<tr>
+<td>CIVPART</td>
+<td>Labor Force Participation Rate</td>
+<td>Monthly</td>
+<td>% of population in labor force</td>
+</tr>
+<tr>
+<td>U6RATE</td>
+<td>U-6 Unemployment Rate</td>
+<td>Monthly</td>
+<td>Broader unemployment measure (includes underemployed)</td>
+</tr>
+<tr>
+<td>JTSQUR</td>
+<td>JOLTS Quits Rate</td>
+<td>Monthly</td>
+<td>Voluntary separations signal labor market confidence</td>
+</tr>
+<tr>
+<td>JTSHIR</td>
+<td>JOLTS Hires Rate</td>
+<td>Monthly</td>
+<td>New job flows measure labor demand</td>
+</tr>
+<tr>
+<td>JTSLDR</td>
+<td>JOLTS Layoffs/Discharges Rate</td>
+<td>Monthly</td>
+<td>Involuntary separations signal labor market stress</td>
+</tr>
+<tr>
+<td>UEMPMEAN</td>
+<td>Average Unemployment Duration</td>
+<td>Monthly</td>
+<td>Weeks unemployed signal job-finding difficulty</td>
+</tr>
+<tr>
+<td>EMRATIO</td>
+<td>Employment-Population Ratio</td>
+<td>Monthly</td>
+<td>Broader employment measure than participation rate</td>
+</tr>
+<tr>
+<td>MANEMP</td>
+<td>Manufacturing Employment</td>
+<td>Monthly</td>
+<td>Manufacturing sector jobs (leading indicator)</td>
+</tr>
+<tr>
+<td>USCONS</td>
+<td>Construction Employment</td>
+<td>Monthly</td>
+<td>Construction sector jobs (cycle-sensitive)</td>
+</tr>
+<tr>
+<td>USGOVT</td>
+<td>Government Employment</td>
+<td>Monthly</td>
+<td>Public sector employment (fiscal policy proxy)</td>
+</tr>
+<tr>
+<td>ECIWAG</td>
+<td>Employment Cost Index: Wages</td>
+<td>Quarterly</td>
+<td>Fed's preferred wage measure (no composition bias)</td>
+</tr>
+<tr>
+<td>ECIALLCIV</td>
+<td>Employment Cost Index: Total Comp</td>
+<td>Quarterly</td>
+<td>Wages plus benefits comprehensive measure</td>
+</tr>
+<tr>
+<td>ULCNFB</td>
+<td>Unit Labor Costs</td>
+<td>Quarterly</td>
+<td>Labor cost per output unit (inflation signal)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="housing">Housing</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HOUST</td>
+<td>Housing Starts</td>
+<td>Monthly</td>
+<td>New residential construction starts</td>
+</tr>
+<tr>
+<td>PERMIT</td>
+<td>Building Permits</td>
+<td>Monthly</td>
+<td>New residential building permits</td>
+</tr>
+<tr>
+<td>CSUSHPISA</td>
+<td>Case-Shiller Home Price Index</td>
+<td>Monthly</td>
+<td>National home price index</td>
+</tr>
+</tbody>
+</table>
+<h3 id="consumption-retail">Consumption &amp; Retail</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSXFS</td>
+<td>Retail Sales</td>
+<td>Monthly</td>
+<td>Total retail and food services sales</td>
+</tr>
+<tr>
+<td>PCE</td>
+<td>Personal Consumption Expenditures</td>
+<td>Monthly</td>
+<td>Consumer spending</td>
+</tr>
+<tr>
+<td>UMCSENT</td>
+<td>University of Michigan Consumer Sentiment</td>
+<td>Monthly</td>
+<td>Consumer confidence index</td>
+</tr>
+</tbody>
+</table>
+<h3 id="financial-markets">Financial Markets</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DGS10</td>
+<td>10-Year Treasury Yield</td>
+<td>Daily</td>
+<td>Benchmark interest rate</td>
+</tr>
+<tr>
+<td>SP500</td>
+<td>S&amp;P 500 Index</td>
+<td>Daily</td>
+<td>Stock market performance</td>
+</tr>
+<tr>
+<td>DEXUSEU</td>
+<td>USD/EUR Exchange Rate</td>
+<td>Daily</td>
+<td>Dollar strength</td>
+</tr>
+<tr>
+<td>DTWEXBGS</td>
+<td>Nominal Broad U.S. Dollar Index</td>
+<td>Daily</td>
+<td>Broad trade-weighted dollar strength</td>
+</tr>
+<tr>
+<td>SOFR</td>
+<td>Secured Overnight Financing Rate</td>
+<td>Daily</td>
+<td>Overnight funding benchmark</td>
+</tr>
+<tr>
+<td>T5YIE</td>
+<td>5-Year Breakeven Inflation Rate</td>
+<td>Daily</td>
+<td>Market-implied inflation expectations</td>
+</tr>
+</tbody>
+</table>
+<h3 id="financial-conditions-liquidity">Financial Conditions &amp; Liquidity</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFCI</td>
+<td>Chicago Fed National Financial Conditions Index</td>
+<td>Weekly</td>
+<td>Composite credit and risk conditions index</td>
+</tr>
+<tr>
+<td>WALCL</td>
+<td>Federal Reserve Total Assets</td>
+<td>Weekly</td>
+<td>Proxy for central bank balance-sheet liquidity stance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="manufacturing-trade">Manufacturing &amp; Trade</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INDPRO</td>
+<td>Industrial Production Index</td>
+<td>Monthly</td>
+<td>Manufacturing output</td>
+</tr>
+<tr>
+<td>TCU</td>
+<td>Total Capacity Utilization</td>
+<td>Monthly</td>
+<td>Factory capacity usage</td>
+</tr>
+<tr>
+<td>NETEXP</td>
+<td>Net Exports</td>
+<td>Quarterly</td>
+<td>Trade balance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="prices-inflation-extended">Prices &amp; Inflation (Extended)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PPIACO</td>
+<td>Producer Price Index: All Commodities</td>
+<td>Monthly</td>
+<td>Input-cost inflation and upstream pricing pressures</td>
+</tr>
+<tr>
+<td>WPSFD49207</td>
+<td>Core PPI (Final Demand ex Food/Energy)</td>
+<td>Monthly</td>
+<td>Underlying producer inflation trends</td>
+</tr>
+<tr>
+<td>CUSR0000SAH1</td>
+<td>CPI: Shelter</td>
+<td>Monthly</td>
+<td>Largest CPI component (~33% weight)</td>
+</tr>
+<tr>
+<td>CPIENGSL</td>
+<td>CPI: Energy</td>
+<td>Monthly</td>
+<td>Energy contribution to headline inflation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="treasury-direct-8-series">Treasury Direct (8 series)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Source</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TREAS_AVG_BILLS</td>
+<td>Average Interest Rate - Treasury Bills</td>
+<td>Monthly</td>
+<td>TREASURY</td>
+<td>Average interest rate on outstanding U.S. Treasury Bills.</td>
+</tr>
+<tr>
+<td>TREAS_AVG_NOTES</td>
+<td>Average Interest Rate - Treasury Notes</td>
+<td>Monthly</td>
+<td>TREASURY</td>
+<td>Average interest rate on outstanding U.S. Treasury Notes.</td>
+</tr>
+<tr>
+<td>TREAS_AVG_BONDS</td>
+<td>Average Interest Rate - Treasury Bonds</td>
+<td>Monthly</td>
+<td>TREASURY</td>
+<td>Average interest rate on outstanding U.S. Treasury Bonds.</td>
+</tr>
+<tr>
+<td>TREAS_AVG_TIPS</td>
+<td>Average Interest Rate - TIPS</td>
+<td>Monthly</td>
+<td>TREASURY</td>
+<td>Average interest rate on outstanding TIPS.</td>
+</tr>
+<tr>
+<td>TREAS_AUCTION_10Y</td>
+<td>10-Year Note Auction High Rate</td>
+<td>Irregular</td>
+<td>TREASURY</td>
+<td>High investment rate from 10-year Treasury Note auctions.</td>
+</tr>
+<tr>
+<td>TREAS_AUCTION_2Y</td>
+<td>2-Year Note Auction High Rate</td>
+<td>Irregular</td>
+<td>TREASURY</td>
+<td>High investment rate from 2-year Treasury Note auctions.</td>
+</tr>
+<tr>
+<td>TREAS_AUCTION_30Y</td>
+<td>30-Year Bond Auction High Rate</td>
+<td>Irregular</td>
+<td>TREASURY</td>
+<td>High investment rate from 30-year Treasury Bond auctions.</td>
+</tr>
+<tr>
+<td>TREAS_BID_COVER_10Y</td>
+<td>10-Year Note Bid-to-Cover Ratio</td>
+<td>Irregular</td>
+<td>TREASURY</td>
+<td>Bid-to-cover ratio from 10-year Treasury Note auctions.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="census-bureau-15-series">Census Bureau (15 series)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Source</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CENSUS_EXP_GOODS</td>
+<td>U.S. Exports of Goods</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Total U.S. exports of goods.</td>
+</tr>
+<tr>
+<td>CENSUS_IMP_GOODS</td>
+<td>U.S. Imports of Goods</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Total U.S. imports of goods.</td>
+</tr>
+<tr>
+<td>CENSUS_EXP_CHINA</td>
+<td>U.S. Exports to China</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Exports to China.</td>
+</tr>
+<tr>
+<td>CENSUS_IMP_CHINA</td>
+<td>U.S. Imports from China</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Imports from China.</td>
+</tr>
+<tr>
+<td>CENSUS_EXP_CANADA</td>
+<td>U.S. Exports to Canada</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Exports to Canada.</td>
+</tr>
+<tr>
+<td>CENSUS_IMP_CANADA</td>
+<td>U.S. Imports from Canada</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Imports from Canada.</td>
+</tr>
+<tr>
+<td>CENSUS_EXP_MEXICO</td>
+<td>U.S. Exports to Mexico</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Exports to Mexico.</td>
+</tr>
+<tr>
+<td>CENSUS_IMP_MEXICO</td>
+<td>U.S. Imports from Mexico</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Imports from Mexico.</td>
+</tr>
+<tr>
+<td>CENSUS_INV_MFG</td>
+<td>Manufacturing Inventories</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Total manufacturing inventories.</td>
+</tr>
+<tr>
+<td>CENSUS_INV_WHOLESALE</td>
+<td>Wholesale Trade Inventories</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Merchant wholesalers inventories.</td>
+</tr>
+<tr>
+<td>CENSUS_INV_RETAIL</td>
+<td>Retail Trade Inventories</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Retail trade inventories.</td>
+</tr>
+<tr>
+<td>CENSUS_INV_SALES_RATIO</td>
+<td>Total Business Inventory/Sales Ratio</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Ratio of inventories to sales.</td>
+</tr>
+<tr>
+<td>CENSUS_INV_MFG_RATIO</td>
+<td>Manufacturing Inventory/Sales Ratio</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Ratio of mfg inventories to shipments.</td>
+</tr>
+<tr>
+<td>CENSUS_SHIP_MFG</td>
+<td>Manufacturing Shipments</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>Value of manufacturers' shipments.</td>
+</tr>
+<tr>
+<td>CENSUS_ORDERS_MFG</td>
+<td>Manufacturing New Orders</td>
+<td>Monthly</td>
+<td>CENSUS</td>
+<td>New orders for manufactured goods.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Configured Total</strong>: 109 total series (4 Tier 1 + 105 Tier 2; includes FRED, BLS, Treasury, and Census sources)
+<strong>Estimated Observations</strong>: ~15,000+ for 10 years</p>
+<hr />
+<h2 id="tier-3-indicators-deep-dive">Tier 3 Indicators (Deep Dive)</h2>
+<p><strong>Purpose</strong>: Specialized sector-specific indicators for detailed analysis (Future).</p>
+<p><strong>Status</strong>: Placeholder — To be defined based on future research needs.</p>
+<h3 id="potential-categories">Potential Categories</h3>
+<ul>
+<li><strong>Sector-Specific Labor</strong>: Construction, Manufacturing, Service sector employment</li>
+<li><strong>Detailed Inflation</strong>: Core CPI, PPI by industry, PCE components</li>
+<li><strong>Credit Markets</strong>: Corporate bond spreads, mortgage rates, consumer credit</li>
+<li><strong>International</strong>: Country-specific trade, foreign reserves, commodity prices</li>
+<li><strong>Regional</strong>: State-level unemployment, regional GDP, metro area data</li>
+</ul>
+<p><strong>Estimated Total</strong>: 40-50 series
+<strong>Estimated Observations</strong>: ~10,000-100,000 (many daily financial series)</p>
+<hr />
+<h2 id="data-source-notes">Data Source Notes</h2>
+<h3 id="fred-api-characteristics">FRED API Characteristics</h3>
+<ul>
+<li><strong>Update Frequency</strong>: Varies by series (see individual indicator documentation)</li>
+<li><strong>Revisions</strong>: Common for GDP, employment, and some other series</li>
+<li><strong>Missing Data</strong>: Some series have gaps (economic disruptions, data collection issues)</li>
+<li><strong>Vintage Data</strong>: FRED tracks historical revisions (not implemented in MVP)</li>
+</ul>
+<h3 id="treasury-api-characteristics">Treasury API Characteristics</h3>
+<ul>
+<li><strong>Update Frequency</strong>: Monthly (Avg Rates), Irregular (Auctions)</li>
+<li><strong>Granularity</strong>: High precision interaction with Fiscal Data API</li>
+<li><strong>Key Feature</strong>: Direct source for government debt costs</li>
+</ul>
+<h3 id="census-api-characteristics">Census API Characteristics</h3>
+<ul>
+<li><strong>Update Frequency</strong>: Monthly</li>
+<li><strong>Lag</strong>: Trade data typically lags by ~1-2 months</li>
+<li><strong>Key Feature</strong>: Detailed breakdown of trade partners and inventory components</li>
+</ul>
+<h3 id="data-quality">Data Quality</h3>
+<ul>
+<li><strong>Reliability</strong>: FRED is the authoritative source for U.S. economic data</li>
+<li><strong>Timeliness</strong>: Data typically available within hours of official release</li>
+<li><strong>Completeness</strong>: Generally complete, but some series have known gaps</li>
+</ul>
+<hr />
+<h2 id="query-examples">Query Examples</h2>
+<h3 id="count-observations-by-series">Count observations by series</h3>
+<pre><code class="language-sql">SELECT series_id, COUNT(*) as row_count
+FROM observations
+GROUP BY series_id
+ORDER BY row_count DESC;
+</code></pre>
+<h3 id="latest-value-for-each-series">Latest value for each series</h3>
+<pre><code class="language-sql">SELECT
+    s.series_id,
+    s.title,
+    o.observation_date,
+    o.value,
+    s.units
+FROM observations o
+JOIN series_catalog s ON o.series_id = s.series_id
+WHERE o.observation_date IN (
+    SELECT MAX(observation_date)
+    FROM observations o2
+    WHERE o2.series_id = o.series_id
+)
+ORDER BY s.series_id;
+</code></pre>
+<h3 id="year-over-year-change">Year-over-year change</h3>
+<pre><code class="language-sql">WITH current AS (
+    SELECT series_id, observation_date, value
+    FROM observations
+    WHERE series_id = 'CPIAUCSL'
+    AND observation_date &gt;= CURRENT_DATE - INTERVAL '12 months'
+),
+prior AS (
+    SELECT series_id, observation_date, value
+    FROM observations
+    WHERE series_id = 'CPIAUCSL'
+    AND observation_date &gt;= CURRENT_DATE - INTERVAL '24 months'
+    AND observation_date &lt; CURRENT_DATE - INTERVAL '12 months'
+)
+SELECT
+    c.observation_date,
+    c.value as current_value,
+    p.value as prior_value,
+    ((c.value - p.value) / p.value * 100) as yoy_change_pct
+FROM current c
+JOIN prior p ON c.observation_date = p.observation_date + INTERVAL '12 months'
+ORDER BY c.observation_date;
+</code></pre>
+<hr />
+<h2 id="configuration-file-format">Configuration File Format</h2>
+<p>Series catalog is defined in <code>config/series_catalog.yaml</code>:</p>
+<pre><code class="language-yaml">series:
+  - series_id: FEDFUNDS
+    title: Federal Funds Effective Rate
+    category: financial_markets
+    frequency: M
+    units: Percent
+    seasonal_adjustment: NSA
+    tier: 1
+    source: Federal Reserve
+    notes: &quot;Primary monetary policy tool&quot;
+
+  - series_id: UNRATE
+    title: Unemployment Rate
+    category: labor_market
+    frequency: M
+    units: Percent
+    seasonal_adjustment: SA
+    tier: 1
+    source: Bureau of Labor Statistics
+    notes: &quot;U-3 unemployment rate&quot;
+
+  # Additional series...
+</code></pre>
+<hr />
+<p><strong>Last Updated</strong>: 2026-02-13
+<strong>Status</strong>: Tier 1 complete, Tier 2 batches active through Batch 4, Tier 3 placeholder</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

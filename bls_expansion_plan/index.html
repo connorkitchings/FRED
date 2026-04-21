@@ -1,0 +1,1551 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A template for Vibe Coding data science projects.">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>BLS API Expansion Plan - Vibe Coding Template</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#bls-api-expansion-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Vibe Coding Template" class="md-header__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vibe Coding Template
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              BLS API Expansion Plan
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting_started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../project_brief/" class="md-tabs__link">
+          
+  
+  
+  Project Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../development_standards/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../architecture/system_overview/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../runbook/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tools/cli_tool_template/" class="md-tabs__link">
+          
+  
+  
+  Tools & Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ai_guide/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Vibe Coding Template" class="md-nav__button md-logo" aria-label="Vibe Coding Template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vibe Coding Template
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Overview
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Project Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Brief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project_charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project Charter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementation_schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Schedule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Checklists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/adr/adr-0001-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runbook
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security & Privacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knowledge_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools & Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Tools & Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/cli_tool_template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Tool Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/cli_agent_coding_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Agent Coding Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/mcp_tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MCP Tooling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/pre_commit_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-commit Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_session_templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Session Templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="bls-api-expansion-plan">BLS API Expansion Plan</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This phase expands the FRED-Macro-Dashboard from 58 series (all FRED) to <strong>100+ series</strong> by adding <strong>25 direct BLS API series</strong>. This provides access to primary BLS data sources with higher frequency updates than FRED-mediated data.</p>
+<h2 id="current-state">Current State</h2>
+<ul>
+<li><strong>Total Series</strong>: 58 (all FRED-sourced)</li>
+<li><strong>BLS Series</strong>: 0 direct (2 were tested but not in production catalog)</li>
+<li><strong>Architecture</strong>: Multi-source ready with ClientFactory</li>
+</ul>
+<h2 id="target-state">Target State</h2>
+<ul>
+<li><strong>Total Series</strong>: 100+</li>
+<li><strong>Direct BLS Series</strong>: 25</li>
+<li><strong>Source Distribution</strong>: 75 FRED, 25 BLS direct</li>
+</ul>
+<h2 id="bls-series-selection-criteria">BLS Series Selection Criteria</h2>
+<ol>
+<li><strong>Tier 1 Priority</strong>: High-frequency, closely-watched indicators</li>
+<li><strong>FRED Gaps</strong>: Series with delays or limited history on FRED</li>
+<li><strong>BLS Exclusives</strong>: Data available only via BLS API</li>
+<li><strong>Economic Significance</strong>: Components of major indicators</li>
+</ol>
+<h2 id="proposed-bls-series-25-total">Proposed BLS Series (25 total)</h2>
+<h3 id="employment-unemployment-10-series">Employment &amp; Unemployment (10 series)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Survey</th>
+<th>Why BLS Direct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LNS14000000</td>
+<td>Unemployment Rate (CPS)</td>
+<td>Monthly</td>
+<td>Current Population Survey</td>
+<td>Primary source, real-time</td>
+</tr>
+<tr>
+<td>CES0000000001</td>
+<td>Total Nonfarm Employment</td>
+<td>Monthly</td>
+<td>Current Employment Statistics</td>
+<td>Principal economic indicator</td>
+</tr>
+<tr>
+<td>CES0500000003</td>
+<td>Avg Hourly Earnings - Total Private</td>
+<td>Monthly</td>
+<td>CES</td>
+<td>Wage inflation tracker</td>
+</tr>
+<tr>
+<td>LNS11300000</td>
+<td>Labor Force Participation</td>
+<td>Monthly</td>
+<td>CPS</td>
+<td>Labor supply metric</td>
+</tr>
+<tr>
+<td>LNS12000000</td>
+<td>Employment-Population Ratio</td>
+<td>Monthly</td>
+<td>CPS</td>
+<td>Employment health</td>
+</tr>
+<tr>
+<td>LNS13000000</td>
+<td>Persons Unemployed 15+ Weeks</td>
+<td>Monthly</td>
+<td>CPS</td>
+<td>Structural unemployment</td>
+</tr>
+<tr>
+<td>LNS14027662</td>
+<td>Youth Unemployment (16-19)</td>
+<td>Monthly</td>
+<td>CPS</td>
+<td>Vulnerable worker segment</td>
+</tr>
+<tr>
+<td>CES3000000001</td>
+<td>Manufacturing Employment</td>
+<td>Monthly</td>
+<td>CES</td>
+<td>Industrial health</td>
+</tr>
+<tr>
+<td>CES4200000001</td>
+<td>Trade/Transport/Utilities Employment</td>
+<td>Monthly</td>
+<td>CES</td>
+<td>Service sector proxy</td>
+</tr>
+<tr>
+<td>CES5051000001</td>
+<td>Financial Activities Employment</td>
+<td>Monthly</td>
+<td>CES</td>
+<td>Financial sector health</td>
+</tr>
+</tbody>
+</table>
+<h3 id="inflation-prices-8-series">Inflation &amp; Prices (8 series)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Survey</th>
+<th>Why BLS Direct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUUR0000SA0</td>
+<td>CPI-All Items (NSA)</td>
+<td>Monthly</td>
+<td>Consumer Price Index</td>
+<td>Primary inflation measure</td>
+</tr>
+<tr>
+<td>CUUS0000SA0</td>
+<td>CPI-Core (All Items Less Food &amp; Energy)</td>
+<td>Monthly</td>
+<td>CPI</td>
+<td>Core inflation trend</td>
+</tr>
+<tr>
+<td>CUSR0000SAF11</td>
+<td>CPI-Food at Home</td>
+<td>Monthly</td>
+<td>CPI</td>
+<td>Food price inflation</td>
+</tr>
+<tr>
+<td>CUSR0000SAS</td>
+<td>CPI-Services</td>
+<td>Monthly</td>
+<td>CPI</td>
+<td>Service inflation</td>
+</tr>
+<tr>
+<td>CUSR0000SAC</td>
+<td>CPI-Commodities</td>
+<td>Monthly</td>
+<td>CPI</td>
+<td>Goods inflation</td>
+</tr>
+<tr>
+<td>WPUFD4</td>
+<td>PPI-Finished Goods</td>
+<td>Monthly</td>
+<td>Producer Price Index</td>
+<td>Wholesale inflation</td>
+</tr>
+<tr>
+<td>WPUSOP3000</td>
+<td>PPI-Crude Materials</td>
+<td>Monthly</td>
+<td>PPI</td>
+<td>Input cost pressures</td>
+</tr>
+<tr>
+<td>CUUR0000SETB01</td>
+<td>CPI-Gasoline (All Types)</td>
+<td>Monthly</td>
+<td>CPI</td>
+<td>Energy price shock indicator</td>
+</tr>
+</tbody>
+</table>
+<h3 id="productivity-costs-4-series">Productivity &amp; Costs (4 series)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Survey</th>
+<th>Why BLS Direct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PRS85006112</td>
+<td>Nonfarm Business Sector Productivity</td>
+<td>Quarterly</td>
+<td>Productivity</td>
+<td>Efficiency measure</td>
+</tr>
+<tr>
+<td>PRS85006152</td>
+<td>Unit Labor Costs</td>
+<td>Quarterly</td>
+<td>Productivity</td>
+<td>Inflation pressure</td>
+</tr>
+<tr>
+<td>PRS85006092</td>
+<td>Real Hourly Compensation</td>
+<td>Quarterly</td>
+<td>Productivity</td>
+<td>Worker welfare</td>
+</tr>
+<tr>
+<td>ECIALLCIV</td>
+<td>Employment Cost Index</td>
+<td>Quarterly</td>
+<td>National Compensation Survey</td>
+<td>Labor cost trends</td>
+</tr>
+</tbody>
+</table>
+<h3 id="regional-demographics-3-series">Regional &amp; Demographics (3 series)</h3>
+<table>
+<thead>
+<tr>
+<th>Series ID</th>
+<th>Title</th>
+<th>Frequency</th>
+<th>Survey</th>
+<th>Why BLS Direct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LASST060000000000003</td>
+<td>CA Unemployment Rate</td>
+<td>Monthly</td>
+<td>LAUS</td>
+<td>Regional indicator</td>
+</tr>
+<tr>
+<td>LASST360000000000003</td>
+<td>NY Unemployment Rate</td>
+<td>Monthly</td>
+<td>LAUS</td>
+<td>Regional indicator</td>
+</tr>
+<tr>
+<td>LNS14027660</td>
+<td>Unemployment - Bachelor's Degree+</td>
+<td>Monthly</td>
+<td>CPS</td>
+<td>Educational attainment gap</td>
+</tr>
+</tbody>
+</table>
+<h2 id="implementation-phases">Implementation Phases</h2>
+<h3 id="phase-1-core-bls-series-10-series">Phase 1: Core BLS Series (10 series)</h3>
+<p>Focus on high-frequency employment and inflation indicators
+- LNS14000000, CES0000000001, CES0500000003, LNS11300000
+- CUUR0000SA0, CUUS0000SA0, WPUFD4, CUUR0000SETB01
+- PRS85006112, ECIALLCIV</p>
+<h3 id="phase-2-extended-employment-6-series">Phase 2: Extended Employment (6 series)</h3>
+<p>Labor market depth indicators
+- LNS12000000, LNS13000000, LNS14027662
+- CES3000000001, CES4200000001, CES5051000001</p>
+<h3 id="phase-3-price-detail-6-series">Phase 3: Price Detail (6 series)</h3>
+<p>Inflation components and producer prices
+- CUSR0000SAF11, CUSR0000SAS, CUSR0000SAC
+- WPUSOP3000, PRS85006152, PRS85006092</p>
+<h3 id="phase-4-regional-demographics-3-series">Phase 4: Regional &amp; Demographics (3 series)</h3>
+<p>Geographic and educational breakdowns
+- LASST060000000000003, LASST360000000000003, LNS14027660</p>
+<h2 id="technical-implementation">Technical Implementation</h2>
+<h3 id="1-catalog-updates">1. Catalog Updates</h3>
+<p>Add <code>source: BLS</code> field to new series entries</p>
+<pre><code class="language-yaml">- series_id: &quot;LNS14000000&quot;
+  title: &quot;Unemployment Rate (CPS)&quot;
+  units: &quot;Percent&quot;
+  frequency: &quot;Monthly&quot;
+  seasonal_adjustment: &quot;Seasonally Adjusted&quot;
+  tier: 2
+  source: &quot;BLS&quot;
+  description: &quot;Primary unemployment rate from Current Population Survey&quot;
+</code></pre>
+<h3 id="2-bls-api-key-management">2. BLS API Key Management</h3>
+<ul>
+<li>Document BLS registration process</li>
+<li>Add <code>BLS_API_KEY</code> to environment variables</li>
+<li>Implement rate limit optimization (50 req/10s with key vs 10 req/10s without)</li>
+</ul>
+<h3 id="3-source-fallback-system-future-enhancement">3. Source Fallback System (Future Enhancement)</h3>
+<pre><code class="language-python"># Priority: BLS direct → FRED → skip
+source_priority = [&quot;BLS&quot;, &quot;FRED&quot;]
+</code></pre>
+<h3 id="4-testing-requirements">4. Testing Requirements</h3>
+<ul>
+<li>Unit tests for each BLS series ID format</li>
+<li>Integration tests for BLS client with real API</li>
+<li>Error handling tests (rate limits, invalid series)</li>
+<li>Data validation tests (format, date ranges)</li>
+</ul>
+<h2 id="benefits">Benefits</h2>
+<ol>
+<li><strong>Data Freshness</strong>: BLS data often available same-day vs FRED next-day</li>
+<li><strong>Rate Limits</strong>: 50 queries/10s with API key vs FRED's 120/hour</li>
+<li><strong>Cost</strong>: BLS API is free</li>
+<li><strong>Coverage</strong>: Access to series not on FRED or with limited history</li>
+<li><strong>Resilience</strong>: Dual-source architecture reduces single-point-of-failure</li>
+</ol>
+<h2 id="risks-mitigation">Risks &amp; Mitigation</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BLS API changes</td>
+<td>Monitor BLS developer announcements</td>
+</tr>
+<tr>
+<td>Rate limiting</td>
+<td>Implement exponential backoff (already in place)</td>
+</tr>
+<tr>
+<td>Data format differences</td>
+<td>Standardize in BLSClient transformation layer</td>
+</tr>
+<tr>
+<td>Maintenance overhead</td>
+<td>Automated testing and health checks</td>
+</tr>
+</tbody>
+</table>
+<h2 id="success-criteria">Success Criteria</h2>
+<ul>
+<li>[ ] 25 BLS series added to catalog</li>
+<li>[ ] All 25 series ingesting successfully</li>
+<li>[ ] BLS API key registered and configured</li>
+<li>[ ] Test coverage for BLS client ≥ 80%</li>
+<li>[ ] Documentation updated with BLS setup instructions</li>
+<li>[ ] Total series count ≥ 100</li>
+</ul>
+<h2 id="timeline-estimate">Timeline Estimate</h2>
+<ul>
+<li><strong>Phase 1</strong>: 1 week (10 core series)</li>
+<li><strong>Phase 2</strong>: 3-4 days (6 employment series)</li>
+<li><strong>Phase 3</strong>: 3-4 days (6 price series)</li>
+<li><strong>Phase 4</strong>: 2-3 days (3 regional series)</li>
+<li><strong>Testing &amp; Documentation</strong>: 2-3 days</li>
+</ul>
+<p><strong>Total: 2.5-3 weeks</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
