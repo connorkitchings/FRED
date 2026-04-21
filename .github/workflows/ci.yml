@@ -58,7 +58,7 @@ jobs:
       run: uv sync
     
     - name: Run catalog verification
-      run: uv run pytest tests/test_series_catalog_config.py
+      run: uv run pytest tests/test_series_catalog_config.py --no-cov
 
     - name: Run tests with pytest
       run: uv run pytest -v
