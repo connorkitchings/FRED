@@ -28,13 +28,8 @@ def create_schema():
         """)
 
         # Indexes for series_catalog
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_series_tier ON series_catalog(tier);"
-        )
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_series_category ON "
-            "series_catalog(category);"
-        )
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_series_tier ON series_catalog(tier);")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_series_category ON series_catalog(category);")
 
         # 2. observations
         logger.info("Creating table: observations")
@@ -67,10 +62,7 @@ def create_schema():
         """)
 
         # Index for ingestion_log
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_ingest_time ON "
-            "ingestion_log(run_timestamp);"
-        )
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_ingest_time ON ingestion_log(run_timestamp);")
 
         # 4. dq_report
         logger.info("Creating table: dq_report")
@@ -88,16 +80,9 @@ def create_schema():
             );
         """)
 
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_dq_report_run_id ON dq_report(run_id);"
-        )
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_dq_report_severity ON dq_report(severity);"
-        )
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_dq_report_time ON "
-            "dq_report(finding_timestamp);"
-        )
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_dq_report_run_id ON dq_report(run_id);")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_dq_report_severity ON dq_report(severity);")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_dq_report_time ON dq_report(finding_timestamp);")
 
         # 5. dq_report_latest_runs view
         logger.info("Creating view: dq_report_latest_runs")

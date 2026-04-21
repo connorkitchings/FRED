@@ -42,9 +42,7 @@ def show_health_monitor():
         color = "#d4edda" if val == "success" else "#f8d7da"
         return f"background-color: {color}"
 
-    st.dataframe(
-        runs.style.applymap(color_status, subset=["status"]), use_container_width=True
-    )
+    st.dataframe(runs.style.applymap(color_status, subset=["status"]), use_container_width=True)
 
     # DQ Issues
     st.subheader("⚠️ Active Data Quality Warnings")

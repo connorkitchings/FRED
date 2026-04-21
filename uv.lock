@@ -4931,11 +4931,13 @@ data-science = [
     { name = "nbstripout" },
 ]
 dev = [
-    { name = "mkdocs" },
-    { name = "mkdocs-material" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
+]
+docs = [
+    { name = "mkdocs" },
+    { name = "mkdocs-material" },
 ]
 mlops = [
     { name = "mlflow" },
@@ -4959,8 +4961,8 @@ requires-dist = [
     { name = "duckdb", specifier = ">=0.10.0" },
     { name = "fredapi", specifier = ">=0.5.0" },
     { name = "jupyter", marker = "extra == 'data-science'", specifier = ">=1.0" },
-    { name = "mkdocs", marker = "extra == 'dev'", specifier = ">=1.6.0" },
-    { name = "mkdocs-material", marker = "extra == 'dev'", specifier = ">=9.0" },
+    { name = "mkdocs", marker = "extra == 'docs'", specifier = ">=1.6.0" },
+    { name = "mkdocs-material", marker = "extra == 'docs'", specifier = ">=9.0" },
     { name = "mlflow", marker = "extra == 'mlops'", specifier = ">=2.0" },
     { name = "nbformat", marker = "extra == 'data-science'", specifier = ">=5.10.4" },
     { name = "nbstripout", marker = "extra == 'data-science'", specifier = ">=0.7.1" },
@@ -4981,7 +4983,7 @@ requires-dist = [
     { name = "tenacity", specifier = ">=9.1.2" },
     { name = "typer", specifier = ">=0.9.0" },
 ]
-provides-extras = ["dev", "data-science", "mlops", "security"]
+provides-extras = ["dev", "docs", "data-science", "mlops", "security"]
 
 [package.metadata.requires-dev]
 dev = [

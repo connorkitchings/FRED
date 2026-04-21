@@ -26,9 +26,7 @@ class FredClient:
     def __init__(self, api_key: Optional[str] = None):
         self.api_key = api_key or os.getenv("FRED_API_KEY")
         if not self.api_key:
-            raise ValueError(
-                "FRED_API_KEY must be provided or set in environment variables."
-            )
+            raise ValueError("FRED_API_KEY must be provided or set in environment variables.")
 
         self.client = Fred(api_key=self.api_key)
         self._last_request_time = 0.0
@@ -67,9 +65,7 @@ class FredClient:
         try:
             logger.info(f"Fetching series {series_id}...")
             # fredapi returns a Series with datetime index
-            series_data = self.client.get_series(
-                series_id, observation_start=start_date, observation_end=end_date
-            )
+            series_data = self.client.get_series(series_id, observation_start=start_date, observation_end=end_date)
 
             # Convert to DataFrame
             df = series_data.to_frame(name="value")

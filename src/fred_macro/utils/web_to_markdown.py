@@ -95,9 +95,7 @@ def _validate_url(url: str) -> None:
 
     parsed = urlparse(url)
     if not parsed.scheme or not parsed.netloc:
-        raise InvalidURLError(
-            f"Invalid URL: {url}. Must include scheme (http:// or https://)"
-        )
+        raise InvalidURLError(f"Invalid URL: {url}. Must include scheme (http:// or https://)")
 
     if parsed.scheme not in ("http", "https"):
         raise InvalidURLError(f"URL scheme must be http or https, got: {parsed.scheme}")

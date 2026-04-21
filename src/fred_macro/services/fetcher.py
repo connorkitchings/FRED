@@ -31,9 +31,7 @@ class DataFetcher:
             start_date = today - timedelta(days=60)
         return start_date.strftime("%Y-%m-%d")
 
-    def fetch_series(
-        self, series: SeriesConfig, mode: str = "incremental"
-    ) -> pd.DataFrame:
+    def fetch_series(self, series: SeriesConfig, mode: str = "incremental") -> pd.DataFrame:
         """
         Fetch data for a single series.
         Returns empty DataFrame on failure/no data.
@@ -46,9 +44,7 @@ class DataFetcher:
             df = client.get_series_data(request_series_id, start_date=start_date)
 
             if df.empty:
-                logger.warning(
-                    f"No data found for {series.series_id} ({series.source})"
-                )
+                logger.warning(f"No data found for {series.series_id} ({series.source})")
                 return df
 
             # Keep storage keyed by internal catalog id while allowing
@@ -56,8 +52,7 @@ class DataFetcher:
             df["series_id"] = series.series_id
 
             logger.info(
-                f"Fetched {len(df)} rows for {series.series_id} "
-                f"(request={request_series_id}, source={series.source})"
+                f"Fetched {len(df)} rows for {series.series_id} (request={request_series_id}, source={series.source})"
             )
             return df
 

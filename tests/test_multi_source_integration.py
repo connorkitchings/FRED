@@ -147,9 +147,7 @@ class TestMultiSourceIngestion:
         engine.catalog_service = mock_catalog
 
         # Mock database operations
-        monkeypatch.setattr(
-            engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
-        )
+        monkeypatch.setattr(engine, "_upsert_data", lambda df: len(df) if not df.empty else 0)
 
         captured = {}
 
@@ -372,9 +370,7 @@ class TestMultiSourceIngestion:
         ]
         engine.catalog_service = mock_catalog
 
-        monkeypatch.setattr(
-            engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
-        )
+        monkeypatch.setattr(engine, "_upsert_data", lambda df: len(df) if not df.empty else 0)
         monkeypatch.setattr(
             engine,
             "_log_run",
@@ -396,9 +392,7 @@ class TestMultiSourceIngestion:
         assert bls_calls == ["BLS_SERIES_1"]
         assert fred_calls == ["BLS_SERIES_1", "BLS_SERIES_2"]
 
-    def test_ingestion_degrades_gracefully_when_fred_fallback_missing(
-        self, monkeypatch
-    ):
+    def test_ingestion_degrades_gracefully_when_fred_fallback_missing(self, monkeypatch):
         """BLS quota + missing FRED fallback series should not force partial status."""
         bls_calls = []
         fred_calls = []
@@ -461,9 +455,7 @@ class TestMultiSourceIngestion:
         ]
         engine.catalog_service = mock_catalog
 
-        monkeypatch.setattr(
-            engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
-        )
+        monkeypatch.setattr(engine, "_upsert_data", lambda df: len(df) if not df.empty else 0)
         monkeypatch.setattr(
             engine,
             "_update_logged_run_status",
@@ -568,9 +560,7 @@ class TestMultiSourceIngestion:
         ]
         engine.catalog_service = mock_catalog
 
-        monkeypatch.setattr(
-            engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
-        )
+        monkeypatch.setattr(engine, "_upsert_data", lambda df: len(df) if not df.empty else 0)
 
         captured = {}
 
@@ -680,9 +670,7 @@ class TestMultiSourceIngestion:
         ]
         engine.catalog_service = mock_catalog
 
-        monkeypatch.setattr(
-            engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
-        )
+        monkeypatch.setattr(engine, "_upsert_data", lambda df: len(df) if not df.empty else 0)
 
         captured = {}
 

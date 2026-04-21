@@ -10,9 +10,7 @@ import pytest
 
 
 def pytest_configure(config):
-    config.addinivalue_line(
-        "markers", "fred_macro: Active tests for src/fred_macro functionality."
-    )
+    config.addinivalue_line("markers", "fred_macro: Active tests for src/fred_macro functionality.")
 
 
 @pytest.fixture

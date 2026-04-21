@@ -8,11 +8,7 @@ import re
 def relabel_project(root, old, new):
     for dirpath, _, files in os.walk(root):
         for fname in files:
-            if (
-                fname.endswith(".md")
-                or fname.endswith(".py")
-                or fname.endswith(".json")
-            ):
+            if fname.endswith(".md") or fname.endswith(".py") or fname.endswith(".json"):
                 path = os.path.join(dirpath, fname)
                 with open(path, encoding="utf-8") as f:
                     content = f.read()
@@ -31,9 +27,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--project",
         required=True,
-        help=(
-            "New project name (will replace all occurrences of 'Vibe Coding Project')"
-        ),
+        help=("New project name (will replace all occurrences of 'Vibe Coding Project')"),
     )
     parser.add_argument(
         "--root",
@@ -48,10 +42,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--clean",
         action="store_true",
-        help=(
-            "If set, remove example/template files "
-            "(e.g., README.example.md, sample_*.py)"
-        ),
+        help=("If set, remove example/template files (e.g., README.example.md, sample_*.py)"),
     )
     args = parser.parse_args()
     relabel_project(args.root, args.old, args.project)

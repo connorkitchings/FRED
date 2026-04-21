@@ -13,10 +13,7 @@ import sys
 
 def main():
     print("🚧 Web Init Skill is under construction.")
-    print(
-        "Please manually scaffold your UI using: "
-        "`npm create vite@latest ui -- --template react-ts`"
-    )
+    print("Please manually scaffold your UI using: `npm create vite@latest ui -- --template react-ts`")
     sys.exit(0)
 
 

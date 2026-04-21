@@ -17,9 +17,7 @@ def load_alert_history(days: int = 30) -> pd.DataFrame:
         conn = get_connection()
 
         # Check if table exists
-        tables = conn.execute(
-            "SELECT name FROM sqlite_master WHERE type='table' AND name='alert_history'"
-        ).fetchall()
+        tables = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='alert_history'").fetchall()
 
         if not tables:
             # Table doesn't exist yet
@@ -56,9 +54,7 @@ def get_alert_summary(days: int = 7) -> dict:
         conn = get_connection()
 
         # Check if table exists
-        tables = conn.execute(
-            "SELECT name FROM sqlite_master WHERE type='table' AND name='alert_history'"
-        ).fetchall()
+        tables = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='alert_history'").fetchall()
 
         if not tables:
             return {
@@ -206,15 +202,13 @@ def render_alert_history():
         # Format timestamp
         try:
             timestamp = pd.to_datetime(alert["timestamp"]).strftime("%Y-%m-%d %H:%M")
-        except:
+        except Exception:
             timestamp = str(alert["timestamp"])
 
         # Acknowledgment status
         ack_status = "✅ Acknowledged" if alert["acknowledged"] else "⏳ Unacknowledged"
 
-        with st.expander(
-            f"{icon} [{alert['severity'].upper()}] {alert['rule_name']} - {timestamp}"
-        ):
+        with st.expander(f"{icon} [{alert['severity'].upper()}] {alert['rule_name']} - {timestamp}"):
             col1, col2 = st.columns([3, 1])
 
             with col1:

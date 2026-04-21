@@ -57,9 +57,7 @@ def test_series_catalog_entries_have_required_fields():
     assert series_list, "series_catalog.yaml must include at least one series."
     for item in series_list:
         missing = REQUIRED_FIELDS - set(item.keys())
-        assert not missing, (
-            f"Missing required fields for {item.get('series_id')}: {missing}"
-        )
+        assert not missing, f"Missing required fields for {item.get('series_id')}: {missing}"
 
 
 def test_series_catalog_has_unique_series_ids():
@@ -75,8 +73,7 @@ def test_series_catalog_source_validity():
     for item in series_list:
         source = item.get("source", "FRED")  # Default to FRED
         assert source in valid_sources, (
-            f"Invalid source '{source}' for series {item.get('series_id')}. "
-            f"Must be one of {valid_sources}"
+            f"Invalid source '{source}' for series {item.get('series_id')}. Must be one of {valid_sources}"
         )
 
 
@@ -129,6 +126,4 @@ def test_bls_aliases_require_source_series_id():
         source = item.get("source", "FRED")
         source_series_id = item.get("source_series_id")
         if source == "BLS" and series_id.endswith("_BLS"):
-            assert source_series_id, (
-                f"BLS alias {series_id} must define source_series_id."
-            )
+            assert source_series_id, f"BLS alias {series_id} must define source_series_id."

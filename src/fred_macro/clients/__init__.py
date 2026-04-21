@@ -55,10 +55,7 @@ class ClientFactory:
         source_upper = source.upper()
 
         if source_upper not in cls._registry:
-            raise ValueError(
-                f"Unknown data source: {source}. "
-                f"Available sources: {', '.join(cls._registry.keys())}"
-            )
+            raise ValueError(f"Unknown data source: {source}. Available sources: {', '.join(cls._registry.keys())}")
 
         # Singleton pattern: reuse existing instance to maintain rate limit state
         if source_upper not in cls._instances:

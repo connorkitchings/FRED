@@ -101,9 +101,7 @@ def dq_report(
     """Show operational DQ report for a run."""
     valid_severities = {"all", "info", "warning", "critical"}
     if severity not in valid_severities:
-        typer.echo(
-            f"Invalid severity: {severity}. Use one of {sorted(valid_severities)}."
-        )
+        typer.echo(f"Invalid severity: {severity}. Use one of {sorted(valid_severities)}.")
         raise typer.Exit(code=1)
 
     try:
@@ -128,10 +126,7 @@ def dq_report(
             f"rows_fetched={run_row['rows_fetched']} duration={run_row['duration']:.2f}s"
         )
         typer.echo(
-            "DQ Counts: "
-            f"critical={count_map['critical']} "
-            f"warning={count_map['warning']} "
-            f"info={count_map['info']}"
+            f"DQ Counts: critical={count_map['critical']} warning={count_map['warning']} info={count_map['info']}"
         )
 
         if run_row["error"]:
@@ -146,9 +141,7 @@ def dq_report(
             series_label = series_id if series_id else "-"
             line = f"- [{sev}] {code} series={series_label}: {message}"
             if metadata:
-                metadata_text = (
-                    metadata if isinstance(metadata, str) else json.dumps(metadata)
-                )
+                metadata_text = metadata if isinstance(metadata, str) else json.dumps(metadata)
                 line += f" | metadata={metadata_text}"
             typer.echo(line)
     except Exception as e:
@@ -195,11 +188,7 @@ def run_health(
         count_map = repo.get_dq_counts(target_run_id)
 
         run_timestamp = run_row["run_timestamp"]
-        run_timestamp_text = (
-            run_timestamp.isoformat()
-            if hasattr(run_timestamp, "isoformat")
-            else str(run_timestamp)
-        )
+        run_timestamp_text = run_timestamp.isoformat() if hasattr(run_timestamp, "isoformat") else str(run_timestamp)
 
         summary = {
             "run_id": run_row["run_id"],
@@ -211,9 +200,7 @@ def run_health(
             "duration_seconds": run_row["duration"],
             "error_message": run_row["error"],
             "dq_counts": count_map,
-            "dq_total": (
-                count_map["critical"] + count_map["warning"] + count_map["info"]
-            ),
+            "dq_total": (count_map["critical"] + count_map["warning"] + count_map["info"]),
         }
 
         typer.echo(
@@ -225,10 +212,7 @@ def run_health(
             f"duration={summary['duration_seconds']:.2f}s"
         )
         typer.echo(
-            "DQ Counts: "
-            f"critical={count_map['critical']} "
-            f"warning={count_map['warning']} "
-            f"info={count_map['info']}"
+            f"DQ Counts: critical={count_map['critical']} warning={count_map['warning']} info={count_map['info']}"
         )
 
         if summary["error_message"]:

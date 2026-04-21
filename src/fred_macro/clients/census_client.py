@@ -206,10 +206,7 @@ class CensusClient:
         """
         self.api_key = api_key or os.getenv("CENSUS_API_KEY")
         if not self.api_key:
-            logger.warning(
-                "Census API key not found. Operations may fail or be severely "
-                "rate limited."
-            )
+            logger.warning("Census API key not found. Operations may fail or be severely rate limited.")
 
         self._last_request_time = 0.0
         # Conservative rate limit: 0.5s delay
@@ -235,9 +232,7 @@ class CensusClient:
     def _build_url(self, dataset: str) -> str:
         return f"{self.BASE_URL}{dataset}"
 
-    def _request_json(
-        self, url: str, params: dict[str, Any]
-    ) -> Optional[list[list[str]]]:
+    def _request_json(self, url: str, params: dict[str, Any]) -> Optional[list[list[str]]]:
         """Perform a Census API request and return parsed JSON rows or None if empty."""
         response = requests.get(url, params=params, timeout=30)
 
@@ -341,9 +336,7 @@ class CensusClient:
         headers = data[0]
         rows = data[1:]
         if "time_slot_id" not in headers:
-            logger.warning(
-                "EITS discovery missing time_slot_id column for %s", cache_key
-            )
+            logger.warning("EITS discovery missing time_slot_id column for %s", cache_key)
             return None
 
         slot_idx = headers.index("time_slot_id")
@@ -397,8 +390,7 @@ class CensusClient:
         """
         if series_id not in self.SERIES_MAPPING:
             raise ValueError(
-                f"Unknown Census series: {series_id}. "
-                f"Available series: {', '.join(self.SERIES_MAPPING.keys())}"
+                f"Unknown Census series: {series_id}. Available series: {', '.join(self.SERIES_MAPPING.keys())}"
             )
 
         config = self.SERIES_MAPPING[series_id]
@@ -422,8 +414,7 @@ class CensusClient:
             )
             if not resolved_slot_id:
                 logger.warning(
-                    "Unable to resolve EITS time_slot_id for %s. Returning empty "
-                    "result.",
+                    "Unable to resolve EITS time_slot_id for %s. Returning empty result.",
                     series_id,
                 )
                 return pd.DataFrame(columns=["observation_date", "value", "series_id"])
@@ -479,9 +470,7 @@ class CensusClient:
 
             df = pd.DataFrame(parsed_data)
 
-            df["observation_date"] = pd.to_datetime(
-                df["observation_date"], format=config["time_format"]
-            )
+            df["observation_date"] = pd.to_datetime(df["observation_date"], format=config["time_format"])
             df["value"] = pd.to_numeric(df["value"], errors="coerce")
 
             df = df.dropna(subset=["value"])
@@ -492,9 +481,7 @@ class CensusClient:
             if end_date:
                 df = df[df["observation_date"] <= pd.Timestamp(end_date)]
 
-            logger.info(
-                "Fetched %s observations for Census series %s", len(df), series_id
-            )
+            logger.info("Fetched %s observations for Census series %s", len(df), series_id)
             return df
 
         except requests.RequestException as e:

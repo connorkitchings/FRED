@@ -10,11 +10,7 @@ NOTEBOOK_DIR = "notebooks"
 
 
 def main():
-    notebook_files = [
-        os.path.join(NOTEBOOK_DIR, f)
-        for f in os.listdir(NOTEBOOK_DIR)
-        if f.endswith(".ipynb")
-    ]
+    notebook_files = [os.path.join(NOTEBOOK_DIR, f) for f in os.listdir(NOTEBOOK_DIR) if f.endswith(".ipynb")]
 
     if not notebook_files:
         print("No notebooks found to test.")

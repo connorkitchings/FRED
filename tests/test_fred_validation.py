@@ -92,9 +92,7 @@ def test_backfill_missing_series_is_critical(tmp_path, monkeypatch):
     findings = run_data_quality_checks("backfill", configured, run_stats)
 
     assert any(
-        finding.severity == "critical"
-        and finding.code == "missing_series_data"
-        and finding.series_id == "SERIES_B"
+        finding.severity == "critical" and finding.code == "missing_series_data" and finding.series_id == "SERIES_B"
         for finding in findings
     )
 
@@ -114,10 +112,7 @@ def test_duplicate_observations_are_critical(tmp_path, monkeypatch):
     run_stats = {"SERIES_A": {"rows_fetched": 2, "rows_processed": 2}}
     findings = run_data_quality_checks("incremental", configured, run_stats)
 
-    assert any(
-        finding.severity == "critical" and finding.code == "duplicate_observations"
-        for finding in findings
-    )
+    assert any(finding.severity == "critical" and finding.code == "duplicate_observations" for finding in findings)
 
 
 def test_incremental_no_rows_is_warning(tmp_path, monkeypatch):
@@ -133,10 +128,7 @@ def test_incremental_no_rows_is_warning(tmp_path, monkeypatch):
     run_stats = {"SERIES_A": {"rows_fetched": 0, "rows_processed": 0}}
     findings = run_data_quality_checks("incremental", configured, run_stats)
 
-    assert any(
-        finding.severity == "warning" and finding.code == "incremental_no_new_rows"
-        for finding in findings
-    )
+    assert any(finding.severity == "warning" and finding.code == "incremental_no_new_rows" for finding in findings)
     assert not any(finding.severity == "critical" for finding in findings)
 
 
@@ -156,8 +148,6 @@ def test_stale_series_data_is_warning(tmp_path, monkeypatch):
     findings = run_data_quality_checks("incremental", configured, run_stats)
 
     assert any(
-        finding.severity == "warning"
-        and finding.code == "stale_series_data"
-        and finding.series_id == "SERIES_A"
+        finding.severity == "warning" and finding.code == "stale_series_data" and finding.series_id == "SERIES_A"
         for finding in findings
     )

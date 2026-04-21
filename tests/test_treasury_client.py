@@ -45,9 +45,7 @@ class TestTreasuryClient(unittest.TestCase):
     def test_build_filters_base_only(self):
         """Test filter building with only base filter."""
         client = TreasuryClient()
-        result = client._build_filters(
-            "security_desc:eq:Treasury Bills", "v2/accounting/od/avg_interest_rates"
-        )
+        result = client._build_filters("security_desc:eq:Treasury Bills", "v2/accounting/od/avg_interest_rates")
         self.assertEqual(result, "security_desc:eq:Treasury Bills")
 
     def test_build_filters_with_start_date(self):
@@ -127,9 +125,7 @@ class TestTreasuryClient(unittest.TestCase):
 
         # Verify DataFrame structure
         self.assertIsInstance(df, pd.DataFrame)
-        self.assertListEqual(
-            list(df.columns), ["observation_date", "value", "series_id"]
-        )
+        self.assertListEqual(list(df.columns), ["observation_date", "value", "series_id"])
         self.assertEqual(len(df), 2)
 
         # Verify data is sorted by date (oldest first)
@@ -223,9 +219,7 @@ class TestTreasuryClient(unittest.TestCase):
 
         # Should return empty DataFrame with correct columns
         self.assertTrue(df.empty)
-        self.assertListEqual(
-            list(df.columns), ["observation_date", "value", "series_id"]
-        )
+        self.assertListEqual(list(df.columns), ["observation_date", "value", "series_id"])
 
     @patch("src.fred_macro.clients.treasury_client.requests.get")
     @patch("src.fred_macro.clients.treasury_client.time.sleep")
@@ -272,9 +266,7 @@ class TestTreasuryClient(unittest.TestCase):
         with self.assertRaises(RetryError) as context:
             client.get_series_data("TREAS_AVG_BILLS")
 
-        self.assertIsInstance(
-            context.exception.last_attempt.exception(), ConnectionError
-        )
+        self.assertIsInstance(context.exception.last_attempt.exception(), ConnectionError)
 
     @patch("src.fred_macro.clients.treasury_client.requests.get")
     @patch("src.fred_macro.clients.treasury_client.time.sleep")
@@ -291,9 +283,7 @@ class TestTreasuryClient(unittest.TestCase):
         client = TreasuryClient()
         client._last_request_time = 1000.0
 
-        with patch(
-            "src.fred_macro.clients.treasury_client.time.time", return_value=1000.1
-        ):
+        with patch("src.fred_macro.clients.treasury_client.time.time", return_value=1000.1):
             client._enforce_rate_limit()
             # Should sleep because only 0.1s passed (< 0.3s delay)
             mock_sleep.assert_called()

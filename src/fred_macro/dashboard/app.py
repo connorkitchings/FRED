@@ -44,9 +44,7 @@ st.markdown(
 
 # --- Sidebar Navigation ---
 st.sidebar.title("Navigation")
-page = st.sidebar.radio(
-    "Go to", ["Executive Summary", "Data Explorer", "Health Monitor"]
-)
+page = st.sidebar.radio("Go to", ["Executive Summary", "Data Explorer", "Health Monitor"])
 
 # --- Page Logic ---
 
@@ -59,9 +57,7 @@ elif page == "Health Monitor":
 elif page == "Executive Summary":
     # --- Header ---
     st.title("🏛️ Macroeconomic Dashboard")
-    st.markdown(
-        "Monitoring key indicators of the US Economy. Data sourced from FRED & BLS."
-    )
+    st.markdown("Monitoring key indicators of the US Economy. Data sourced from FRED & BLS.")
     st.divider()
 
     # --- Section 1: The Big Four (Tier 1 Metrics) ---
@@ -97,9 +93,7 @@ elif page == "Executive Summary":
                     fmt_val = f"${val:,.0f}B"
                     fmt_delta = f"{delta:,.0f}B"
                 else:
-                    fmt_val = (
-                        f"{val:.2f}%" if "Percent" in row["units"] else f"{val:.1f}"
-                    )
+                    fmt_val = f"{val:.2f}%" if "Percent" in row["units"] else f"{val:.1f}"
                     fmt_delta = f"{delta:.2f}"
 
                 with cols[i]:
@@ -120,9 +114,7 @@ elif page == "Executive Summary":
 
     with col_main:
         st.subheader("🔥 Inflation vs. Policy Response")
-        st.caption(
-            "How the Federal Reserve adjusts rates in response to price levels (CPI)."
-        )
+        st.caption("How the Federal Reserve adjusts rates in response to price levels (CPI).")
 
         # Dual Axis Chart: CPI (Left) vs FEDFUNDS (Right)
         hist_df = get_history(["CPIAUCSL", "FEDFUNDS", "UNRATE", "GDPC1"], years=10)
@@ -130,9 +122,7 @@ elif page == "Executive Summary":
         if not hist_df.empty:
             # Calculate YoY for CPI to make it comparable to Rates
             # Need to pivot first
-            pivot_df = hist_df.pivot(
-                index="observation_date", columns="series_id", values="value"
-            )
+            pivot_df = hist_df.pivot(index="observation_date", columns="series_id", values="value")
 
             # Calculate YoY Change for CPI
             pivot_df["CPI_YoY"] = pivot_df["CPIAUCSL"].pct_change(12) * 100

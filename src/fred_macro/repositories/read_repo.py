@@ -38,16 +38,12 @@ class ReadRepository:
     def get_latest_run_id(self) -> Optional[str]:
         conn = get_connection()
         try:
-            res = conn.execute(
-                "SELECT run_id FROM ingestion_log ORDER BY run_timestamp DESC LIMIT 1"
-            ).fetchone()
+            res = conn.execute("SELECT run_id FROM ingestion_log ORDER BY run_timestamp DESC LIMIT 1").fetchone()
             return res[0] if res else None
         finally:
             conn.close()
 
-    def get_dq_findings(
-        self, run_id: str, severity: str = "all", limit: int = 50
-    ) -> List[tuple]:
+    def get_dq_findings(self, run_id: str, severity: str = "all", limit: int = 50) -> List[tuple]:
         conn = get_connection()
         try:
             query = """

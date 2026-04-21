@@ -26,9 +26,7 @@ def run_data_quality_checks(
     findings: List[ValidationFinding] = []
     expected_series_ids = [item["series_id"] for item in configured_series]
 
-    findings.extend(
-        _check_missing_required_series(mode, expected_series_ids, run_series_stats)
-    )
+    findings.extend(_check_missing_required_series(mode, expected_series_ids, run_series_stats))
     findings.extend(_check_duplicate_observations())
     findings.extend(_check_freshness(expected_series_ids))
     findings.extend(_check_recent_anomalies(expected_series_ids))
@@ -82,10 +80,7 @@ def _check_missing_required_series(
                 )
         return findings
 
-    total_fetched = sum(
-        run_series_stats.get(series_id, {}).get("rows_fetched", 0)
-        for series_id in expected_series_ids
-    )
+    total_fetched = sum(run_series_stats.get(series_id, {}).get("rows_fetched", 0) for series_id in expected_series_ids)
     if total_fetched == 0:
         findings.append(
             ValidationFinding(
@@ -176,10 +171,7 @@ def _check_freshness(expected_series_ids: List[str]) -> List[ValidationFinding]:
                 ValidationFinding(
                     severity="warning",
                     code="stale_series_data",
-                    message=(
-                        f"Latest observation is {age_days} days old "
-                        f"(threshold {threshold})."
-                    ),
+                    message=(f"Latest observation is {age_days} days old (threshold {threshold})."),
                     series_id=series_id,
                     metadata={
                         "age_days": age_days,

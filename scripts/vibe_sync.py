@@ -70,9 +70,7 @@ class ContextManager:
     def __init__(self, context_path: Path, logs_dir: Path):
         self.context_path = context_path
         self.logs_dir = logs_dir
-        self.context_content = (
-            self.context_path.read_text() if self.context_path.exists() else ""
-        )
+        self.context_content = self.context_path.read_text() if self.context_path.exists() else ""
 
     def get_latest_log(self):
         """Retrieve the most recent session log."""
@@ -83,13 +81,9 @@ class ContextManager:
         for date_dir in self.logs_dir.iterdir():
             if date_dir.is_dir() and date_dir.name != "telemetry":
                 try:
-                    date_obj = datetime.datetime.strptime(
-                        date_dir.name, "%m-%d-%Y"
-                    ).date()
+                    date_obj = datetime.datetime.strptime(date_dir.name, "%m-%d-%Y").date()
                     for log_file in date_dir.glob("*.md"):
-                        all_logs.append(
-                            {"path": log_file, "date": date_obj, "name": log_file.name}
-                        )
+                        all_logs.append({"path": log_file, "date": date_obj, "name": log_file.name})
                 except ValueError:
                     continue
 
@@ -118,10 +112,7 @@ class ContextManager:
 
     def generate_prime_directive(self, start_mode: str) -> str:
         """Assembles the High-Density Handoff string."""
-        snapshot = (
-            self.extract_section(self.context_content, "Project Snapshot")
-            or "No snapshot available."
-        )
+        snapshot = self.extract_section(self.context_content, "Project Snapshot") or "No snapshot available."
 
         last_log = self.get_latest_log()
         if last_log:
@@ -131,10 +122,7 @@ class ContextManager:
             if not blockers or "None" in blockers:
                 blockers = None  # Don't show if empty/none
 
-            next_steps = (
-                self.extract_section(log_content, "Next Steps")
-                or "No next steps defined."
-            )
+            next_steps = self.extract_section(log_content, "Next Steps") or "No next steps defined."
         else:
             blockers = None
             next_steps = "Initialize project structure."
@@ -229,9 +217,7 @@ def get_session_logs():
 @app.command()
 def start(
     intent: str = typer.Option(..., prompt="What is the intent of this session?"),
-    mode: str = typer.Option(
-        "EXECUTION", prompt="Mode (PLANNING, EXECUTION, VERIFICATION)?"
-    ),
+    mode: str = typer.Option("EXECUTION", prompt="Mode (PLANNING, EXECUTION, VERIFICATION)?"),
 ):
     """
     Initialize a new development session.
@@ -275,9 +261,7 @@ def start(
 def get_git_changes():
     """Get list of changed files using git."""
     try:
-        result = subprocess.run(
-            ["git", "status", "--porcelain"], capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
         if result.returncode != 0:
             return []
 
@@ -386,30 +370,23 @@ def end(
     filepath.write_text(content)
 
     console.print(f"[green]Created session log:[/green] {filepath}")
-    console.print(
-        "[dim]Remember to update .agent/CONTEXT.md with recent progress.[/dim]"
-    )
+    console.print("[dim]Remember to update .agent/CONTEXT.md with recent progress.[/dim]")
 
 
 @app.command()
 def update(
-    recent: str = typer.Option(
-        ..., prompt="What is the recent activity/accomplishment?"
-    ),
+    recent: str = typer.Option(..., prompt="What is the recent activity/accomplishment?"),
 ):
     """
     Update the 'Recent' status in CONTEXT.md.
     """
     manager = ContextManager(CONTEXT_FILE, SESSION_LOGS_DIR)
     if manager.update_recent_activity(recent):
-        console.print(
-            f"[green]Updated 'Recent Activity' in CONTEXT.md:[/green] {recent}"
-        )
+        console.print(f"[green]Updated 'Recent Activity' in CONTEXT.md:[/green] {recent}")
     else:
         # Fallback for migration or missing section
         console.print(
-            "[yellow]Could not find '## Recent Activity' in CONTEXT.md. "
-            "Please check file structure.[/yellow]"
+            "[yellow]Could not find '## Recent Activity' in CONTEXT.md. Please check file structure.[/yellow]"
         )
 
     # Also touch the file to ensure timestamp update if needed
@@ -431,10 +408,7 @@ def suggest():
                 log_files.append((log_file.stat().st_mtime, log_file))
 
     if not log_files:
-        console.print(
-            "[yellow]No session logs found.[/yellow] "
-            "Run 'vibe_sync end' first to create a session log."
-        )
+        console.print("[yellow]No session logs found.[/yellow] Run 'vibe_sync end' first to create a session log.")
         raise typer.Exit(1)
 
     # Get most recent log
@@ -528,9 +502,7 @@ def suggest():
         if num_files > 10:
             console.print(f"  ... and {num_files - 10} more files")
 
-    console.print(
-        f"\n[dim]Based on session log:[/dim] {latest_log.relative_to(PROJECT_ROOT)}"
-    )
+    console.print(f"\n[dim]Based on session log:[/dim] {latest_log.relative_to(PROJECT_ROOT)}")
     console.print("\n[bold]Suggested commands:[/bold]")
     console.print("  git add <files>")
     console.print(f'  git commit -m "{commit_message}"')

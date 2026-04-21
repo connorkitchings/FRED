@@ -29,9 +29,7 @@ def daily_ingest_flow(mode: str = "incremental", source_filter: str = "FRED"):
     run_id = str(uuid.uuid4())
     start_time = time.time()
 
-    logger.info(
-        f"Starting Parallel Ingest {run_id} | Mode: {mode} | Source: {source_filter}"
-    )
+    logger.info(f"Starting Parallel Ingest {run_id} | Mode: {mode} | Source: {source_filter}")
 
     # 1. Seed
     task_seed_catalog()

@@ -95,9 +95,7 @@ class TestBLSClient(unittest.TestCase):
 
         # Verify DataFrame structure
         self.assertIsInstance(df, pd.DataFrame)
-        self.assertListEqual(
-            list(df.columns), ["observation_date", "value", "series_id"]
-        )
+        self.assertListEqual(list(df.columns), ["observation_date", "value", "series_id"])
         self.assertEqual(len(df), 2)
 
         # Verify data is sorted by date (oldest first)
@@ -166,9 +164,7 @@ class TestBLSClient(unittest.TestCase):
 
         # Should return empty DataFrame with correct columns
         self.assertTrue(df.empty)
-        self.assertListEqual(
-            list(df.columns), ["observation_date", "value", "series_id"]
-        )
+        self.assertListEqual(list(df.columns), ["observation_date", "value", "series_id"])
 
     @patch("src.fred_macro.clients.bls_client.requests.post")
     @patch("src.fred_macro.clients.bls_client.time.sleep")
@@ -200,9 +196,7 @@ class TestBLSClient(unittest.TestCase):
         with self.assertRaises(RetryError) as context:
             client.get_series_data("TEST")
 
-        self.assertIsInstance(
-            context.exception.last_attempt.exception(), ConnectionError
-        )
+        self.assertIsInstance(context.exception.last_attempt.exception(), ConnectionError)
 
     @patch("src.fred_macro.clients.bls_client.requests.post")
     @patch("src.fred_macro.clients.bls_client.time.sleep")

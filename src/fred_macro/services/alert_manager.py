@@ -62,9 +62,7 @@ class AlertRule:
 
         return None
 
-    def _evaluate_ingestion_status(
-        self, context: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+    def _evaluate_ingestion_status(self, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Evaluate ingestion status condition."""
         run_status = context.get("run_status", "")
         target_statuses = self.condition.get("statuses", [])
@@ -100,17 +98,13 @@ class AlertRule:
             )
         return None
 
-    def _evaluate_data_freshness(
-        self, context: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+    def _evaluate_data_freshness(self, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Evaluate data freshness condition."""
         max_age_days = self.condition.get("max_age_days", 60)
         stale_series = context.get("stale_series", [])
 
         if stale_series:
-            series_list = ", ".join(
-                [s.get("series_id", "unknown") for s in stale_series[:5]]
-            )
+            series_list = ", ".join([s.get("series_id", "unknown") for s in stale_series[:5]])
             if len(stale_series) > 5:
                 series_list += f" and {len(stale_series) - 5} more"
 
@@ -124,17 +118,13 @@ class AlertRule:
             )
         return None
 
-    def _evaluate_missing_data(
-        self, context: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+    def _evaluate_missing_data(self, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Evaluate missing data condition."""
         days = self.condition.get("days", 30)
         missing_series = context.get("missing_series", [])
 
         if missing_series:
-            series_list = ", ".join(
-                [s.get("series_id", "unknown") for s in missing_series[:5]]
-            )
+            series_list = ", ".join([s.get("series_id", "unknown") for s in missing_series[:5]])
             if len(missing_series) > 5:
                 series_list += f" and {len(missing_series) - 5} more"
 
@@ -234,11 +224,7 @@ class AlertManager:
         """Substitute environment variables in config values."""
         result = {}
         for key, value in config.items():
-            if (
-                isinstance(value, str)
-                and value.startswith("${")
-                and value.endswith("}")
-            ):
+            if isinstance(value, str) and value.startswith("${") and value.endswith("}"):
                 # Extract var name and default
                 var_expr = value[2:-1]  # Remove ${ and }
                 if ":-" in var_expr:
@@ -248,10 +234,7 @@ class AlertManager:
                     result[key] = os.getenv(var_expr, "")
             elif isinstance(value, list):
                 result[key] = [
-                    self._substitute_env_vars_in_string(item)
-                    if isinstance(item, str)
-                    else item
-                    for item in value
+                    self._substitute_env_vars_in_string(item) if isinstance(item, str) else item for item in value
                 ]
             else:
                 result[key] = value
@@ -307,12 +290,8 @@ class AlertManager:
             return
 
         # Calculate summary
-        critical_count = sum(
-            1 for a in self._alerts_buffer if a.get("severity") == "critical"
-        )
-        warning_count = sum(
-            1 for a in self._alerts_buffer if a.get("severity") == "warning"
-        )
+        critical_count = sum(1 for a in self._alerts_buffer if a.get("severity") == "critical")
+        warning_count = sum(1 for a in self._alerts_buffer if a.get("severity") == "warning")
         info_count = sum(1 for a in self._alerts_buffer if a.get("severity") == "info")
 
         summary = {

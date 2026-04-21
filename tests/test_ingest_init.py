@@ -1,5 +1,5 @@
-import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
 from src.fred_macro.ingest import IngestionEngine
 from src.fred_macro.services.writer import DataWriter
 

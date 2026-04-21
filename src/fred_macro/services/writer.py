@@ -1,4 +1,3 @@
-
 import pandas as pd
 
 from src.fred_macro.logging_config import get_logger
@@ -47,9 +46,7 @@ class DataWriter:
         except Exception as e:
             logger.error(f"Failed to log run: {e}")
 
-    def update_run_status(
-        self, run_id: str, status: str, error_message: str | None
-    ) -> bool:
+    def update_run_status(self, run_id: str, status: str, error_message: str | None) -> bool:
         try:
             self.repo.update_run_status(run_id, status, error_message)
             return True

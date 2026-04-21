@@ -69,9 +69,7 @@ def _build_engine_for_test(
     )
 
     # Mock _upsert_data to avoid DB writes
-    monkeypatch.setattr(
-        engine, "_upsert_data", lambda df: len(df) if not df.empty else 0
-    )
+    monkeypatch.setattr(engine, "_upsert_data", lambda df: len(df) if not df.empty else 0)
 
     # Mock _log_run to capture logged data
     def capture_log_run(

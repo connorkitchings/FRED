@@ -54,9 +54,7 @@ def update_file_content(file_path: Path, replacements: dict) -> bool:
         return False
 
 
-def update_pyproject_toml(
-    project_name: str, project_description: str, author_name: str
-) -> None:
+def update_pyproject_toml(project_name: str, project_description: str, author_name: str) -> None:
     """Update pyproject.toml with project details."""
     pyproject_file = PROJECT_ROOT / "pyproject.toml"
 
@@ -71,9 +69,7 @@ def update_pyproject_toml(
         content = re.sub(r'name = "[^"]+"', f'name = "{project_name}"', content)
 
         # Update description
-        content = re.sub(
-            r'description = "[^"]+"', f'description = "{project_description}"', content
-        )
+        content = re.sub(r'description = "[^"]+"', f'description = "{project_description}"', content)
 
         # Update author
         content = re.sub(
@@ -101,9 +97,7 @@ def update_readme(project_name: str, project_description: str) -> None:
         content = readme_file.read_text()
 
         # Replace title
-        content = re.sub(
-            r"^# Vibe Coding Template", f"# {project_name}", content, flags=re.MULTILINE
-        )
+        content = re.sub(r"^# Vibe Coding Template", f"# {project_name}", content, flags=re.MULTILINE)
 
         # Replace description line
         content = re.sub(
@@ -219,8 +213,7 @@ def run():
     """Run interactive project setup."""
     console.print(
         Panel.fit(
-            "[bold blue]Vibe Coding Template Setup[/bold blue]\n"
-            "Customize this template for your new project",
+            "[bold blue]Vibe Coding Template Setup[/bold blue]\nCustomize this template for your new project",
             title="Welcome",
             border_style="blue",
         )
@@ -237,9 +230,7 @@ def run():
         choices=["data-pipeline", "web-app", "cli-tool", "ml-model", "other"],
         default="data-pipeline",
     )
-    project_description = Prompt.ask(
-        "Short description", default=f"A {project_type} project"
-    )
+    project_description = Prompt.ask("Short description", default=f"A {project_type} project")
     author_name = Prompt.ask("Author name", default="Your Name")
 
     console.print("\n[bold]Git Configuration[/bold]\n")
@@ -283,9 +274,7 @@ def run():
         # Check if already a git repo
         git_dir = PROJECT_ROOT / ".git"
         if not git_dir.exists():
-            result = subprocess.run(
-                ["git", "init"], cwd=PROJECT_ROOT, capture_output=True, text=True
-            )
+            result = subprocess.run(["git", "init"], cwd=PROJECT_ROOT, capture_output=True, text=True)
             if result.returncode == 0:
                 console.print("[green]✓[/green] Initialized git repository")
             else:

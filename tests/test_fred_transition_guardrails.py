@@ -25,6 +25,4 @@ def test_fred_macro_does_not_depend_on_vibe_coding():
         if _imports_legacy_template(module_path):
             offenders.append(str(module_path))
 
-    assert not offenders, (
-        f"Legacy imports detected in active fred_macro modules. Offenders: {offenders}"
-    )
+    assert not offenders, f"Legacy imports detected in active fred_macro modules. Offenders: {offenders}"

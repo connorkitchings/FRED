@@ -37,15 +37,11 @@ class TestFredClient(unittest.TestCase):
         df = client.get_series_data("GDP")
 
         # Verify call
-        mock_fred_instance.get_series.assert_called_with(
-            "GDP", observation_start=None, observation_end=None
-        )
+        mock_fred_instance.get_series.assert_called_with("GDP", observation_start=None, observation_end=None)
 
         # Verify DataFrame structure
         self.assertIsInstance(df, pd.DataFrame)
-        self.assertListEqual(
-            list(df.columns), ["observation_date", "value", "series_id"]
-        )
+        self.assertListEqual(list(df.columns), ["observation_date", "value", "series_id"])
         self.assertEqual(df.iloc[0]["series_id"], "GDP")
         self.assertEqual(df.iloc[0]["value"], 100.0)
 

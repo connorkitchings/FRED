@@ -111,11 +111,7 @@ def scan_repository(root_path: Path):
 
     # Print Top N
     for path, tokens in file_stats[:TOP_N]:
-        prefix = (
-            "🔴"
-            if tokens > CRITICAL_THRESHOLD
-            else ("🟡" if tokens > WARNING_THRESHOLD else "  ")
-        )
+        prefix = "🔴" if tokens > CRITICAL_THRESHOLD else ("🟡" if tokens > WARNING_THRESHOLD else "  ")
         print(f"{tokens:<10} | {prefix} {path}")
 
     print("\n" + "=" * 60 + "\n")
@@ -130,10 +126,7 @@ def scan_repository(root_path: Path):
             print(f"{tokens:<10} | {dir_name}/")
 
     print("Example Action:")
-    print(
-        "If a single file is > 10k tokens, consider breaking it up or moving "
-        "archival content to `docs/archive/`."
-    )
+    print("If a single file is > 10k tokens, consider breaking it up or moving archival content to `docs/archive/`.")
 
 
 if __name__ == "__main__":

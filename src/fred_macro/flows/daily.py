@@ -62,9 +62,7 @@ def daily_ingest_flow(mode: str = "incremental"):
 {health["error"] if health["error"] else "None"}
     """
 
-    create_markdown_artifact(
-        key="ingestion-report", markdown=report, description=f"Report for run {run_id}"
-    )
+    create_markdown_artifact(key="ingestion-report", markdown=report, description=f"Report for run {run_id}")
 
     if health["status"] != "success" or health["dq_critical"] > 0:
         raise RuntimeError(f"Pipeline failed health check: {health}")

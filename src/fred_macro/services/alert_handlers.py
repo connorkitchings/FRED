@@ -24,9 +24,7 @@ class AlertHandler(ABC):
         pass
 
     @abstractmethod
-    def send_digest(
-        self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]
-    ) -> bool:
+    def send_digest(self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]) -> bool:
         """Send a digest of multiple alerts."""
         pass
 
@@ -73,9 +71,7 @@ class EmailAlertHandler(AlertHandler):
         </div>
         """
 
-    def _format_digest_html(
-        self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]
-    ) -> str:
+    def _format_digest_html(self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]) -> str:
         """Format daily digest as HTML email."""
         critical_count = summary.get("critical_count", 0)
         warning_count = summary.get("warning_count", 0)
@@ -165,9 +161,7 @@ class EmailAlertHandler(AlertHandler):
             for alert in info_alerts[:5]:
                 html += self._format_alert_html(alert)
             if len(info_alerts) > 5:
-                html += (
-                    f"<p><em>... and {len(info_alerts) - 5} more info alerts</em></p>"
-                )
+                html += f"<p><em>... and {len(info_alerts) - 5} more info alerts</em></p>"
             html += "</div>"
 
         html += """
@@ -181,9 +175,7 @@ class EmailAlertHandler(AlertHandler):
 
         return html
 
-    def _format_digest_plain(
-        self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]
-    ) -> str:
+    def _format_digest_plain(self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]) -> str:
         """Format daily digest as plain text."""
         lines = [
             "FRED Macro Dashboard - Daily Alert Digest",
@@ -256,9 +248,7 @@ Details: {alert.get("details", "N/A")}
             logger.error(f"Failed to send alert email: {e}")
             return False
 
-    def send_digest(
-        self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]
-    ) -> bool:
+    def send_digest(self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]) -> bool:
         """Send a daily digest of alerts via email."""
         if not self.enabled:
             logger.debug("Email handler disabled, skipping digest")
@@ -274,9 +264,7 @@ Details: {alert.get("details", "N/A")}
 
         try:
             msg = MIMEMultipart("alternative")
-            msg["Subject"] = (
-                f"[FRED Daily Digest] {summary.get('date', 'Today')} - {len(alerts)} Alerts"
-            )
+            msg["Subject"] = f"[FRED Daily Digest] {summary.get('date', 'Today')} - {len(alerts)} Alerts"
             msg["From"] = self.from_address
             msg["To"] = ", ".join(self.to_addresses)
 
@@ -314,9 +302,7 @@ class ConsoleAlertHandler(AlertHandler):
         print(f"  Details: {alert.get('details', 'N/A')}")
         return True
 
-    def send_digest(
-        self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]
-    ) -> bool:
+    def send_digest(self, alerts: List[Dict[str, Any]], summary: Dict[str, Any]) -> bool:
         """Print digest to console."""
         if not self.enabled:
             return True

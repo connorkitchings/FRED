@@ -201,10 +201,7 @@ class BLSClient:
                         }
                     )
                 except ValueError as e:
-                    logger.warning(
-                        f"Skipping observation with invalid period: {e} "
-                        f"(year={year}, period={period})"
-                    )
+                    logger.warning(f"Skipping observation with invalid period: {e} (year={year}, period={period})")
                     continue
 
             # Create DataFrame

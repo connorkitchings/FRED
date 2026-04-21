@@ -22,9 +22,7 @@ logger = get_logger(__name__)
 
 
 class IngestionEngine:
-    def __init__(
-        self, config_path: str = "config/series_catalog.yaml", alert_manager=None
-    ):
+    def __init__(self, config_path: str = "config/series_catalog.yaml", alert_manager=None):
         self.config_path = config_path
         self.catalog_service = CatalogService(config_path)
         self.current_run_id = None
@@ -36,9 +34,7 @@ class IngestionEngine:
         # Convert Pydantic models back to dicts for compatibility with existing logic
         return [s.model_dump() for s in self.catalog_service.get_all_series()]
 
-    def _group_series_by_source(
-        self, series_list: List[Dict[str, Any]]
-    ) -> Dict[str, List[Dict[str, Any]]]:
+    def _group_series_by_source(self, series_list: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
         """Group configured series by data source."""
         grouped: Dict[str, List[Dict[str, Any]]] = {}
         for item in series_list:
@@ -175,10 +171,7 @@ class IngestionEngine:
     def _is_bls_quota_error(error: Exception) -> bool:
         """Detect BLS daily-threshold errors that can use source fallback."""
         error_text = str(error).lower()
-        return (
-            "request could not be serviced" in error_text
-            and "daily threshold" in error_text
-        )
+        return "request could not be serviced" in error_text and "daily threshold" in error_text
 
     def _update_logged_run_status(
         self,
@@ -242,15 +235,11 @@ class IngestionEngine:
                     "rows_processed": 0,
                 }
 
-            for source, source_items in self._group_series_by_source(
-                series_list
-            ).items():
+            for source, source_items in self._group_series_by_source(series_list).items():
                 try:
                     client = ClientFactory.get_client(source)
                 except Exception as e:
-                    logger.error(
-                        f"Failed to initialize client for source {source}: {e}"
-                    )
+                    logger.error(f"Failed to initialize client for source {source}: {e}")
                     status = "partial"
                     error_msg = self._append_error(error_msg, f"{source}: {e}")
                     continue
@@ -279,12 +268,9 @@ class IngestionEngine:
                             except Exception as primary_error:
                                 # Preserve run completeness when direct BLS quota is
                                 # exhausted by switching remaining BLS series to FRED.
-                                if source == "BLS" and self._is_bls_quota_error(
-                                    primary_error
-                                ):
+                                if source == "BLS" and self._is_bls_quota_error(primary_error):
                                     logger.warning(
-                                        "BLS daily quota reached. Switching BLS "
-                                        "series to FRED fallback for this run."
+                                        "BLS daily quota reached. Switching BLS series to FRED fallback for this run."
                                     )
                                     fallback_client = ClientFactory.get_client("FRED")
                                     use_fred_fallback = True
@@ -311,26 +297,21 @@ class IngestionEngine:
                                 f"source={active_source}): {len(df)} rows"
                             )
                         else:
-                            logger.warning(
-                                f"No data found for {series_id} ({active_source})"
-                            )
+                            logger.warning(f"No data found for {series_id} ({active_source})")
 
                         series_ingested.append(series_id)
 
                     except Exception as e:
                         if source == "BLS" and use_fred_fallback:
                             logger.warning(
-                                "Skipping %s: BLS quota exhausted and fallback fetch "
-                                "failed (%s).",
+                                "Skipping %s: BLS quota exhausted and fallback fetch failed (%s).",
                                 series_id,
                                 e,
                             )
                             # Treat as soft-degraded during quota exhaustion.
                             series_ingested.append(series_id)
                             continue
-                        logger.error(
-                            f"Failed to process {series_id} ({active_source}): {e}"
-                        )
+                        logger.error(f"Failed to process {series_id} ({active_source}): {e}")
                         status = "partial"  # Continue processing others
                         error_msg = self._append_error(error_msg, f"{series_id}: {e}")
 
@@ -383,10 +364,7 @@ class IngestionEngine:
                 status,
                 error_msg,
             )
-            logger.info(
-                f"Ingestion run complete. Status: {status}. "
-                f"Series: {len(series_ingested)}"
-            )
+            logger.info(f"Ingestion run complete. Status: {status}. Series: {len(series_ingested)}")
             dq_logged = self._log_dq_findings(self.current_run_id, dq_findings)
             if not dq_logged:
                 patched_status = "failed" if status == "failed" else "partial"

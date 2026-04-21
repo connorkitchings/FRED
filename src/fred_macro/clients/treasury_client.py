@@ -115,9 +115,7 @@ class TreasuryClient:
         # Determine date field based on endpoint
         # Average interest rates use 'record_date'
         # Auction data uses 'auction_date'
-        date_field = (
-            "record_date" if "avg_interest_rates" in endpoint else "auction_date"
-        )
+        date_field = "record_date" if "avg_interest_rates" in endpoint else "auction_date"
 
         if start_date:
             filters.append(f"{date_field}:gte:{start_date}")
@@ -157,8 +155,7 @@ class TreasuryClient:
         """
         if series_id not in self.SERIES_MAPPING:
             raise ValueError(
-                f"Unknown Treasury series: {series_id}. "
-                f"Available series: {', '.join(self.SERIES_MAPPING.keys())}"
+                f"Unknown Treasury series: {series_id}. Available series: {', '.join(self.SERIES_MAPPING.keys())}"
             )
 
         self._enforce_rate_limit()
@@ -172,9 +169,7 @@ class TreasuryClient:
         filter_str = self._build_filters(base_filter, endpoint, start_date, end_date)
 
         # Determine date field for parsing
-        date_field = (
-            "record_date" if "avg_interest_rates" in endpoint else "auction_date"
-        )
+        date_field = "record_date" if "avg_interest_rates" in endpoint else "auction_date"
 
         try:
             logger.info(f"Fetching Treasury series {series_id}...")
@@ -251,9 +246,7 @@ class TreasuryClient:
             if end_date:
                 df = df[df["observation_date"] <= pd.Timestamp(end_date)]
 
-            logger.info(
-                f"Fetched {len(df)} observations for Treasury series {series_id}"
-            )
+            logger.info(f"Fetched {len(df)} observations for Treasury series {series_id}")
 
             return df
 

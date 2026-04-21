@@ -26,17 +26,13 @@ def show_data_explorer():
         # Filter Logic
         filtered_catalog = catalog.copy()
         if sel_source != "All":
-            filtered_catalog = filtered_catalog[
-                filtered_catalog["source"] == sel_source
-            ]
+            filtered_catalog = filtered_catalog[filtered_catalog["source"] == sel_source]
         if sel_tier != "All":
             filtered_catalog = filtered_catalog[filtered_catalog["tier"] == sel_tier]
 
         # Series Selection
         # Create a label map for the selectbox: "ID - Title"
-        filtered_catalog["label"] = (
-            filtered_catalog["series_id"] + " - " + filtered_catalog["title"]
-        )
+        filtered_catalog["label"] = filtered_catalog["series_id"] + " - " + filtered_catalog["title"]
         series_options = filtered_catalog["label"].tolist()
 
         if not series_options:
@@ -47,9 +43,7 @@ def show_data_explorer():
 
         # Extract ID from label
         series_id = sel_label.split(" - ")[0]
-        series_meta = filtered_catalog[filtered_catalog["series_id"] == series_id].iloc[
-            0
-        ]
+        series_meta = filtered_catalog[filtered_catalog["series_id"] == series_id].iloc[0]
 
         # Date Range
         st.subheader("Time Range")
@@ -84,9 +78,7 @@ def show_data_explorer():
     )
 
     fig.update_traces(line=dict(width=2.5, color="#0068C9"))
-    fig.update_layout(
-        hovermode="x unified", margin=dict(l=0, r=0, t=20, b=0), height=500
-    )
+    fig.update_layout(hovermode="x unified", margin=dict(l=0, r=0, t=20, b=0), height=500)
     st.plotly_chart(fig, use_container_width=True)
 
     # 3. Description

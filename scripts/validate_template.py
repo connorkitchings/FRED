@@ -114,9 +114,7 @@ class Validator:
             else:
                 self.errors.append("Root AGENTS.md should be a redirect file")
         else:
-            self.warnings.append(
-                "Root AGENTS.md not found (should redirect to .agent/AGENTS.md)"
-            )
+            self.warnings.append("Root AGENTS.md not found (should redirect to .agent/AGENTS.md)")
 
     def _validate_required_files(self) -> None:
         """Check that required files exist."""
@@ -181,16 +179,12 @@ class Validator:
                         broken_links += 1
                         if broken_links <= 5:  # Limit output
                             rel_path = md_file.relative_to(self.project_root)
-                            self.warnings.append(
-                                f"Broken link in {rel_path}: {link_path}"
-                            )
+                            self.warnings.append(f"Broken link in {rel_path}: {link_path}")
 
         if broken_links == 0:
             self.successes.append("All documentation links valid")
         elif broken_links > 5:
-            self.warnings.append(
-                f"Found {broken_links} broken links in documentation (showing first 5)"
-            )
+            self.warnings.append(f"Found {broken_links} broken links in documentation (showing first 5)")
 
     def _check_placeholder_variables(self) -> None:
         """Check for template placeholder variables that should be replaced."""
@@ -210,9 +204,7 @@ class Validator:
                 if matches:
                     placeholders_found += len(matches)
                     ph_str = str(matches[:3])
-                    self.warnings.append(
-                        f"{file_path} has {len(matches)} placeholders: {ph_str}"
-                    )
+                    self.warnings.append(f"{file_path} has {len(matches)} placeholders: {ph_str}")
 
         if placeholders_found == 0:
             self.successes.append("No unresolved template placeholders")

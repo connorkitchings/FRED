@@ -110,9 +110,7 @@ class TestCensusClient(unittest.TestCase):
 
     @patch("src.fred_macro.clients.census_client.requests.get")
     @patch("src.fred_macro.clients.census_client.time.sleep")
-    def test_get_series_data_success_eits_with_slot_resolution(
-        self, mock_sleep, mock_get
-    ):
+    def test_get_series_data_success_eits_with_slot_resolution(self, mock_sleep, mock_get):
         """Test successful EITS fetch with discovered time_slot_id."""
         mock_get.side_effect = [
             _mock_response(
@@ -142,9 +140,7 @@ class TestCensusClient(unittest.TestCase):
         self.assertEqual(mock_get.call_count, 2)
 
         discovery_params = mock_get.call_args_list[0][1]["params"]
-        self.assertEqual(
-            discovery_params["get"], "time_slot_id,time_slot_date,cell_value"
-        )
+        self.assertEqual(discovery_params["get"], "time_slot_id,time_slot_date,cell_value")
 
         fetch_params = mock_get.call_args_list[1][1]["params"]
         self.assertEqual(fetch_params["time_slot_id"], "slot_b")
@@ -153,9 +149,7 @@ class TestCensusClient(unittest.TestCase):
 
     @patch("src.fred_macro.clients.census_client.requests.get")
     @patch("src.fred_macro.clients.census_client.time.sleep")
-    def test_get_series_data_eits_slot_tie_breaks_to_smallest(
-        self, mock_sleep, mock_get
-    ):
+    def test_get_series_data_eits_slot_tie_breaks_to_smallest(self, mock_sleep, mock_get):
         """Test deterministic tie-break for EITS slot_id selection."""
         mock_get.side_effect = [
             _mock_response(
@@ -183,9 +177,7 @@ class TestCensusClient(unittest.TestCase):
 
     @patch("src.fred_macro.clients.census_client.requests.get")
     @patch("src.fred_macro.clients.census_client.time.sleep")
-    def test_get_series_data_eits_no_slot_found_returns_empty(
-        self, mock_sleep, mock_get
-    ):
+    def test_get_series_data_eits_no_slot_found_returns_empty(self, mock_sleep, mock_get):
         """Test EITS handling when no slot has valid rows."""
         mock_get.return_value = _mock_response(
             200,
@@ -233,9 +225,7 @@ class TestCensusClient(unittest.TestCase):
         client._last_request_time = 1000.0
         client._rate_limit_delay = 0.5
 
-        with patch(
-            "src.fred_macro.clients.census_client.time.time", return_value=1000.1
-        ):
+        with patch("src.fred_macro.clients.census_client.time.time", return_value=1000.1):
             client._enforce_rate_limit()
             mock_sleep.assert_called()
 
