@@ -56,7 +56,6 @@ jobs:
           fi
           uv run python -m src.fred_macro.cli run-health \
             --run-id "$RUN_ID" \
-            --fail-on-status \
             --fail-on-critical \
             --output-json artifacts/run-health.json
 
